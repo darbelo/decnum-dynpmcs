@@ -1,0 +1,20 @@
+#include <string.h>
+#include "parrot/parrot.h"
+#include "../decQuad.h"
+
+pmclass DecNum dynpmc{
+
+    METHOD version() {
+        STRING* version;
+
+        version = Parrot_str_new(INTERP, decQuadVersion(), 0);
+
+        RETURN(STRING *version);
+    }
+
+    VTABLE PMC *instantiate(PMC *sig) {
+        UNUSED(sig)
+        return PMCNULL;
+    }
+
+}
