@@ -6,9 +6,7 @@ INCLUDE_DIR   := @includedir@$(VERSION_DIR)
 LIB_DIR       := @libdir@$(VERSION_DIR)
 SRC_DIR       := @srcdir@$(VERSION_DIR)
 TOOLS_DIR     := @libdir@$(VERSION_DIR)/tools/lib
-#STAGING_DIR   := ../../dynext
 STAGING_DIR   := @build_dir@/runtime/parrot/dynext
-#INSTALL_DIR   := $(LIB_DIR)/languages/decnum/dynext
 INSTALL_DIR   := $(LIB_DIR)/dynext
 
 # Set up extensions
@@ -24,6 +22,8 @@ CC            := @cc@ -c
 LD            := @ld@
 LDFLAGS       := @ldflags@ @ld_debug@
 LD_LOAD_FLAGS := @ld_load_flags@
+#IF(@bigendian@):ENDIAN        := -DDECLITEND=0
+#ELSE:ENDIAN        := -DDECLITEND=1
 CFLAGS        := @ccflags@ @cc_shared@ @cc_debug@ @ccwarn@ @cc_hasjit@ @cg_flag@ @gc_flag@
 CC_OUT        := @cc_o_out@
 LD_OUT        := @ld_out@
@@ -42,7 +42,7 @@ PMC_SOURCES := \
   decnum.pmc
 
 OBJS := \
-  decnum$(O) ../decContext$(O) ../decQuad$(O)
+  decnum$(O) ../decNumber/decContext$(O) ../decNumber/decQuad$(O)
 
 CLEANUPS := \
   "*$(LOAD_EXT)" \
@@ -65,7 +65,7 @@ generate: $(PMC_SOURCES)
 	$(PMC2CC) decnum.pmc
 
 compile: generate
-	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) decnum.c
+	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) decnum.c
 
 linklibs: compile
 	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(OBJS) $(LINKARGS)
@@ -74,7 +74,7 @@ staging: linklibs
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(STAGING_DIR)
 
-install:
+install: staging
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(INSTALL_DIR)
 
@@ -94,4 +94,3 @@ realclean:
 #   mode: makefile
 # End:
 # vim: ft=make:
-
