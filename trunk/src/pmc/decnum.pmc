@@ -1,8 +1,11 @@
 #include <string.h>
 #include "parrot/parrot.h"
-#include "../decQuad.h"
 
 pmclass DecNum dynpmc{
+    #define DECUSE64 0
+    #include "../decQuad.h"
+    ATTR decQuad *number;
+    ATTR decContext *ctx;
 
     METHOD version() {
         STRING* version;
