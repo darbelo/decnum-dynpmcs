@@ -38,8 +38,7 @@ PMC2CC          := $(PMC2C) --c $(PMC2C_INCLUDES)
 INCLUDES        := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/pmc
 LINKARGS        := $(LDFLAGS) $(LD_LOAD_FLAGS) $(LIBPARROT)
 
-PMC_SOURCES := \
-  decnum.pmc
+
 
 OBJS := \
   decnum$(O) ../decNumber/decContext$(O) ../decNumber/decQuad$(O)
@@ -60,17 +59,19 @@ CLEANUPS := \
 
 all: staging
 
-generate: $(PMC_SOURCES)
+decnum.dump: decnum.pmc
 	$(PMC2CD) decnum.pmc
+
+decnum.c: decnum.dump
 	$(PMC2CC) decnum.pmc
 
-compile: generate
+decnum$(O): decnum.c
 	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) decnum.c
 
-linklibs: compile
+decnum$(LOAD_EXT): decnum$(O)
 	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(OBJS) $(LINKARGS)
 
-staging: linklibs
+staging: decnum$(LOAD_EXT)
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(STAGING_DIR)
 

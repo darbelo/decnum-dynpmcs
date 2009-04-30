@@ -37,7 +37,9 @@ PBC_TO_EXE    := $(BIN_DIR)/pbc_to_exe@exe@
 
 PMC_DEPS := $(PMC_DIR)/decnum.pmc
 
-#SOURCES := 
+DECNUMBER_DEPS := \
+    $(DECNUMBER_DIR)/decContext.c \
+    $(DECNUMBER_DIR)/decQuad.c
 
 DOCS := README
 
@@ -46,11 +48,15 @@ BUILD_CLEANUPS :=
 TEST_CLEANUPS :=
 
 # the default target
+build-pmc: decnumber pmc
+
 pmc: $(PMC_DEPS)
-	$(MAKE) $(DECNUMBER_DIR)
 	$(MAKE) $(PMC_DIR)
 
-all: pmc
+decnumber: $(DECNUMBER_DEPS)
+	$(MAKE) $(DECNUMBER_DIR)
+
+all: build-pmc
 
 Makefile: build/src/pmc/Makefile.in build/src/decNumber/Makefile.in build/Makefile.in 
 	$(PERL) Configure.pl
@@ -76,10 +82,10 @@ help:
 	@echo "  help:              Print this help message."
 	@echo ""
 
-test: pmc
+test: build-pmc
 #	$(PERL) -I$(LIB_DIR)/tools/lib t/harness --bindir=$(BIN_DIR)
 
-install: pmc
+install: build-pmc
 	$(MAKE) $(PMC_DIR) install
 
 uninstall:
@@ -88,14 +94,22 @@ uninstall:
 testclean:
 	$(RM_F) $(TEST_CLEANUPS)
 
-clean:
-	$(MAKE) $(DECNUMBER_DIR) clean
-	$(MAKE) $(PMC_DIR) clean
+decnumber_clean:
+	$(MAKE) $(DECNUMBER_DIR) clean 
+
+parrot_clean:
+	$(MAKE) $(PMC_DIR) clean 
+
+clean: parrot_clean decnumber_clean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS)
 
-realclean:
+decnumber_realclean:
 	$(MAKE) $(DECNUMBER_DIR) realclean
+
+parrot_realclean:
 	$(MAKE) $(PMC_DIR) realclean
+
+realclean: decnumber_realclean parrot_realclean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS) Makefile
 
 # Local variables:
