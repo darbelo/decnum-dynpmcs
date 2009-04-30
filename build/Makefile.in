@@ -15,11 +15,8 @@ LOAD_EXT      := @load_ext@
 O             := @o@
 
 # Various paths
-PERL6GRAMMAR  := $(LIB_DIR)/library/PGE/Perl6Grammar.pbc
-NQP           := $(LIB_DIR)/languages/nqp/nqp.pbc
-PCT           := $(LIB_DIR)/library/PCT.pbc
 PMC_DIR       := src/pmc
-OPS_DIR       := src/ops
+DECNUMBER_DIR := src/decNumber
 
 ## Setup some commands
 MAKE          := @make_c@
@@ -40,7 +37,7 @@ PBC_TO_EXE    := $(BIN_DIR)/pbc_to_exe@exe@
 
 PMC_DEPS := build/src/pmc/Makefile.in $(PMC_DIR)/decnum.pmc
 
-#SOURCES := \
+#SOURCES := 
 
 DOCS := README
 
@@ -50,7 +47,7 @@ TEST_CLEANUPS :=
 
 # the default target
 build: $(PMC_DEPS)
-#	$(MAKE) $(SRC_DIR)
+	$(MAKE) $(DECNUMBER_DIR)
 	$(MAKE) $(PMC_DIR)
 
 all: build
@@ -86,16 +83,18 @@ install: build
 	$(MAKE) $(PMC_DIR) install
 
 uninstall:
-#	$(MAKE) $(PMC_DIR) uninstall
+	$(MAKE) $(PMC_DIR) uninstall
 
 testclean:
 	$(RM_F) $(TEST_CLEANUPS)
 
 clean:
+	$(MAKE) $(DECNUMBER_DIR) clean
 	$(MAKE) $(PMC_DIR) clean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS)
 
 realclean:
+	$(MAKE) $(DECNUMBER_DIR) realclean
 	$(MAKE) $(PMC_DIR) realclean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS) Makefile
 

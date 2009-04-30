@@ -70,9 +70,9 @@ sub read_parrot_config {
 sub create_makefiles {
     my %config = @_;
     my %makefiles = (
-        'build/Makefile.in'         => 'Makefile',
-#        'build/src/Makefile.in'     => 'src/Makefile',
-        'build/src/pmc/Makefile.in' => 'src/pmc/Makefile',
+        'build/Makefile.in'               => 'Makefile',
+        'build/src/decNumber/Makefile.in' => 'src/decNumber/Makefile',
+        'build/src/pmc/Makefile.in'       => 'src/pmc/Makefile',
     );
     my $build_tool = $config{libdir} . $config{versiondir}
                    . '/tools/dev/gen_makefile.pl';
@@ -90,4 +90,3 @@ sub create_makefiles {
 #   fill-column: 100
 # End:
 # vim: expandtab shiftwidth=4:
-

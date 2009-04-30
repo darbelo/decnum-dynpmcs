@@ -3,7 +3,7 @@
 
 pmclass DecNum dynpmc{
     #define DECUSE64 0
-    #include "../decQuad.h"
+    #include "../decNumber/decQuad.h"
     ATTR decQuad *number;
     ATTR decContext *ctx;
 

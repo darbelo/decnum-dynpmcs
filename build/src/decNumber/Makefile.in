@@ -1,0 +1,41 @@
+## $Id$
+
+O             := @o@
+## Setup some commands
+MAKE          := @make_c@
+PERL          := @perl@
+CAT           := @cat@
+CHMOD         := @chmod@
+CP            := @cp@
+MKPATH        := @mkpath@
+RM_F          := @rm_f@
+RM_RF         := @rm_rf@
+POD2MAN       := pod2man
+#IF(parrot_is_shared and not(cygwin or win32)):export LD_RUN_PATH := @blib_dir@:$(LD_RUN_PATH)
+PARROT        := $(BIN_DIR)/parrot@exe@
+#IF(@bigendian@):ENDIAN        := -DDECLITEND=0
+#ELSE:ENDIAN        := -DDECLITEND=1
+CC            := @cc@ -c
+CC_OUT        := @cc_o_out@
+
+CLEANUPS := "*$(O)"
+
+all: compile
+
+compile:
+	$(CC) $(CC_OUT)decContext$(O) $(ENDIAN) decContext.c
+	$(CC) $(CC_OUT)decQuad$(O) $(ENDIAN) decQuad.c
+
+Makefile: ../../build/src/decNumber/Makefile.in
+	cd ../.. && $(PERL) Configure.pl
+
+clean:
+	$(RM_F) $(CLEANUPS)
+
+realclean:
+	$(RM_F) $(CLEANUPS) Makefile
+
+# Local variables:
+#   mode: makefile
+# End:
+# vim: ft=make:
