@@ -35,7 +35,7 @@ PBC_TO_EXE    := $(BIN_DIR)/pbc_to_exe@exe@
 #IF(darwin):# MACOSX_DEPLOYMENT_TARGET must be defined for OS X compilation/linking
 #IF(darwin):export MACOSX_DEPLOYMENT_TARGET := @osx_version@
 
-PMC_DEPS := build/src/pmc/Makefile.in $(PMC_DIR)/decnum.pmc
+PMC_DEPS := $(PMC_DIR)/decnum.pmc
 
 #SOURCES := 
 
@@ -46,13 +46,13 @@ BUILD_CLEANUPS :=
 TEST_CLEANUPS :=
 
 # the default target
-build: $(PMC_DEPS)
+pmc: $(PMC_DEPS)
 	$(MAKE) $(DECNUMBER_DIR)
 	$(MAKE) $(PMC_DIR)
 
-all: build
+all: pmc
 
-Makefile: build/Makefile.in
+Makefile: build/src/pmc/Makefile.in build/src/decNumber/Makefile.in build/Makefile.in 
 	$(PERL) Configure.pl
 
 # This is a listing of all targets, that are meant to be called by users
@@ -76,10 +76,10 @@ help:
 	@echo "  help:              Print this help message."
 	@echo ""
 
-test: build
+test: pmc
 #	$(PERL) -I$(LIB_DIR)/tools/lib t/harness --bindir=$(BIN_DIR)
 
-install: build
+install: pmc
 	$(MAKE) $(PMC_DIR) install
 
 uninstall:

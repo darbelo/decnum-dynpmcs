@@ -22,7 +22,7 @@ CLEANUPS := "*$(O)"
 
 all: compile
 
-compile:
+compile: decContext.c decQuad.c
 	$(CC) $(CC_OUT)decContext$(O) $(ENDIAN) decContext.c
 	$(CC) $(CC_OUT)decQuad$(O) $(ENDIAN) decQuad.c
 
