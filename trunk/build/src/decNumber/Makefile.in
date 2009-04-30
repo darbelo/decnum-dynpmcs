@@ -22,8 +22,12 @@ CLEANUPS := "*$(O)"
 
 all: compile
 
-compile: decContext.c decQuad.c
+compile: decContext$(O) decQuad$(O)
+
+decContext$(O): decContext.c
 	$(CC) $(CC_OUT)decContext$(O) $(ENDIAN) decContext.c
+
+decQuad$(O): decQuad.c
 	$(CC) $(CC_OUT)decQuad$(O) $(ENDIAN) decQuad.c
 
 Makefile: ../../build/src/decNumber/Makefile.in
