@@ -20,4 +20,46 @@ pmclass DecNum dynpmc{
         return PMCNULL;
     }
 
+    VTABLE void init() {
+        Parrot_DecQuad_attributes *attr = NULL;
+
+        attr = mem_allocated_zeroed_typed(Parrot_DecQuad_attributes);
+        attr->number = mem_allocated_zeroed_typed(decQuad);
+        decQuadZero(attr->number);
+        attr->ctx = mem_allocated_zeroed_typed(decContext);
+        decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
+
+        PMC_data(SELF) = attr;
+
+        PObj_active_destroy_SET(SELF); 
+    }
+
+    VTABLE void destroy() {
+        Parrot_DecQuad_attributes *attr = NULL;
+
+	attr =  PMC_data(SELF);
+        mem_sys_free(attr->ctx);
+        mem_sys_free(attr->number);
+        mem_sys_free(attr);
+    }
+
+    VTABLE void set_string_native(STRING *value) {
+        char * const str = Parrot_str_to_cstring(INTERP, value);
+        Parrot_DecQuad_attributes *attr = PMC_data(SELF);
+
+        decQuadFromString(attr->number, str, attr->ctx)
+
+        Parrot_str_free_cstring(s);
+    }  
+
+    VTABLE STRING *get_string() {
+        char str[DECDOUBLE_String];
+
+        decQuadToString(PMC_data(SELF)->number, str);
+        STRING * const ps = Parrot_str_new(INTERP, str, 0);
+
+        return ps;
+    }
+
+
 }
