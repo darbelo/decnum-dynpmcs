@@ -6,8 +6,8 @@
 
 
 pmclass DecNum dynpmc{
-    ATTR void *number;
-    ATTR void *ctx;
+    ATTR struct decQuad    *number;
+    ATTR struct decContext *ctx;
 
     METHOD version() {
         STRING* version;
