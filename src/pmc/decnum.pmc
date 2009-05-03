@@ -1,11 +1,13 @@
 #include <string.h>
 #include "parrot/parrot.h"
+#define DECUSE64 0
+#include "../decNumber/decQuad.h"
+
+
 
 pmclass DecNum dynpmc{
-    #define DECUSE64 0
-    #include "../decNumber/decQuad.h"
-    ATTR decQuad *number;
-    ATTR decContext *ctx;
+    ATTR void *number;
+    ATTR void *ctx;
 
     METHOD version() {
         STRING* version;
@@ -21,12 +23,12 @@ pmclass DecNum dynpmc{
     }
 
     VTABLE void init() {
-        Parrot_DecQuad_attributes *attr = NULL;
+        Parrot_DecNum_attributes *attr = NULL;
 
-        attr = mem_allocated_zeroed_typed(Parrot_DecQuad_attributes);
-        attr->number = mem_allocated_zeroed_typed(decQuad);
+        attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
+        attr->number = mem_allocate_zeroed_typed(decQuad);
         decQuadZero(attr->number);
-        attr->ctx = mem_allocated_zeroed_typed(decContext);
+        attr->ctx = mem_allocate_zeroed_typed(decContext);
         decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
 
         PMC_data(SELF) = attr;
@@ -35,7 +37,7 @@ pmclass DecNum dynpmc{
     }
 
     VTABLE void destroy() {
-        Parrot_DecQuad_attributes *attr = NULL;
+        Parrot_DecNum_attributes *attr = NULL;
 
 	attr =  PMC_data(SELF);
         mem_sys_free(attr->ctx);
@@ -45,20 +47,22 @@ pmclass DecNum dynpmc{
 
     VTABLE void set_string_native(STRING *value) {
         char * const str = Parrot_str_to_cstring(INTERP, value);
-        Parrot_DecQuad_attributes *attr = PMC_data(SELF);
+        Parrot_DecNum_attributes *attr = PMC_data(SELF);
 
-        decQuadFromString(attr->number, str, attr->ctx)
+        decQuadFromString(attr->number, str, (decContext *)attr->ctx);
 
-        Parrot_str_free_cstring(s);
+        Parrot_str_free_cstring(str);
     }  
 
     VTABLE STRING *get_string() {
-        char str[DECDOUBLE_String];
+        Parrot_DecNum_attributes *attr = PMC_data(SELF);
+        char cstr[DECQUAD_String];
+        STRING *pstr;
 
-        decQuadToString(PMC_data(SELF)->number, str);
-        STRING * const ps = Parrot_str_new(INTERP, str, 0);
+        decQuadToString(attr->number, cstr);
+        pstr = Parrot_str_new(INTERP, cstr, 0);
 
-        return ps;
+        return pstr;
     }
 
 
