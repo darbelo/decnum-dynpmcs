@@ -3,8 +3,6 @@
 #define DECUSE64 0
 #include "../decNumber/decQuad.h"
 
-
-
 pmclass DecNum dynpmc{
     ATTR struct decQuad    *number;
     ATTR struct decContext *ctx;
@@ -25,10 +23,15 @@ pmclass DecNum dynpmc{
     VTABLE void init() {
         Parrot_DecNum_attributes *attr = NULL;
 
+        if (decContextTestEndian(1)) {
+            Parrot_ex_throw_from_c_args(INTERP, NULL, EXCEPTION_UNIMPLEMENTED,  
+            "This dynpmc has been compiled with the wrong endianness.");
+        }
+
         attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
-        attr->number = mem_allocate_zeroed_typed(decQuad);
+        attr->number = mem_allocate_typed(decQuad);
         decQuadZero(attr->number);
-        attr->ctx = mem_allocate_zeroed_typed(decContext);
+        attr->ctx = mem_allocate_typed(decContext);
         decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
 
         PMC_data(SELF) = attr;
@@ -37,33 +40,38 @@ pmclass DecNum dynpmc{
     }
 
     VTABLE void destroy() {
-        Parrot_DecNum_attributes *attr = NULL;
-
-	attr =  PMC_data(SELF);
-        mem_sys_free(attr->ctx);
-        mem_sys_free(attr->number);
-        mem_sys_free(attr);
+        mem_sys_free(PARROT_DECNUM(SELF)->ctx);
+        mem_sys_free(PARROT_DECNUM(SELF)->number);
+        mem_sys_free(PMC_data(SELF));
     }
 
     VTABLE void set_string_native(STRING *value) {
         char * const str = Parrot_str_to_cstring(INTERP, value);
-        Parrot_DecNum_attributes *attr = PMC_data(SELF);
 
-        decQuadFromString(attr->number, str, (decContext *)attr->ctx);
+        decQuadFromString(PARROT_DECNUM(SELF)->number, str, PARROT_DECNUM(SELF)->ctx);
 
         Parrot_str_free_cstring(str);
     }  
 
     VTABLE STRING *get_string() {
-        Parrot_DecNum_attributes *attr = PMC_data(SELF);
         char cstr[DECQUAD_String];
         STRING *pstr;
 
-        decQuadToString(attr->number, cstr);
+        decQuadToString(PARROT_DECNUM(SELF)->number, cstr);
         pstr = Parrot_str_new(INTERP, cstr, 0);
 
         return pstr;
     }
 
+    VTABLE PMC *clone() {
+        PMC *clone = pmc_new(INTERP, SELF->vtable->base_type);
+
+        decQuadCopy(&(PARROT_DECNUM(clone)->number), &(PARROT_DECNUM(SELF)->number));
+        memcpy(PARROT_DECNUM(clone)->ctx, PARROT_DECNUM(SELF)->ctx, sizeof(decContext));
+
+        return clone;
+    }
+
+    
 
 }
