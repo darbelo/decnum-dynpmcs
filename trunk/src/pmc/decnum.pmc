@@ -66,12 +66,20 @@ pmclass DecNum dynpmc{
     VTABLE PMC *clone() {
         PMC *clone = pmc_new(INTERP, SELF->vtable->base_type);
 
-        decQuadCopy(&(PARROT_DECNUM(clone)->number), &(PARROT_DECNUM(SELF)->number));
+        decQuadCopy(PARROT_DECNUM(clone)->number, PARROT_DECNUM(SELF)->number);
         memcpy(PARROT_DECNUM(clone)->ctx, PARROT_DECNUM(SELF)->ctx, sizeof(decContext));
 
         return clone;
     }
 
-    
+    MULTI PMC *add(DecNum value, PMC* dest) {
+        if ( dest == NULL || !VTABLE_isa(INTERP, dest, "DecNum") )
+            dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decQuadZero(PARROT_DECNUM(dest)->number);
+        decQuadAdd(PARROT_DECNUM(dest)->number, PARROT_DECNUM(SELF)->number,
+                   PARROT_DECNUM(value)->number, PARROT_DECNUM(dest)->ctx );
+
+        return dest;
+    }
 
 }
