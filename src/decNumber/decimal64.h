@@ -51,7 +51,7 @@
   #endif
 
   /* Decimal 64-bit type, accessible by bytes                         */
-  typedef struct {
+  typedef struct decimal64 {
     uint8_t bytes[DECIMAL64_Bytes];     /* decimal64: 1, 5, 8, 50 bits*/
     } decimal64;
 
