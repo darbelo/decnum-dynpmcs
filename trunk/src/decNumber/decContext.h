@@ -71,7 +71,7 @@
     };
   #define DEC_ROUND_DEFAULT DEC_ROUND_HALF_EVEN;
 
-  typedef struct {
+  typedef struct decContext {
     int32_t  digits;               /* working precision               */
     int32_t  emax;                 /* maximum positive exponent       */
     int32_t  emin;                 /* minimum negative exponent       */

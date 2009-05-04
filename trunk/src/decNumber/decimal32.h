@@ -49,7 +49,7 @@
   #endif
 
   /* Decimal 32-bit type, accessible by bytes */
-  typedef struct {
+  typedef struct decimal32 {
     uint8_t bytes[DECIMAL32_Bytes];     /* decimal32: 1, 5, 6, 20 bits*/
     } decimal32;
 

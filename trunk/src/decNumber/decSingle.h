@@ -43,7 +43,7 @@
   #include "decDouble.h"
 
   /* The decSingle decimal 32-bit type, accessible by all sizes */
-  typedef union {
+  typedef union decSingle {
     uint8_t   bytes[DECSINGLE_Bytes];   /* fields: 1, 5, 6, 20 bits */
     uint16_t shorts[DECSINGLE_Bytes/2];
     uint32_t  words[DECSINGLE_Bytes/4];
