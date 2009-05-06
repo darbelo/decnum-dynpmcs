@@ -3,8 +3,8 @@
 #define DECUSE64 0
 #include "../decNumber/decQuad.h"
 
-pmclass DecNum dynpmc{
-    ATTR struct decQuad    *number;
+pmclass DecNum dynpmc {
+    ATTR union  decQuad    *number;
     ATTR struct decContext *ctx;
 
     METHOD version() {
@@ -24,7 +24,8 @@ pmclass DecNum dynpmc{
         Parrot_DecNum_attributes *attr = NULL;
 
         if (decContextTestEndian(1)) {
-            Parrot_ex_throw_from_c_args(INTERP, NULL, EXCEPTION_UNIMPLEMENTED,  
+            Parrot_ex_throw_from_c_args(INTERP, NULL, 
+            EXCEPTION_INVALID_OPERATION,  
             "This dynpmc has been compiled with the wrong endianness.");
         }
 
@@ -48,7 +49,8 @@ pmclass DecNum dynpmc{
     VTABLE void set_string_native(STRING *value) {
         char * const str = Parrot_str_to_cstring(INTERP, value);
 
-        decQuadFromString(PARROT_DECNUM(SELF)->number, str, PARROT_DECNUM(SELF)->ctx);
+        decQuadFromString(PARROT_DECNUM(SELF)->number, str, 
+                          PARROT_DECNUM(SELF)->ctx);
 
         Parrot_str_free_cstring(str);
     }  
@@ -66,8 +68,10 @@ pmclass DecNum dynpmc{
     VTABLE PMC *clone() {
         PMC *clone = pmc_new(INTERP, SELF->vtable->base_type);
 
-        decQuadCopy(PARROT_DECNUM(clone)->number, PARROT_DECNUM(SELF)->number);
-        memcpy(PARROT_DECNUM(clone)->ctx, PARROT_DECNUM(SELF)->ctx, sizeof(decContext));
+        decQuadCopy(PARROT_DECNUM(clone)->number, 
+                    PARROT_DECNUM(SELF)->number);
+        memcpy(PARROT_DECNUM(clone)->ctx, PARROT_DECNUM(SELF)->ctx, 
+               sizeof(decContext));
 
         return clone;
     }
@@ -75,9 +79,11 @@ pmclass DecNum dynpmc{
     MULTI PMC *add(DecNum value, PMC* dest) {
         if ( dest == NULL || !VTABLE_isa(INTERP, dest, "DecNum") )
             dest = pmc_new(INTERP, SELF->vtable->base_type);
-        decQuadZero(PARROT_DECNUM(dest)->number);
-        decQuadAdd(PARROT_DECNUM(dest)->number, PARROT_DECNUM(SELF)->number,
-                   PARROT_DECNUM(value)->number, PARROT_DECNUM(dest)->ctx );
+
+        decQuadAdd(PARROT_DECNUM(dest)->number, 
+                   PARROT_DECNUM(SELF)->number, 
+                   PARROT_DECNUM(value)->number, 
+                   PARROT_DECNUM(dest)->ctx );
 
         return dest;
     }
