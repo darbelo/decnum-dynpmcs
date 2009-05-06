@@ -24,10 +24,10 @@ all: compile
 
 compile: decContext$(O) decQuad$(O)
 
-decContext$(O): decContext.c
+decContext$(O): decContext.c decContext.h
 	$(CC) $(CC_OUT)decContext$(O) $(ENDIAN) decContext.c
 
-decQuad$(O): decQuad.c
+decQuad$(O): decQuad.c decQuad.h decContext.h
 	$(CC) $(CC_OUT)decQuad$(O) $(ENDIAN) decQuad.c
 
 Makefile: ../../build/src/decNumber/Makefile.in
