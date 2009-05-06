@@ -7,6 +7,16 @@ static PMC*
 new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
     if ( dest == NULL || !VTABLE_isa(interp, dest, "DecNum") )
         dest = pmc_new(interp, self->vtable->base_type);
+
+    return dest;
+}
+
+static void
+check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
+    if ( ctx->status )
+        Parrot_ex_throw_from_c_args(interp, NULL,
+                                    EXCEPTION_INVALID_OPERATION,
+                                    decContextStatusToString(ctx));
 }
 
 pmclass DecNum dynpmc {
@@ -40,6 +50,7 @@ pmclass DecNum dynpmc {
         decQuadZero(attr->number);
         attr->ctx = mem_allocate_typed(decContext);
         decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
+        attr->ctx->traps = 0;
 
         PMC_data(SELF) = attr;
 
@@ -88,6 +99,7 @@ pmclass DecNum dynpmc {
                    PARROT_DECNUM(SELF)->number, 
                    PARROT_DECNUM(value)->number, 
                    PARROT_DECNUM(dest)->ctx );
+        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
 
         return dest;
     }
@@ -98,6 +110,7 @@ pmclass DecNum dynpmc {
                         PARROT_DECNUM(SELF)->number,
                         PARROT_DECNUM(value)->number, 
                         PARROT_DECNUM(dest)->ctx );
+        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
 
         return dest;
     }
@@ -108,6 +121,7 @@ pmclass DecNum dynpmc {
                         PARROT_DECNUM(SELF)->number,
                         PARROT_DECNUM(value)->number, 
                         PARROT_DECNUM(dest)->ctx );
+        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
 
         return dest;
     }
@@ -118,6 +132,7 @@ pmclass DecNum dynpmc {
                       PARROT_DECNUM(SELF)->number,
                       PARROT_DECNUM(value)->number, 
                       PARROT_DECNUM(dest)->ctx );
+        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
 
         return dest;
     }
