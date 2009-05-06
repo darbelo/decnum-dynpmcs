@@ -68,8 +68,8 @@ pmclass DecNum dynpmc {
 
         decQuadFromString(PARROT_DECNUM(SELF)->number, str, 
                           PARROT_DECNUM(SELF)->ctx);
-
         Parrot_str_free_cstring(str);
+        check_flags_and_throw(INTERP, PARROT_DECNUM(SELF)->ctx);
     }  
 
     VTABLE STRING *get_string() {
