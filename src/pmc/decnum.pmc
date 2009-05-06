@@ -3,6 +3,12 @@
 #define DECUSE64 0
 #include "../decNumber/decQuad.h"
 
+static PMC*
+new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
+    if ( dest == NULL || !VTABLE_isa(interp, dest, "DecNum") )
+        dest = pmc_new(interp, self->vtable->base_type);
+}
+
 pmclass DecNum dynpmc {
     ATTR union  decQuad    *number;
     ATTR struct decContext *ctx;
@@ -77,9 +83,7 @@ pmclass DecNum dynpmc {
     }
 
     MULTI PMC *add(DecNum value, PMC* dest) {
-        if ( dest == NULL || !VTABLE_isa(INTERP, dest, "DecNum") )
-            dest = pmc_new(INTERP, SELF->vtable->base_type);
-
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decQuadAdd(PARROT_DECNUM(dest)->number, 
                    PARROT_DECNUM(SELF)->number, 
                    PARROT_DECNUM(value)->number, 
@@ -89,9 +93,7 @@ pmclass DecNum dynpmc {
     }
 
     MULTI PMC *subtract(DecNum value, PMC* dest) {
-        if ( dest == NULL || !VTABLE_isa(INTERP, dest, "DecNum") )
-            dest = pmc_new(INTERP, SELF->vtable->base_type);
-
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decQuadSubtract(PARROT_DECNUM(dest)->number, 
                         PARROT_DECNUM(SELF)->number,
                         PARROT_DECNUM(value)->number, 
@@ -101,9 +103,7 @@ pmclass DecNum dynpmc {
     }
 
     MULTI PMC *multiply(DecNum value, PMC* dest) {
-        if ( dest == NULL || !VTABLE_isa(INTERP, dest, "DecNum") )
-            dest = pmc_new(INTERP, SELF->vtable->base_type);
-
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decQuadMultiply(PARROT_DECNUM(dest)->number, 
                         PARROT_DECNUM(SELF)->number,
                         PARROT_DECNUM(value)->number, 
@@ -113,9 +113,7 @@ pmclass DecNum dynpmc {
     }
 
     MULTI PMC *divide(DecNum value, PMC* dest) {
-        if ( dest == NULL || !VTABLE_isa(INTERP, dest, "DecNum") )
-            dest = pmc_new(INTERP, SELF->vtable->base_type);
-
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decQuadDivide(PARROT_DECNUM(dest)->number, 
                       PARROT_DECNUM(SELF)->number,
                       PARROT_DECNUM(value)->number, 
