@@ -5,8 +5,10 @@
 
 static PMC*
 new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
-    if ( dest == NULL || !VTABLE_isa(interp, dest, "DecNum") )
+    if ( PMC_IS_NULL(dest) )
         dest = pmc_new(interp, self->vtable->base_type);
+    else if ( !VTABLE_isa(interp, dest, CONST_STRING(interp, "DecNum")) )
+        pmc_reuse(interp, dest, self->vtable->base_type, 0);
 
     return dest;
 }
@@ -215,6 +217,7 @@ pmclass DecNum dynpmc {
                Overflow the result is the same as for DEC_ROUND_DOWN. */
             rounding_enum = DEC_ROUND_05UP;
         } else {
+            Parrot_str_free_cstring(rounding_str);
             Parrot_ex_throw_from_c_args(INTERP, NULL, EXCEPTION_INVALID_OPERATION,  
             "Invalid rounding mode provided!");
         }
@@ -222,7 +225,6 @@ pmclass DecNum dynpmc {
         decContextSetRounding(PARROT_DECNUM(SELF)->ctx, rounding_enum);
 
         Parrot_str_free_cstring(rounding_str);
-
     }
 
 }
