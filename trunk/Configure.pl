@@ -12,8 +12,6 @@ Configure.pl - a configure script for a high level language running on Parrot
 
   perl Configure.pl --parrot_config=<path_to_parrot>
 
-  perl Configure.pl --gen-parrot [ -- --options-for-configure-parrot ]
-
 =cut
 
 use strict;
@@ -22,13 +20,8 @@ use 5.008;
 
 use Getopt::Long qw(:config auto_help);
 
-our ( $opt_parrot_config, $opt_gen_parrot);
-GetOptions( 'parrot_config=s', 'gen-parrot' );
-
-#  Update/generate parrot build if needed
-if ($opt_gen_parrot) {
-    system($^X, 'build/gen_parrot.pl', @ARGV);
-}
+our ( $opt_parrot_config );
+GetOptions( 'parrot_config=s' );
 
 #  Get a list of parrot-configs to invoke.
 my @parrot_config_exe = $opt_parrot_config
