@@ -38,10 +38,11 @@ PMC2CC          := $(PMC2C) --c $(PMC2C_INCLUDES)
 INCLUDES        := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/pmc
 LINKARGS        := $(LDFLAGS) $(LD_LOAD_FLAGS) $(LIBPARROT)
 
-
-
-OBJS := \
+DECNUM_OBJS := \
   decnum$(O) ../decNumber/decContext$(O) ../decNumber/decQuad$(O)
+
+DECCONTEXT_OBJS := \
+  deccontext$(O) ../decNumber/decContext$(O)
 
 CLEANUPS := \
   "*$(LOAD_EXT)" \
@@ -54,8 +55,8 @@ CLEANUPS := \
 #IF(win32):  "*.manifext" \
 #IF(win32):  "*.pdb" \
 #IF(win32):  "*.lib" \
-  $(STAGING_DIR)/decnum$(LOAD_EXT)
-
+  $(STAGING_DIR)/decnum$(LOAD_EXT) \
+  $(STAGING_DIR)/deccontext$(LOAD_EXT)
 
 all: staging
 
@@ -69,9 +70,33 @@ decnum$(O): decnum.c
 	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) decnum.c
 
 decnum$(LOAD_EXT): decnum$(O)
+	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(DECNUM_OBJS) $(LINKARGS)
+
+decnum.dump: decnum.pmc
+	$(PMC2CD) decnum.pmc
+
+decnum.c: decnum.dump
+	$(PMC2CC) decnum.pmc
+
+decnum$(O): decnum.c
+	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) decnum.c
+
+decnum$(LOAD_EXT): decnum$(O)
 	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(OBJS) $(LINKARGS)
 
-staging: decnum$(LOAD_EXT)
+deccontext.dump: deccontext.pmc
+	$(PMC2CD) deccontext.pmc
+
+deccontext.c: deccontext.dump
+	$(PMC2CC) deccontext.pmc
+
+deccontext$(O): deccontext.c
+	$(CC) $(CC_OUT)deccontext$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) deccontext.c
+
+deccontext$(LOAD_EXT): deccontext$(O)
+	$(LD) $(LD_OUT)deccontext$(LOAD_EXT) $(DECCONTEXT_OBJS) $(LINKARGS)
+
+staging: decnum$(LOAD_EXT) deccontext$(LOAD_EXT)
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(STAGING_DIR)
 
@@ -81,6 +106,7 @@ install: staging
 
 uninstall:
 	$(RM_F) $(INSTALL_DIR)/decnum$(LOAD_EXT)
+	$(RM_F) $(INSTALL_DIR)/deccontext$(LOAD_EXT)
 
 Makefile: ../../build/src/pmc/Makefile.in
 	cd ../.. && $(PERL) Configure.pl
