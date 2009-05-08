@@ -18,7 +18,7 @@ pmclass DecContext singleton dynpmc {
     }
 
     VTABLE void set_pointer(void *ptr) {
-        UNUSED(ptr)
+        DecContext_PMC = ptr;
     }
 
     VTABLE void init() {
@@ -30,9 +30,7 @@ pmclass DecContext singleton dynpmc {
             "This dynpmc has been compiled with the wrong endianness.");
         }
 
-        if ( PMC_IS_NULL(DecContext_PMC) ) {
-            DecContext_PMC = SELF;
-
+        if ( PMC_data(SELF) == NULL ) {
             attr = mem_allocate_zeroed_typed(Parrot_DecContext_attributes);
             PMC_data(SELF) = attr;
 
