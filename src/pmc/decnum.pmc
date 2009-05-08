@@ -15,7 +15,7 @@ new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
 
 static void
 check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
-    if ( ctx->status )
+    if ( ctx->status & DEC_Errors)
         Parrot_ex_throw_from_c_args(interp, NULL,
                                     EXCEPTION_INVALID_OPERATION,
                                     decContextStatusToString(ctx));
