@@ -58,9 +58,6 @@ decnumber: $(DECNUMBER_DEPS)
 
 all: build-pmc
 
-Makefile: build/src/pmc/Makefile.in build/src/decNumber/Makefile.in build/Makefile.in 
-	$(PERL) Configure.pl
-
 # This is a listing of all targets, that are meant to be called by users
 help:
 	@echo ""
@@ -97,19 +94,19 @@ testclean:
 decnumber_clean:
 	$(MAKE) $(DECNUMBER_DIR) clean 
 
-parrot_clean:
+pmc_clean:
 	$(MAKE) $(PMC_DIR) clean 
 
-clean: parrot_clean decnumber_clean
+clean: pmc_clean decnumber_clean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS)
 
 decnumber_realclean:
 	$(MAKE) $(DECNUMBER_DIR) realclean
 
-parrot_realclean:
+pmc_realclean:
 	$(MAKE) $(PMC_DIR) realclean
 
-realclean: decnumber_realclean parrot_realclean
+realclean: decnumber_realclean pmc_realclean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS) Makefile
 
 # Local variables:

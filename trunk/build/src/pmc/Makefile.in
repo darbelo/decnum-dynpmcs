@@ -108,9 +108,6 @@ uninstall:
 	$(RM_F) $(INSTALL_DIR)/decnum$(LOAD_EXT)
 	$(RM_F) $(INSTALL_DIR)/deccontext$(LOAD_EXT)
 
-Makefile: ../../build/src/pmc/Makefile.in
-	cd ../.. && $(PERL) Configure.pl
-
 clean:
 	$(RM_F) $(CLEANUPS)
 
