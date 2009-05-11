@@ -72,18 +72,6 @@ decnum$(O): decnum.c
 decnum$(LOAD_EXT): decnum$(O)
 	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(DECNUM_OBJS) $(LINKARGS)
 
-decnum.dump: decnum.pmc
-	$(PMC2CD) decnum.pmc
-
-decnum.c: decnum.dump
-	$(PMC2CC) decnum.pmc
-
-decnum$(O): decnum.c
-	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) decnum.c
-
-decnum$(LOAD_EXT): decnum$(O)
-	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(OBJS) $(LINKARGS)
-
 deccontext.dump: deccontext.pmc
 	$(PMC2CD) deccontext.pmc
 
