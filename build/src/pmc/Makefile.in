@@ -24,7 +24,8 @@ LDFLAGS       := @ldflags@ @ld_debug@
 LD_LOAD_FLAGS := @ld_load_flags@
 #IF(@bigendian@):ENDIAN        := -DDECLITEND=0
 #ELSE:ENDIAN        := -DDECLITEND=1
-CFLAGS        := @ccflags@ @cc_shared@ @cc_debug@ @ccwarn@ @cc_hasjit@ @cg_flag@ @gc_flag@
+CFLAGS        := @ccflags@ @cc_shared@ @cc_debug@ @ccwarn@ @cc_hasjit@\
+                 @cg_flag@ @gc_flag@ $(ENDIAN) -DDECUSE64=0 -DDECDPUN=4
 CC_OUT        := @cc_o_out@
 LD_OUT        := @ld_out@
 #IF(parrot_is_shared):LIBPARROT     := @inst_libparrot_ldflags@
