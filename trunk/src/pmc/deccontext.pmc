@@ -1,6 +1,5 @@
 #include <string.h>
 #include "parrot/parrot.h"
-#define DECUSE64 0
 #include "../decNumber/decContext.h"
 
 static PMC *DecContext_PMC = NULL;
