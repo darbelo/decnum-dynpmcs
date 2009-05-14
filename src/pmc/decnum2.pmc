@@ -6,7 +6,7 @@ static PMC*
 new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
     if ( PMC_IS_NULL(dest) )
         dest = pmc_new(interp, self->vtable->base_type);
-    else if ( !VTABLE_isa(interp, dest, CONST_STRING(interp, "DecNum")) )
+    else if ( !VTABLE_isa(interp, dest, CONST_STRING(interp, "DecNum2")) )
         pmc_reuse(interp, dest, self->vtable->base_type, 0);
 
     return dest;
@@ -110,7 +110,7 @@ pmclass DecNum2
         return clone;
     }
 
-    MULTI PMC *add(DecNum value, PMC* dest) {
+    MULTI PMC *add(DecNum2 value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM2(SELF)->context );
         decQuadAdd(PARROT_DECNUM2(dest)->number, 
@@ -122,7 +122,7 @@ pmclass DecNum2
         return dest;
     }
 
-    MULTI PMC *subtract(DecNum value, PMC* dest) {
+    MULTI PMC *subtract(DecNum2 value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM2(SELF)->context );
         decQuadSubtract(PARROT_DECNUM2(dest)->number, 
@@ -134,7 +134,7 @@ pmclass DecNum2
         return dest;
     }
 
-    MULTI PMC *multiply(DecNum value, PMC* dest) {
+    MULTI PMC *multiply(DecNum2 value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM2(SELF)->context );
         decQuadMultiply(PARROT_DECNUM2(dest)->number, 
@@ -146,7 +146,7 @@ pmclass DecNum2
         return dest;
     }
 
-    MULTI PMC *divide(DecNum value, PMC* dest) {
+    MULTI PMC *divide(DecNum2 value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM2(SELF)->context );
         decQuadDivide(PARROT_DECNUM2(dest)->number, 
