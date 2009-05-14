@@ -77,7 +77,8 @@ pmclass DecNum2
     }
 
     VTABLE void mark() {
-        Parrot_gc_mark_PObj_alive(interp, PARROT_DECNUM2(SELF)->ctx);
+        Parrot_gc_mark_PObj_alive(interp, 
+                                  (PObj*)PARROT_DECNUM2(SELF)->context);
     }
 
     VTABLE void set_string_native(STRING *value) {
