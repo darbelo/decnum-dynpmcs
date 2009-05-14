@@ -1,0 +1,7 @@
+pmclass DecBase 
+    abstract dynpmc 
+    group decnumber {
+
+    ATTR struct decContext *ctx;
+
+}

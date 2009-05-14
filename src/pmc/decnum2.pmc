@@ -1,0 +1,152 @@
+#include <string.h>
+#include "parrot/parrot.h"
+#include "../decNumber/decQuad.h"
+
+static PMC*
+new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
+    if ( PMC_IS_NULL(dest) )
+        dest = pmc_new(interp, self->vtable->base_type);
+    else if ( !VTABLE_isa(interp, dest, CONST_STRING(interp, "DecNum")) )
+        pmc_reuse(interp, dest, self->vtable->base_type, 0);
+
+    return dest;
+}
+
+static void
+check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
+    if ( ctx->status & DEC_Errors)
+        Parrot_ex_throw_from_c_args(interp, NULL,
+                                    EXCEPTION_INVALID_OPERATION,
+                                    decContextStatusToString(ctx));
+}
+
+static decContext *
+get_decContext_from_PMC(PMC *pmc) {
+    return PARROT_DECBASE(pmc)->ctx;
+}
+
+pmclass DecNum dynpmc group decnumber extends decbase {
+    ATTR void           *ctxt;
+    ATTR union decQuad *number;
+
+    METHOD version() {
+        STRING* version;
+
+        version = Parrot_str_new(INTERP, decQuadVersion(), 0);
+
+        RETURN(STRING *version);
+    }
+
+    VTABLE PMC *instantiate(PMC *sig) {
+        UNUSED(sig)
+        return PMCNULL;
+    }
+
+    VTABLE void init() {
+        INTVAL context_type;
+        Parrot_DecNum_attributes *attr = NULL;
+
+        if (decContextTestEndian(1)) {
+            Parrot_ex_throw_from_c_args(INTERP, NULL, 
+            EXCEPTION_INVALID_OPERATION,  
+            "This dynpmc has been compiled with the wrong endianness.");
+        }
+
+        attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
+        attr->ctx = NULL;
+
+        attr->number = mem_allocate_typed(decQuad);
+        decQuadZero(attr->number);
+
+        context_type = pmc_type(interp, CONST_STRING(interp, "DecContext"));
+        attr->ctxt = pmc_new(interp, context_type);
+
+        PMC_data(SELF) = attr;
+
+        PObj_active_destroy_SET(SELF); 
+/*        PObj_custom_mark_SET(SELF); */
+    }
+
+    VTABLE void destroy() {
+        mem_sys_free(PARROT_DECNUM(SELF)->number);
+        mem_sys_free(PMC_data(SELF));
+    }
+
+    VTABLE mark() {
+        Parrot_gc_mark_PObj_alive(PARROT_DECNUM(SELF)->ctx);
+    }
+
+    VTABLE void set_string_native(STRING *value) {
+        char * const str = Parrot_str_to_cstring(INTERP, value);
+
+        decQuadFromString(PARROT_DECNUM(SELF)->number, str, 
+                          get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ));
+        Parrot_str_free_cstring(str);
+        check_flags_and_throw(INTERP, get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ));
+    }  
+
+    VTABLE STRING *get_string() {
+        char cstr[DECQUAD_String];
+        STRING *pstr;
+
+        decQuadToString(PARROT_DECNUM(SELF)->number, cstr);
+        pstr = Parrot_str_new(INTERP, cstr, 0);
+
+        return pstr;
+    }
+
+    VTABLE PMC *clone() {
+        PMC *clone = pmc_new(INTERP, SELF->vtable->base_type);
+
+        decQuadCopy(PARROT_DECNUM(clone)->number, 
+                    PARROT_DECNUM(SELF)->number);
+
+        return clone;
+    }
+
+    MULTI PMC *add(DecNum value, PMC* dest) {
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decQuadAdd(PARROT_DECNUM(dest)->number, 
+                   PARROT_DECNUM(SELF)->number, 
+                   PARROT_DECNUM(value)->number, 
+                   get_decContext_from_PMC( PARROT_DECNUM(value)->ctxt ));
+        check_flags_and_throw(INTERP, get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ));
+
+        return dest;
+    }
+
+    MULTI PMC *subtract(DecNum value, PMC* dest) {
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decQuadSubtract(PARROT_DECNUM(dest)->number, 
+                        PARROT_DECNUM(SELF)->number,
+                        PARROT_DECNUM(value)->number, 
+                        get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ) );
+        check_flags_and_throw(INTERP, get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ));
+
+        return dest;
+    }
+
+    MULTI PMC *multiply(DecNum value, PMC* dest) {
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decQuadMultiply(PARROT_DECNUM(dest)->number, 
+                        PARROT_DECNUM(SELF)->number,
+                        PARROT_DECNUM(value)->number, 
+                        get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ) );
+        check_flags_and_throw(INTERP, get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ));
+
+        return dest;
+    }
+
+    MULTI PMC *divide(DecNum value, PMC* dest) {
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decQuadDivide(PARROT_DECNUM(dest)->number, 
+                      PARROT_DECNUM(SELF)->number,
+                      PARROT_DECNUM(value)->number, 
+                      get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ) );
+        check_flags_and_throw(INTERP, get_decContext_from_PMC( PARROT_DECNUM(SELF)->ctxt ));
+
+        return dest;
+    }
+
+
+}

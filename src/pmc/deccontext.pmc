@@ -4,8 +4,10 @@
 
 static PMC *DecContext_PMC = NULL;
 
-pmclass DecContext singleton dynpmc {
-    ATTR struct decContext *ctx;
+pmclass DecContext 
+    singleton dynpmc 
+    group decnumber 
+    extends DecBase {
 
     VTABLE PMC *instantiate(PMC *sig) {
         UNUSED(sig)
