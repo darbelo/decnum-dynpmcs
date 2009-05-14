@@ -68,24 +68,51 @@ decnum.c: decnum.dump
 	$(PMC2CC) decnum.pmc
 
 decnum$(O): decnum.c
-	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) decnum.c
+	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) decnum.c
 
 decnum$(LOAD_EXT): decnum$(O)
 	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(DECNUM_OBJS) $(LINKARGS)
 
-deccontext.dump: deccontext.pmc
+decnum_group$(LOAD_EXT): deccontext$(O) decnum2$(O) lib-decnum_group$(O)
+	 $(LD) $(LD_OUT)decnum_group$(LOAD_EXT) $(DECNUM_OBJS) \
+         deccontext$(O) decnum2$(O) lib-decnum_group$(O) $(LINKARGS)
+
+lib-decnum_group$(O): decnum_group.c
+	$(CC) $(CC_OUT)lib-decnum_group$(O)  $(INCLUDES) $(CFLAGS) \
+        decnum_group.c
+
+decnum_group.c: deccontext.pmc decnum2.pmc decbase.pmc
+	$(PMC2C) --library decnum_group --c deccontext.pmc decnum2.pmc \
+        decbase.pmc
+
+deccontext.dump: deccontext.pmc decbase$(O)
 	$(PMC2CD) deccontext.pmc
 
 deccontext.c: deccontext.dump
 	$(PMC2CC) deccontext.pmc
 
 deccontext$(O): deccontext.c
-	$(CC) $(CC_OUT)deccontext$(O) $(INCLUDES) $(CFLAGS) $(ENDIAN) deccontext.c
+	$(CC) $(CC_OUT)deccontext$(O) $(INCLUDES) $(CFLAGS) deccontext.c
 
-deccontext$(LOAD_EXT): deccontext$(O)
-	$(LD) $(LD_OUT)deccontext$(LOAD_EXT) $(DECCONTEXT_OBJS) $(LINKARGS)
+decnum2.dump: decnum2.pmc decbase$(O)
+	$(PMC2CD) decnum2.pmc
 
-staging: decnum$(LOAD_EXT) deccontext$(LOAD_EXT)
+decnum2.c: decnum2.dump
+	$(PMC2CC) decnum2.pmc
+
+decnum2$(O): decnum2.c
+	$(CC) $(CC_OUT)decnum2$(O) $(INCLUDES) $(CFLAGS) decnum2.c
+
+decbase.dump: decbase.pmc
+	$(PMC2CD) decbase.pmc
+
+decbase.c: decbase.dump
+	$(PMC2CC) decbase.pmc
+
+decbase$(O): decnum.c
+	$(CC) $(CC_OUT)decbase$(O) $(INCLUDES) $(CFLAGS) decnum.c
+
+staging: decnum$(LOAD_EXT) decnum_group$(LOAD_EXT)
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(STAGING_DIR)
 
