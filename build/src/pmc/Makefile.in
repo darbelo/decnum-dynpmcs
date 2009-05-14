@@ -109,8 +109,8 @@ decbase.dump: decbase.pmc
 decbase.c: decbase.dump
 	$(PMC2CC) decbase.pmc
 
-decbase$(O): decnum.c
-	$(CC) $(CC_OUT)decbase$(O) $(INCLUDES) $(CFLAGS) decnum.c
+decbase$(O): decbase.c
+	$(CC) $(CC_OUT)decbase$(O) $(INCLUDES) $(CFLAGS) decbase.c
 
 staging: decnum$(LOAD_EXT) decnum_group$(LOAD_EXT)
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
