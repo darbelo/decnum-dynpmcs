@@ -26,8 +26,8 @@ get_decContext_from_PMC(PMC *pmc) {
 }
 
 pmclass DecNum dynpmc group decnumber extends decbase {
-    ATTR void           *ctxt;
-    ATTR union decQuad *number;
+    ATTR PMC  *ctxt;
+    ATTR void *number;
 
     METHOD version() {
         STRING* version;

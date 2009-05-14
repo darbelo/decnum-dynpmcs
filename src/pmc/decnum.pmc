@@ -21,7 +21,7 @@ check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
 }
 
 pmclass DecNum dynpmc {
-    ATTR union  decQuad    *number;
+    ATTR void              *number;
     ATTR struct decContext *ctx;
 
     METHOD version() {
