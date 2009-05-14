@@ -28,7 +28,7 @@ get_context( PMC *pmc) {
 pmclass DecNum2 
     dynpmc 
     group decnumber 
-    extends decbase {
+    extends DecBase {
 
     ATTR PMC  *context;
     ATTR void *number;
