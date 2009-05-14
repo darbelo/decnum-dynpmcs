@@ -1,5 +1,5 @@
 .sub example :main
-    $P0 = loadlib 'deccontext'
+    $P0 = loadlib 'decnum_group'
     $P1 = new 'DecContext'
     $S0 = $P1.'get_rounding_context'()
     say $S0
