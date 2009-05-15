@@ -2,6 +2,9 @@
 #include "parrot/parrot.h"
 #include "../decNumber/decContext.h"
 
+#define MAX_DIGITS 999999999
+#define MIN_DIGITS 0
+
 static PMC *DecContext_PMC = NULL;
 
 pmclass DecContext 
@@ -37,6 +40,7 @@ pmclass DecContext
 
             attr->ctx = mem_allocate_typed(decContext);
             decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
+            decContextZeroStatus(attr->ctx);
             attr->ctx->traps = 0;
 
             PObj_active_destroy_SET(SELF);
@@ -49,7 +53,31 @@ pmclass DecContext
         mem_sys_free(attr);
     }
 
-    METHOD get_rounding_context() {
+    METHOD set_digits(PMC *number) {
+        INTVAL digits = VTABLE_get_integer(INTERP, number);
+        if ( digits > MAX_DIGITS || digits < MIN_DIGITS) { 
+            Parrot_ex_throw_from_c_args(INTERP, NULL, 
+                                        EXCEPTION_INVALID_OPERATION,
+                                  "Invalid number of digits provided!");
+        } else {
+            PARROT_DECCONTEXT(SELF)->ctx->digits = digits;
+        }
+    }
+
+    METHOD get_digits() {
+        INTVAL  digits;
+        PMC    *dest;
+        STRING *str;
+
+        digits = PARROT_DECCONTEXT(SELF)->ctx->digits;
+        dest = pmc_new(INTERP, enum_class_Integer);
+        VTABLE_set_integer_native(INTERP, dest, digits);
+
+        RETURN(PMC *dest);
+
+    }
+
+    METHOD get_rounding_mode() {
         STRING *rounding_str;
 
         switch (decContextGetRounding(PARROT_DECCONTEXT(SELF)->ctx) ) {
@@ -95,7 +123,7 @@ pmclass DecContext
 
     }
 
-    METHOD set_rounding_context(STRING *rounding) {
+    METHOD set_rounding_mode(STRING *rounding) {
         char * const rounding_str = Parrot_str_to_cstring(INTERP, rounding);
         enum rounding rounding_enum;
 
