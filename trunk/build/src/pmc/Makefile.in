@@ -40,10 +40,7 @@ INCLUDES        := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/pmc
 LINKARGS        := $(LDFLAGS) $(LD_LOAD_FLAGS) $(LIBPARROT)
 
 DECNUM_OBJS := \
-  decnum$(O) ../decNumber/decContext$(O) ../decNumber/decQuad$(O)
-
-DECCONTEXT_OBJS := \
-  deccontext$(O) ../decNumber/decContext$(O)
+  ../decNumber/decContext$(O) ../decNumber/decQuad$(O)
 
 CLEANUPS := \
   "*$(LOAD_EXT)" \
@@ -71,7 +68,7 @@ decnum$(O): decnum.c
 	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) decnum.c
 
 decnum$(LOAD_EXT): decnum$(O)
-	$(LD) $(LD_OUT)decnum$(LOAD_EXT) $(DECNUM_OBJS) $(LINKARGS)
+	$(LD) $(LD_OUT)decnum$(LOAD_EXT) decnum$(O) $(DECNUM_OBJS) $(LINKARGS)
 
 decnum_group.c: deccontext.pmc decnum2.pmc decbase.pmc
 	$(PMC2C) --library decnum_group --c deccontext.pmc decnum2.pmc \
@@ -83,7 +80,7 @@ lib-decnum_group$(O): decnum_group.c
 
 decnum_group$(LOAD_EXT): deccontext$(O) decnum2$(O) lib-decnum_group$(O)
 	 $(LD) $(LD_OUT)decnum_group$(LOAD_EXT) deccontext$(O) decnum2$(O) \
-          lib-decnum_group$(O) $(LINKARGS)
+          lib-decnum_group$(O) decbase$(O) $(DECNUM_OBJS) $(LINKARGS)
 
 deccontext.dump: deccontext.pmc decbase$(O)
 	$(PMC2CD) deccontext.pmc
