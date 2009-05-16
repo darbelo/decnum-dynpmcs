@@ -80,7 +80,7 @@ help:
 	@echo ""
 
 test: build-pmc
-#	$(PERL) -I$(LIB_DIR)/tools/lib t/harness --bindir=$(BIN_DIR)
+	$(PERL) -I$(LIB_DIR)/tools/lib t/harness --bindir=$(BIN_DIR) "t/"
 
 install: build-pmc
 	$(MAKE) $(PMC_DIR) install

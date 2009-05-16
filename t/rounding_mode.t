@@ -1,3 +1,4 @@
+#! /home/darbelo/parrot/instdir/bin/parrot
 .sub main :main
 .include 'test_more.pir'
 
@@ -11,7 +12,7 @@
     'DEC_ROUND_HALF_UP'()
     'DEC_ROUND_UP'()
     'DEC_ROUND_05UP'()
-    'Except'();
+    'Except'()
 .end
 
 .sub DEC_ROUND_CEILING
@@ -68,7 +69,7 @@
     $P1 = new 'DecContext'
     $P0.'set_rounding_mode'("DEC_ROUND_UP")
     $S0 = $P1.'get_rounding_mode'()
-    ok($S0, DEC_ROUND_UP"")
+    ok($S0, "DEC_ROUND_UP")
 .end
 
 .sub DEC_ROUND_05UP
