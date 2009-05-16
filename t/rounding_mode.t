@@ -1,4 +1,4 @@
-#! /home/darbelo/parrot/instdir/bin/parrot
+#! parrot
 .sub main :main
 .include 'test_more.pir'
 
@@ -87,3 +87,10 @@
     $S0 = $P1.'get_rounding_mode'()
     ok($S0, "Invalid rounding mode provided!")
 .end
+
+# Local Variables:
+#   mode: pir
+#   cperl-indent-level: 4
+#   fill-column: 100
+# End:
+# vim: expandtab shiftwidth=4 ft=pir:
