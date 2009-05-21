@@ -20,9 +20,18 @@ check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
                                     decContextStatusToString(ctx));
 }
 
-pmclass DecNum dynpmc {
-    ATTR void              *number;
-    ATTR struct decContext *ctx;
+static decContext *
+get_context( PMC *pmc) {
+    return PARROT_DECBASE(pmc)->ctx;
+}
+
+pmclass DecNum 
+    dynpmc 
+    group decnumber 
+    extends DecBase {
+
+    ATTR PMC  *context;
+    ATTR void *number;
 
     METHOD version() {
         STRING* version;
@@ -38,6 +47,7 @@ pmclass DecNum dynpmc {
     }
 
     VTABLE void init() {
+        INTVAL context_type;
         Parrot_DecNum_attributes *attr = NULL;
 
         if (decContextTestEndian(1)) {
@@ -47,30 +57,38 @@ pmclass DecNum dynpmc {
         }
 
         attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
+        attr->ctx = NULL;
+
         attr->number = mem_allocate_typed(decQuad);
         decQuadZero(attr->number);
-        attr->ctx = mem_allocate_typed(decContext);
-        decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
-        attr->ctx->traps = 0;
+
+        context_type = pmc_type(interp, CONST_STRING(interp, "DecContext"));
+        attr->context = pmc_new(interp, context_type);
 
         PMC_data(SELF) = attr;
 
         PObj_active_destroy_SET(SELF); 
+        PObj_custom_mark_SET(SELF);
     }
 
     VTABLE void destroy() {
-        mem_sys_free(PARROT_DECNUM(SELF)->ctx);
         mem_sys_free(PARROT_DECNUM(SELF)->number);
         mem_sys_free(PMC_data(SELF));
     }
 
+    VTABLE void mark() {
+        Parrot_gc_mark_PObj_alive(interp, 
+                                  (PObj*)PARROT_DECNUM(SELF)->context);
+    }
+
     VTABLE void set_string_native(STRING *value) {
         char * const str = Parrot_str_to_cstring(INTERP, value);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decQuadFromString(PARROT_DECNUM(SELF)->number, str, 
-                          PARROT_DECNUM(SELF)->ctx);
+        decQuadFromString(PARROT_DECNUM(SELF)->number, 
+                          str, ctxt );
         Parrot_str_free_cstring(str);
-        check_flags_and_throw(INTERP, PARROT_DECNUM(SELF)->ctx);
+        check_flags_and_throw(INTERP, ctxt);
     }  
 
     VTABLE STRING *get_string() {
@@ -88,142 +106,57 @@ pmclass DecNum dynpmc {
 
         decQuadCopy(PARROT_DECNUM(clone)->number, 
                     PARROT_DECNUM(SELF)->number);
-        memcpy(PARROT_DECNUM(clone)->ctx, PARROT_DECNUM(SELF)->ctx, 
-               sizeof(decContext));
 
         return clone;
     }
 
     MULTI PMC *add(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         decQuadAdd(PARROT_DECNUM(dest)->number, 
                    PARROT_DECNUM(SELF)->number, 
                    PARROT_DECNUM(value)->number, 
-                   PARROT_DECNUM(dest)->ctx );
-        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
+                   ctxt);
+        check_flags_and_throw(INTERP, ctxt);
 
         return dest;
     }
 
     MULTI PMC *subtract(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         decQuadSubtract(PARROT_DECNUM(dest)->number, 
                         PARROT_DECNUM(SELF)->number,
                         PARROT_DECNUM(value)->number, 
-                        PARROT_DECNUM(dest)->ctx );
-        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
+                        ctxt);
+        check_flags_and_throw(INTERP, ctxt);
 
         return dest;
     }
 
     MULTI PMC *multiply(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         decQuadMultiply(PARROT_DECNUM(dest)->number, 
                         PARROT_DECNUM(SELF)->number,
                         PARROT_DECNUM(value)->number, 
-                        PARROT_DECNUM(dest)->ctx );
-        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
+                      ctxt);
+        check_flags_and_throw(INTERP, ctxt);
 
         return dest;
     }
 
     MULTI PMC *divide(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         decQuadDivide(PARROT_DECNUM(dest)->number, 
                       PARROT_DECNUM(SELF)->number,
                       PARROT_DECNUM(value)->number, 
-                      PARROT_DECNUM(dest)->ctx );
-        check_flags_and_throw(INTERP, PARROT_DECNUM(dest)->ctx);
+                      ctxt);
+        check_flags_and_throw(INTERP, ctxt);
 
         return dest;
     }
 
-    METHOD get_rounding_context() {
-        STRING *rounding_str;
-
-        switch (decContextGetRounding(PARROT_DECNUM(SELF)->ctx) ) {
-            case DEC_ROUND_CEILING:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_CEILING", 0);
-                break;
-            case DEC_ROUND_UP:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_UP", 0);
-                break;
-            case DEC_ROUND_HALF_UP:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_HALF_UP", 0);
-                break;
-            case DEC_ROUND_HALF_EVEN:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_HALF_EVEN", 0);
-                break;
-            case DEC_ROUND_HALF_DOWN:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_HALF_DOWN", 0);
-                break;
-            case DEC_ROUND_DOWN:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_DOWN", 0);
-                break;
-            case DEC_ROUND_FLOOR:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_FLOOR", 0);
-                break;
-            case DEC_ROUND_05UP:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_05UP", 0);
-                break;
-            default: /* Sould never happen*/
-                Parrot_ex_throw_from_c_args(INTERP, NULL, 
-                                            EXCEPTION_INVALID_OPERATION,
-            "Invalid rounding mode found on the decContext structure!");
-        }
-
-        RETURN(STRING *rounding_str);
-
-    }
-
-    METHOD set_rounding_context(STRING *rounding) {
-        char * const rounding_str = Parrot_str_to_cstring(INTERP, rounding);
-        enum rounding rounding_enum;
-
-        if (!strcmp(rounding_str, "DEC_ROUND_CEILING")) {
-            /* Round towards +Infinity. */
-            rounding_enum = DEC_ROUND_CEILING;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_DOWN")) {
-            /* Round towards 0 (truncation). */
-            rounding_enum = DEC_ROUND_DOWN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_FLOOR")) {
-            /* Round towards -Infinity. */
-            rounding_enum = DEC_ROUND_FLOOR;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_DOWN")) {
-            /* Round to nearest; if equidistant, round down. */
-            rounding_enum = DEC_ROUND_HALF_DOWN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_EVEN")) {
-            /* Round to nearest; if equidistant, round so that the final
-               digit is even. */
-            rounding_enum = DEC_ROUND_HALF_EVEN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_UP")) {
-            /* Round to nearest; if equidistant, round up. */
-            rounding_enum = DEC_ROUND_HALF_UP;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_UP")) {
-            /* Round away from 0. */
-            rounding_enum = DEC_ROUND_UP;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_05UP")) {
-            /* The same as DEC_ROUND_UP, except that rounding up only 
-               occurs if the digit to be rounded up is 0 or 5 and after
-               Overflow the result is the same as for DEC_ROUND_DOWN. */
-            rounding_enum = DEC_ROUND_05UP;
-        } else {
-            Parrot_str_free_cstring(rounding_str);
-            Parrot_ex_throw_from_c_args(INTERP, NULL, EXCEPTION_INVALID_OPERATION,  
-            "Invalid rounding mode provided!");
-        }
-
-        decContextSetRounding(PARROT_DECNUM(SELF)->ctx, rounding_enum);
-
-        Parrot_str_free_cstring(rounding_str);
-    }
 
 }
