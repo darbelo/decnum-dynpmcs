@@ -24,13 +24,13 @@ CLEANUPS := "*$(O)"
 
 all: compile
 
-compile: decContext$(O) decQuad$(O)
+compile: decContext$(O) decNumber$(O)
 
 decContext$(O): decContext.c decContext.h
-	$(CC) $(CFLAGS) $(CC_OUT)decContext$(O) $(ENDIAN) decContext.c
+	$(CC) $(CFLAGS) $(CC_OUT)decContext$(O) decContext.c
 
-decQuad$(O): decQuad.c decQuad.h decContext.h
-	$(CC) $(CFLAGS) $(CC_OUT)decQuad$(O) $(ENDIAN) decQuad.c
+decNumber$(O): decNumber.c decNumber.h decContext.h
+	$(CC) $(CFLAGS) $(CC_OUT)decNumber$(O) decNumber.c
 
 clean:
 	$(RM_F) $(CLEANUPS)

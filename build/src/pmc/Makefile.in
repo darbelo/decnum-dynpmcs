@@ -41,7 +41,7 @@ INCLUDES        := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/pmc
 LINKARGS        := $(LDFLAGS) $(LD_LOAD_FLAGS) $(LIBPARROT)
 
 DECNUM_OBJS := \
-  ../decNumber/decContext$(O) ../decNumber/decQuad$(O)
+  ../decNumber/decContext$(O) ../decNumber/decNumber$(O)
 
 CLEANUPS := \
   "*$(LOAD_EXT)" \

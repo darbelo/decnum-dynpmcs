@@ -5,6 +5,12 @@
     $P1 = new 'DecNum'
     $P2 = new 'DecContext'
 
+    $S0 = $P0.'version'()
+    say $S0
+
+    $I0 = $P2.'get_digits'()
+    say $I0
+
     $S0 = $P2.'get_rounding_mode'()
     say $S0
 
