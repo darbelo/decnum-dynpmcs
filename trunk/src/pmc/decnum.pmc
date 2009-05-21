@@ -1,6 +1,6 @@
 #include <string.h>
 #include "parrot/parrot.h"
-#include "../decNumber/decQuad.h"
+#include "../decNumber/decNumber.h"
 
 static PMC*
 new_if_not_a_decnum(PARROT_INTERP, PMC *self, PMC * dest) {
@@ -30,13 +30,13 @@ pmclass DecNum
     group decnumber 
     extends DecBase {
 
-    ATTR PMC  *context;
-    ATTR void *number;
+    ATTR PMC              *context;
+    ATTR struct decNumber *number;
 
     METHOD version() {
         STRING* version;
 
-        version = Parrot_str_new(INTERP, decQuadVersion(), 0);
+        version = Parrot_str_new(INTERP, decNumberVersion(), 0);
 
         RETURN(STRING *version);
     }
@@ -59,8 +59,8 @@ pmclass DecNum
         attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
         attr->ctx = NULL;
 
-        attr->number = mem_allocate_typed(decQuad);
-        decQuadZero(attr->number);
+        attr->number = mem_allocate_typed(decNumber);
+        decNumberZero(attr->number);
 
         context_type = pmc_type(interp, CONST_STRING(interp, "DecContext"));
         attr->context = pmc_new(interp, context_type);
@@ -85,18 +85,22 @@ pmclass DecNum
         char * const str = Parrot_str_to_cstring(INTERP, value);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decQuadFromString(PARROT_DECNUM(SELF)->number, 
+        decNumberFromString(PARROT_DECNUM(SELF)->number, 
                           str, ctxt );
         Parrot_str_free_cstring(str);
         check_flags_and_throw(INTERP, ctxt);
     }  
 
     VTABLE STRING *get_string() {
-        char cstr[DECQUAD_String];
-        STRING *pstr;
+        char      *cstr;
+        STRING    *pstr;
+        decNumber *num;
 
-        decQuadToString(PARROT_DECNUM(SELF)->number, cstr);
+        num = PARROT_DECNUM(SELF)->number;
+        cstr = mem_allocate_n_typed(num->digits + 15, char);
+        decNumberToString(num, cstr);
         pstr = Parrot_str_new(INTERP, cstr, 0);
+        mem_sys_free(cstr);
 
         return pstr;
     }
@@ -104,8 +108,8 @@ pmclass DecNum
     VTABLE PMC *clone() {
         PMC *clone = pmc_new(INTERP, SELF->vtable->base_type);
 
-        decQuadCopy(PARROT_DECNUM(clone)->number, 
-                    PARROT_DECNUM(SELF)->number);
+        decNumberCopy(PARROT_DECNUM(clone)->number, 
+                      PARROT_DECNUM(SELF)->number);
 
         return clone;
     }
@@ -113,10 +117,10 @@ pmclass DecNum
     MULTI PMC *add(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        decQuadAdd(PARROT_DECNUM(dest)->number, 
-                   PARROT_DECNUM(SELF)->number, 
-                   PARROT_DECNUM(value)->number, 
-                   ctxt);
+        decNumberAdd(PARROT_DECNUM(dest)->number, 
+                     PARROT_DECNUM(SELF)->number, 
+                     PARROT_DECNUM(value)->number, 
+                     ctxt);
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
@@ -125,10 +129,10 @@ pmclass DecNum
     MULTI PMC *subtract(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        decQuadSubtract(PARROT_DECNUM(dest)->number, 
-                        PARROT_DECNUM(SELF)->number,
-                        PARROT_DECNUM(value)->number, 
-                        ctxt);
+        decNumberSubtract(PARROT_DECNUM(dest)->number, 
+                          PARROT_DECNUM(SELF)->number,
+                          PARROT_DECNUM(value)->number, 
+                          ctxt);
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
@@ -137,10 +141,10 @@ pmclass DecNum
     MULTI PMC *multiply(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        decQuadMultiply(PARROT_DECNUM(dest)->number, 
-                        PARROT_DECNUM(SELF)->number,
-                        PARROT_DECNUM(value)->number, 
-                      ctxt);
+        decNumberMultiply(PARROT_DECNUM(dest)->number, 
+                          PARROT_DECNUM(SELF)->number,
+                          PARROT_DECNUM(value)->number, 
+                          ctxt);
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
@@ -149,10 +153,10 @@ pmclass DecNum
     MULTI PMC *divide(DecNum value, PMC* dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        decQuadDivide(PARROT_DECNUM(dest)->number, 
-                      PARROT_DECNUM(SELF)->number,
-                      PARROT_DECNUM(value)->number, 
-                      ctxt);
+        decNumberDivide(PARROT_DECNUM(dest)->number, 
+                        PARROT_DECNUM(SELF)->number,
+                        PARROT_DECNUM(value)->number, 
+                        ctxt);
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;

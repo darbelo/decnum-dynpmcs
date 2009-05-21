@@ -1,9 +1,9 @@
 #include <string.h>
 #include "parrot/parrot.h"
-#include "../decNumber/decContext.h"
+#include "../decNumber/decNumber.h"
 
-#define MAX_DIGITS 999999999
-#define MIN_DIGITS 0
+#define MAX_DIGITS DECNUMDIGITS
+#define MIN_DIGITS 1
 
 static PMC *DecContext_PMC = NULL;
 
@@ -39,7 +39,7 @@ pmclass DecContext
             PMC_data(SELF) = attr;
 
             attr->ctx = mem_allocate_typed(decContext);
-            decContextDefault(attr->ctx, DEC_INIT_DECQUAD);
+            decContextDefault(attr->ctx, DEC_INIT_BASE);
             decContextZeroStatus(attr->ctx);
             attr->ctx->traps = 0;
 
