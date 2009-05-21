@@ -1,8 +1,8 @@
 .sub example :main
     $P0 = loadlib 'decnum_group'
 
-    $P0 = new 'DecNum2'
-    $P1 = new 'DecNum2'
+    $P0 = new 'DecNum'
+    $P1 = new 'DecNum'
     $P2 = new 'DecContext'
 
     $S0 = $P2.'get_rounding_mode'()

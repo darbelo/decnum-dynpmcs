@@ -25,7 +25,8 @@ LD_LOAD_FLAGS := @ld_load_flags@
 #IF(@bigendian@):ENDIAN        := -DDECLITEND=0
 #ELSE:ENDIAN        := -DDECLITEND=1
 CFLAGS        := @ccflags@ @cc_shared@ @cc_debug@ @ccwarn@ @cc_hasjit@\
-                 @cg_flag@ @gc_flag@ $(ENDIAN) -DDECUSE64=0 -DDECDPUN=4
+                 @cg_flag@ @gc_flag@ $(ENDIAN) -DDECUSE64=0 -DDECDPUN=4\
+                 -DDECNUMDIGITS=50
 CC_OUT        := @cc_o_out@
 LD_OUT        := @ld_out@
 #IF(parrot_is_shared):LIBPARROT     := @inst_libparrot_ldflags@
@@ -58,28 +59,16 @@ CLEANUPS := \
 
 all: staging
 
-decnum.dump: decnum.pmc
-	$(PMC2CD) decnum.pmc
-
-decnum.c: decnum.dump
-	$(PMC2CC) decnum.pmc
-
-decnum$(O): decnum.c
-	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) decnum.c
-
-decnum$(LOAD_EXT): decnum$(O)
-	$(LD) $(LD_OUT)decnum$(LOAD_EXT) decnum$(O) $(DECNUM_OBJS) $(LINKARGS)
-
-decnum_group.c: deccontext.pmc decnum2.pmc decbase.pmc
-	$(PMC2C) --library decnum_group --c deccontext.pmc decnum2.pmc \
+decnum_group.c: deccontext.pmc decnum.pmc decbase.pmc
+	$(PMC2C) --library decnum_group --c deccontext.pmc decnum.pmc \
         decbase.pmc
 
 lib-decnum_group$(O): decnum_group.c
 	$(CC) $(CC_OUT)lib-decnum_group$(O)  $(INCLUDES) $(CFLAGS) \
         decnum_group.c
 
-decnum_group$(LOAD_EXT): deccontext$(O) decnum2$(O) lib-decnum_group$(O)
-	 $(LD) $(LD_OUT)decnum_group$(LOAD_EXT) deccontext$(O) decnum2$(O) \
+decnum_group$(LOAD_EXT): deccontext$(O) decnum$(O) lib-decnum_group$(O)
+	 $(LD) $(LD_OUT)decnum_group$(LOAD_EXT) deccontext$(O) decnum$(O) \
           lib-decnum_group$(O) decbase$(O) $(DECNUM_OBJS) $(LINKARGS)
 
 deccontext.dump: deccontext.pmc decbase$(O)
@@ -91,14 +80,14 @@ deccontext.c: deccontext.dump
 deccontext$(O): deccontext.c
 	$(CC) $(CC_OUT)deccontext$(O) $(INCLUDES) $(CFLAGS) deccontext.c
 
-decnum2.dump: decnum2.pmc decbase$(O)
-	$(PMC2CD) decnum2.pmc
+decnum.dump: decnum.pmc decbase$(O)
+	$(PMC2CD) decnum.pmc
 
-decnum2.c: decnum2.dump
-	$(PMC2CC) decnum2.pmc
+decnum.c: decnum.dump
+	$(PMC2CC) decnum.pmc
 
-decnum2$(O): decnum2.c
-	$(CC) $(CC_OUT)decnum2$(O) $(INCLUDES) $(CFLAGS) decnum2.c
+decnum$(O): decnum.c
+	$(CC) $(CC_OUT)decnum$(O) $(INCLUDES) $(CFLAGS) decnum.c
 
 decbase.dump: decbase.pmc
 	$(PMC2CD) decbase.pmc
@@ -109,7 +98,7 @@ decbase.c: decbase.dump
 decbase$(O): decbase.c
 	$(CC) $(CC_OUT)decbase$(O) $(INCLUDES) $(CFLAGS) decbase.c
 
-staging: decnum$(LOAD_EXT) decnum_group$(LOAD_EXT)
+staging: decnum_group$(LOAD_EXT)
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(STAGING_DIR)
 
@@ -118,8 +107,7 @@ install: staging
 	$(CP) "*$(LOAD_EXT)" $(INSTALL_DIR)
 
 uninstall:
-	$(RM_F) $(INSTALL_DIR)/decnum$(LOAD_EXT)
-	$(RM_F) $(INSTALL_DIR)/deccontext$(LOAD_EXT)
+	$(RM_F) $(INSTALL_DIR)/decnum_group$(LOAD_EXT)
 
 clean:
 	$(RM_F) $(CLEANUPS)

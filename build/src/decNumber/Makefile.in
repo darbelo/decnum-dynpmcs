@@ -18,7 +18,8 @@ PARROT        := $(BIN_DIR)/parrot@exe@
 CC            := @cc@ -c
 CC_OUT        := @cc_o_out@
 CFLAGS        := @ccflags@ @cc_shared@ @cc_debug@ @ccwarn@ @cc_hasjit@\
-                 @cg_flag@ @gc_flag@ $(ENDIAN) -DDECUSE64=0 -DDECDPUN=4
+                 @cg_flag@ @gc_flag@ $(ENDIAN) -DDECUSE64=0 -DDECDPUN=4\
+                 -DDECNUMDIGITS=50
 CLEANUPS := "*$(O)"
 
 all: compile
