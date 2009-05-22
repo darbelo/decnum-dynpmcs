@@ -5,6 +5,12 @@
 #define MAX_DIGITS DECNUMDIGITS
 #define MIN_DIGITS 1
 
+#define MIN_EMIN -999999999 
+#define MAX_EMIN 0 
+    
+#define MIN_EMAX 0 
+#define MAX_EMAX 999999999
+
 static PMC *DecNumContext_PMC = NULL;
 
 pmclass DecNumContext 
@@ -42,6 +48,8 @@ pmclass DecNumContext
             decContextDefault(attr->ctx, DEC_INIT_BASE);
             decContextZeroStatus(attr->ctx);
             attr->ctx->traps = 0;
+            attr->ctx->emin  = -999999;
+            attr->ctx->emax  = 999999;
 
             PObj_active_destroy_SET(SELF);
         }
@@ -74,6 +82,54 @@ pmclass DecNumContext
 
         RETURN(PMC *dest);
 
+    }
+
+    METHOD set_emin(PMC *number) {
+        INTVAL emin = VTABLE_get_integer(INTERP, number);
+        if ( emin > MAX_EMIN || emin < MIN_EMIN) {
+            Parrot_ex_throw_from_c_args(INTERP, NULL,
+                                        EXCEPTION_INVALID_OPERATION,
+                                  "Invalid minimum exponent provided!");
+        } else {
+            PARROT_DECNUMCONTEXT(SELF)->ctx->emin = emin;
+        }
+    }
+                                                                                                       
+    METHOD get_emin() {
+        INTVAL  emin;
+        PMC    *dest;
+        STRING *str;
+                                                                                                       
+        emin = PARROT_DECNUMCONTEXT(SELF)->ctx->emin;
+        dest = pmc_new(INTERP, enum_class_Integer);
+        VTABLE_set_integer_native(INTERP, dest, emin);
+                                                                                                       
+        RETURN(PMC *dest);
+                                                                                                       
+    }
+                                                                                                       
+    METHOD set_emax(PMC *number) {
+        INTVAL emax = VTABLE_get_integer(INTERP, number);
+        if ( emax > MAX_EMAX || emax < MIN_EMAX) {
+            Parrot_ex_throw_from_c_args(INTERP, NULL,
+                                        EXCEPTION_INVALID_OPERATION,
+                                  "Invalid maximum exponent provided!");
+        } else {
+            PARROT_DECNUMCONTEXT(SELF)->ctx->emax = emax;
+        }
+    }
+                                                                                                       
+    METHOD get_emax() {
+        INTVAL  emax;
+        PMC    *dest;
+        STRING *str;
+                                                                                                       
+        emax = PARROT_DECNUMCONTEXT(SELF)->ctx->emax;
+        dest = pmc_new(INTERP, enum_class_Integer);
+        VTABLE_set_integer_native(INTERP, dest, emax);
+                                                                                                       
+        RETURN(PMC *dest);
+                                                                                                       
     }
 
     METHOD get_rounding_mode() {
