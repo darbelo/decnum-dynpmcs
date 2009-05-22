@@ -22,7 +22,7 @@ pmclass DecContext
     }
 
     VTABLE void set_pointer(void *ptr) {
-        DecContext_PMC = ptr;
+        DecContext_PMC = (PMC *) ptr;
     }
 
     VTABLE void init() {
@@ -48,9 +48,8 @@ pmclass DecContext
     }
 
     VTABLE void destroy() {
-        Parrot_DecContext_attributes *attr = PMC_data(SELF);
-        mem_sys_free(attr->ctx);
-        mem_sys_free(attr);
+        mem_sys_free(PARROT_DECCONTEXT(SELF)->ctx);
+        mem_sys_free(PMC_data(SELF));
     }
 
     METHOD set_digits(PMC *number) {
