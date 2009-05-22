@@ -5,9 +5,9 @@
 #define MAX_DIGITS DECNUMDIGITS
 #define MIN_DIGITS 1
 
-static PMC *DecContext_PMC = NULL;
+static PMC *DecNumContext_PMC = NULL;
 
-pmclass DecContext 
+pmclass DecNumContext 
     singleton dynpmc 
     group decnumber 
     extends DecBase {
@@ -18,15 +18,15 @@ pmclass DecContext
     }
 
     VTABLE void *get_pointer() {
-        return DecContext_PMC;
+        return DecNumContext_PMC;
     }
 
     VTABLE void set_pointer(void *ptr) {
-        DecContext_PMC = (PMC *) ptr;
+        DecNumContext_PMC = (PMC *) ptr;
     }
 
     VTABLE void init() {
-        Parrot_DecContext_attributes *attr = NULL;
+        Parrot_DecNumContext_attributes *attr = NULL;
 
         if (decContextTestEndian(1)) {
             Parrot_ex_throw_from_c_args(INTERP, NULL, 
@@ -35,7 +35,7 @@ pmclass DecContext
         }
 
         if ( PMC_data(SELF) == NULL ) {
-            attr = mem_allocate_zeroed_typed(Parrot_DecContext_attributes);
+            attr = mem_allocate_zeroed_typed(Parrot_DecNumContext_attributes);
             PMC_data(SELF) = attr;
 
             attr->ctx = mem_allocate_typed(decContext);
@@ -48,7 +48,7 @@ pmclass DecContext
     }
 
     VTABLE void destroy() {
-        mem_sys_free(PARROT_DECCONTEXT(SELF)->ctx);
+        mem_sys_free(PARROT_DECNUMCONTEXT(SELF)->ctx);
         mem_sys_free(PMC_data(SELF));
     }
 
@@ -59,7 +59,7 @@ pmclass DecContext
                                         EXCEPTION_INVALID_OPERATION,
                                   "Invalid number of digits provided!");
         } else {
-            PARROT_DECCONTEXT(SELF)->ctx->digits = digits;
+            PARROT_DECNUMCONTEXT(SELF)->ctx->digits = digits;
         }
     }
 
@@ -68,7 +68,7 @@ pmclass DecContext
         PMC    *dest;
         STRING *str;
 
-        digits = PARROT_DECCONTEXT(SELF)->ctx->digits;
+        digits = PARROT_DECNUMCONTEXT(SELF)->ctx->digits;
         dest = pmc_new(INTERP, enum_class_Integer);
         VTABLE_set_integer_native(INTERP, dest, digits);
 
@@ -79,7 +79,7 @@ pmclass DecContext
     METHOD get_rounding_mode() {
         STRING *rounding_str;
 
-        switch (decContextGetRounding(PARROT_DECCONTEXT(SELF)->ctx) ) {
+        switch (decContextGetRounding(PARROT_DECNUMCONTEXT(SELF)->ctx) ) {
             case DEC_ROUND_CEILING:
                 rounding_str = Parrot_str_new(INTERP, 
                                               "DEC_ROUND_CEILING", 0);
@@ -159,7 +159,7 @@ pmclass DecContext
             "Invalid rounding mode provided!");
         }
 
-        decContextSetRounding(PARROT_DECCONTEXT(SELF)->ctx, rounding_enum);
+        decContextSetRounding(PARROT_DECNUMCONTEXT(SELF)->ctx, rounding_enum);
 
         Parrot_str_free_cstring(rounding_str);
 
