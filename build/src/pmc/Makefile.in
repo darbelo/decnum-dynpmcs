@@ -55,30 +55,30 @@ CLEANUPS := \
 #IF(win32):  "*.pdb" \
 #IF(win32):  "*.lib" \
   $(STAGING_DIR)/decnum$(LOAD_EXT) \
-  $(STAGING_DIR)/deccontext$(LOAD_EXT)
+  $(STAGING_DIR)/decnumcontext$(LOAD_EXT)
 
 all: staging
 
-decnum_group.c: deccontext.pmc decnum.pmc decbase.pmc
-	$(PMC2C) --library decnum_group --c deccontext.pmc decnum.pmc \
+decnum_group.c: decnumcontext.pmc decnum.pmc decbase.pmc
+	$(PMC2C) --library decnum_group --c decnumcontext.pmc decnum.pmc \
         decbase.pmc
 
 lib-decnum_group$(O): decnum_group.c
 	$(CC) $(CC_OUT)lib-decnum_group$(O)  $(INCLUDES) $(CFLAGS) \
         decnum_group.c
 
-decnum_group$(LOAD_EXT): deccontext$(O) decnum$(O) lib-decnum_group$(O)
-	 $(LD) $(LD_OUT)decnum_group$(LOAD_EXT) deccontext$(O) decnum$(O) \
+decnum_group$(LOAD_EXT): decnumcontext$(O) decnum$(O) lib-decnum_group$(O)
+	 $(LD) $(LD_OUT)decnum_group$(LOAD_EXT) decnumcontext$(O) decnum$(O) \
           lib-decnum_group$(O) decbase$(O) $(DECNUM_OBJS) $(LINKARGS)
 
-deccontext.dump: deccontext.pmc decbase$(O)
-	$(PMC2CD) deccontext.pmc
+decnumcontext.dump: decnumcontext.pmc decbase$(O)
+	$(PMC2CD) decnumcontext.pmc
 
-deccontext.c: deccontext.dump
-	$(PMC2CC) deccontext.pmc
+decnumcontext.c: decnumcontext.dump
+	$(PMC2CC) decnumcontext.pmc
 
-deccontext$(O): deccontext.c
-	$(CC) $(CC_OUT)deccontext$(O) $(INCLUDES) $(CFLAGS) deccontext.c
+decnumcontext$(O): decnumcontext.c
+	$(CC) $(CC_OUT)decnumcontext$(O) $(INCLUDES) $(CFLAGS) decnumcontext.c
 
 decnum.dump: decnum.pmc decbase$(O)
 	$(PMC2CD) decnum.pmc
