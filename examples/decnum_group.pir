@@ -3,7 +3,7 @@
 
     $P0 = new 'DecNum'
     $P1 = new 'DecNum'
-    $P2 = new 'DecContext'
+    $P2 = new 'DecNumContext'
 
     $S0 = $P0.'version'()
     say $S0

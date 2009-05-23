@@ -62,7 +62,7 @@ pmclass DecNum
         attr->number = mem_allocate_typed(decNumber);
         decNumberZero(attr->number);
 
-        context_type = pmc_type(interp, CONST_STRING(interp, "DecContext"));
+        context_type = pmc_type(interp, CONST_STRING(interp, "DecNumContext"));
         attr->context = pmc_new(interp, context_type);
 
         PMC_data(SELF) = attr;
