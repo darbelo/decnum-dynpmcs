@@ -15,8 +15,8 @@
 .end
 
 .sub DEC_ROUND_CEILING
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_CEILING")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_CEILING")
@@ -24,56 +24,56 @@
 
 
 .sub DEC_ROUND_DOWN
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_DOWN")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_DOWN")
 .end
 
 .sub DEC_ROUND_FLOOR
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_FLOOR")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_FLOOR")
 .end
 
 .sub DEC_ROUND_HALF_DOWN
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_HALF_DOWN")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_HALF_DOWN")
 .end
 
 .sub DEC_ROUND_HALF_EVEN
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_HALF_EVEN")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_HALF_EVEN")
 .end
 
 .sub DEC_ROUND_HALF_UP
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_HALF_UP")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_HALF_UP")
 .end
 
 .sub DEC_ROUND_UP
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_UP")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_UP")
 .end
 
 .sub DEC_ROUND_05UP
-    $P0 = new 'DecContext'
-    $P1 = new 'DecContext'
+    $P0 = new 'DecNumContext'
+    $P1 = new 'DecNumContext'
     $P0.'set_rounding_mode'("DEC_ROUND_05UP")
     $S0 = $P1.'get_rounding_mode'()
     is($S0, "DEC_ROUND_05UP")
