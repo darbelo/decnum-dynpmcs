@@ -105,6 +105,52 @@ pmclass DecNum
         return pstr;
     }
 
+    VTABLE void set_integer_native(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+
+        decNumberFromString(PARROT_DECNUM(SELF)->number,
+                            cstr, ctxt );
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }  
+
+    VTABLE INTVAL get_integer() {
+        decNumber *num = PARROT_DECNUM(SELF)->number;
+        char      *cstr = mem_allocate_n_typed(num->digits + 15, char);
+        STRING    *pstr;
+
+        decNumberToString(num, cstr);
+        pstr = Parrot_str_new(INTERP, cstr, 0);
+        mem_sys_free(cstr);
+
+        return Parrot_str_to_int(INTERP, pstr);
+    }
+
+    VTABLE void set_number_native(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+
+        decNumberFromString(PARROT_DECNUM(SELF)->number,
+                            cstr, ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }  
+
+    VTABLE FLOATVAL get_number() {
+        decNumber *num = PARROT_DECNUM(SELF)->number;
+        char      *cstr = mem_allocate_n_typed(num->digits + 15, char);
+        STRING    *pstr;
+
+        decNumberToString(num, cstr);
+        pstr = Parrot_str_new(INTERP, cstr, 0);
+        mem_sys_free(cstr);
+
+        return Parrot_str_to_num(INTERP, pstr);
+    }
+
     VTABLE PMC *clone() {
         PMC *clone = pmc_new(INTERP, SELF->vtable->base_type);
 
