@@ -114,6 +114,30 @@ pmclass DecNum
         return clone;
     }
 
+    VTABLE void increment() {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decNumber   one;
+
+        decNumberAdd(PARROT_DECNUM(SELF)->number, 
+                     PARROT_DECNUM(SELF)->number, 
+                     decNumberFromString(&one , "1", ctxt),
+                     ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+
+    }
+
+    VTABLE void decrement() {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decNumber   one;
+
+        decNumberSubtract(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&one , "1", ctxt),
+                          ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+
+    }
+
     MULTI PMC *add(DecNum value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
@@ -121,6 +145,23 @@ pmclass DecNum
                      PARROT_DECNUM(SELF)->number, 
                      PARROT_DECNUM(value)->number, 
                      ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
+    MULTI PMC *add_int(Integer value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberAdd(PARROT_DECNUM(dest)->number, 
+                     PARROT_DECNUM(SELF)->number, 
+                     decNumberFromString(&number , cstr, ctxt),
+                     ctxt);
+        Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
@@ -138,6 +179,23 @@ pmclass DecNum
         return dest;
     }
 
+    MULTI PMC *subtract_int(Integer value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberSubtract(PARROT_DECNUM(dest)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
     MULTI PMC *multiply(DecNum value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
@@ -145,6 +203,23 @@ pmclass DecNum
                           PARROT_DECNUM(SELF)->number,
                           PARROT_DECNUM(value)->number, 
                           ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
+    MULTI PMC *multiply_int(Integer value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberMultiply(PARROT_DECNUM(dest)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
@@ -162,5 +237,21 @@ pmclass DecNum
         return dest;
     }
 
+    MULTI PMC *divide_int(Integer value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberDivide(PARROT_DECNUM(dest)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
 
 }
