@@ -196,9 +196,9 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI PMC *add_int(Integer value, PMC *dest) {
+    VTABLE PMC *add_int(INTVAL value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
@@ -225,9 +225,9 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI PMC *subtract_int(Integer value, PMC *dest) {
+    VTABLE PMC *subtract_int(INTVAL value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
@@ -254,9 +254,9 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI PMC *multiply_int(Integer value, PMC *dest) {
+    VTABLE PMC *multiply_int(INTVAL value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
@@ -283,9 +283,9 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI PMC *divide_int(Integer value, PMC *dest) {
+    VTABLE PMC *divide_int(INTVAL value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        STRING     *pstr = VTABLE_get_string(INTERP, value);
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
