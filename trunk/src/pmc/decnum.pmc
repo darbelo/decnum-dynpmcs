@@ -230,6 +230,44 @@ pmclass DecNum
         return dest;
     }
 
+    MULTI void i_add(DecNum value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+
+        decNumberAdd(PARROT_DECNUM(SELF)->number, 
+                     PARROT_DECNUM(SELF)->number, 
+                     PARROT_DECNUM(value)->number, 
+                     ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_add_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberAdd(PARROT_DECNUM(SELF)->number, 
+                     PARROT_DECNUM(SELF)->number, 
+                     decNumberFromString(&number , cstr, ctxt),
+                     ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_add_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberAdd(PARROT_DECNUM(SELF)->number, 
+                     PARROT_DECNUM(SELF)->number, 
+                     decNumberFromString(&number , cstr, ctxt),
+                     ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
     MULTI PMC *subtract(DecNum value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
@@ -274,6 +312,44 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
+    }
+
+    MULTI void i_subtract(DecNum value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+
+        decNumberSubtract(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number,
+                          PARROT_DECNUM(value)->number, 
+                          ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_subtract_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberSubtract(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_subtract_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberSubtract(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
     }
 
     MULTI PMC *multiply(DecNum value, PMC* dest) {
@@ -322,6 +398,44 @@ pmclass DecNum
         return dest;
     }
 
+    MULTI void i_multiply(DecNum value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+
+        decNumberMultiply(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number,
+                          PARROT_DECNUM(value)->number, 
+                          ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_multiply_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberMultiply(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_multiply_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberMultiply(PARROT_DECNUM(SELF)->number, 
+                          PARROT_DECNUM(SELF)->number, 
+                          decNumberFromString(&number , cstr, ctxt),
+                          ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
     MULTI PMC *divide(DecNum value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
@@ -350,6 +464,7 @@ pmclass DecNum
 
         return dest;
     }
+
     VTABLE PMC *divide_float(FLOATVAL value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         STRING     *pstr = Parrot_str_from_num(INTERP, value);
@@ -365,6 +480,44 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
 
         return dest;
+    }
+
+    MULTI void i_divide(DecNum value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+
+        decNumberDivide(PARROT_DECNUM(SELF)->number, 
+                        PARROT_DECNUM(SELF)->number,
+                        PARROT_DECNUM(value)->number, 
+                        ctxt);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_divide_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberDivide(PARROT_DECNUM(SELF)->number, 
+                        PARROT_DECNUM(SELF)->number, 
+                        decNumberFromString(&number , cstr, ctxt),
+                        ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_divide_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberDivide(PARROT_DECNUM(SELF)->number, 
+                        PARROT_DECNUM(SELF)->number, 
+                        decNumberFromString(&number , cstr, ctxt),
+                        ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
     }
 
 }
