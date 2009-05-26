@@ -184,16 +184,32 @@ pmclass DecNum
 
     }
 
-    MULTI PMC *add(DecNum value, PMC* dest) {
+    VTABLE PMC *add(PMC *value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        dest = new_if_not_a_decnum(INTERP, SELF, dest);
-        decNumberAdd(PARROT_DECNUM(dest)->number, 
-                     PARROT_DECNUM(SELF)->number, 
-                     PARROT_DECNUM(value)->number, 
-                     ctxt);
-        check_flags_and_throw(INTERP, ctxt);
 
-        return dest;
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberAdd(PARROT_DECNUM(dest)->number,
+                         PARROT_DECNUM(SELF)->number,
+                         PARROT_DECNUM(value)->number,
+                         ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return dest;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_add_int(INTERP, SELF,
+                                      VTABLE_get_integer(INTERP, value),
+                                      dest);
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_add_float(INTERP, SELF,
+                                        VTABLE_get_number(INTERP,value),
+                                        dest);
+                break;
+        }
     }
 
     VTABLE PMC *add_int(INTVAL value, PMC *dest) {
@@ -230,14 +246,28 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI void i_add(DecNum value) {
+    VTABLE void i_add(PMC *value) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decNumberAdd(PARROT_DECNUM(SELF)->number, 
-                     PARROT_DECNUM(SELF)->number, 
-                     PARROT_DECNUM(value)->number, 
-                     ctxt);
-        check_flags_and_throw(INTERP, ctxt);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberAdd(PARROT_DECNUM(SELF)->number,
+                         PARROT_DECNUM(SELF)->number,
+                         PARROT_DECNUM(value)->number,
+                         ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                VTABLE_i_add_int(INTERP, SELF,
+                                 VTABLE_get_integer(INTERP, value));
+                break;
+            case enum_class_Float:
+            default:
+                VTABLE_i_add_float(INTERP, SELF,
+                                   VTABLE_get_number(INTERP, value));
+                break;
+        }
     }
 
     VTABLE void i_add_int(INTVAL value) {
@@ -268,16 +298,35 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
     }
 
-    MULTI PMC *subtract(DecNum value, PMC* dest) {
+    VTABLE PMC *subtract(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        dest = new_if_not_a_decnum(INTERP, SELF, dest);
-        decNumberSubtract(PARROT_DECNUM(dest)->number, 
-                          PARROT_DECNUM(SELF)->number,
-                          PARROT_DECNUM(value)->number, 
-                          ctxt);
-        check_flags_and_throw(INTERP, ctxt);
 
-        return dest;
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberSubtract(PARROT_DECNUM(dest)->number,
+                              PARROT_DECNUM(SELF)->number,
+                              PARROT_DECNUM(value)->number,
+                              ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return dest;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_subtract_int(INTERP, SELF,
+                                           VTABLE_get_integer(INTERP,
+                                                              value),
+                                           dest);
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_subtract_float(INTERP, SELF,
+                                             VTABLE_get_number(INTERP,
+                                                               value),
+                                             dest);
+                break;
+        }
+
     }
 
     VTABLE PMC *subtract_int(INTVAL value, PMC *dest) {
@@ -314,14 +363,27 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI void i_subtract(DecNum value) {
+    VTABLE void i_subtract(PMC *value) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decNumberSubtract(PARROT_DECNUM(SELF)->number, 
-                          PARROT_DECNUM(SELF)->number,
-                          PARROT_DECNUM(value)->number, 
-                          ctxt);
-        check_flags_and_throw(INTERP, ctxt);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberSubtract(PARROT_DECNUM(SELF)->number,
+                              PARROT_DECNUM(SELF)->number,
+                              PARROT_DECNUM(value)->number,
+                              ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+        }
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                VTABLE_i_subtract_int(INTERP, SELF,
+                                      VTABLE_get_integer(INTERP,value));
+                break;
+            case enum_class_Float:
+            default:
+                VTABLE_i_subtract_float(INTERP, SELF,
+                                       VTABLE_get_number(INTERP,value));
+                break;
+        }
     }
 
     VTABLE void i_subtract_int(INTVAL value) {
@@ -352,16 +414,34 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
     }
 
-    MULTI PMC *multiply(DecNum value, PMC* dest) {
+    VTABLE PMC *multiply(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        dest = new_if_not_a_decnum(INTERP, SELF, dest);
-        decNumberMultiply(PARROT_DECNUM(dest)->number, 
-                          PARROT_DECNUM(SELF)->number,
-                          PARROT_DECNUM(value)->number, 
-                          ctxt);
-        check_flags_and_throw(INTERP, ctxt);
 
-        return dest;
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberMultiply(PARROT_DECNUM(dest)->number,
+                              PARROT_DECNUM(SELF)->number,
+                              PARROT_DECNUM(value)->number,
+                              ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return dest;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_multiply_int(INTERP, SELF,
+                                           VTABLE_get_integer(INTERP,
+                                                              value),
+                                           dest);
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_multiply_float(INTERP, SELF,
+                                             VTABLE_get_number(INTERP,
+                                                               value),
+                                             dest);
+                break;
+        }
     }
 
     VTABLE PMC *multiply_int(INTVAL value, PMC *dest) {
@@ -388,8 +468,8 @@ pmclass DecNum
         decNumber   number;
 
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
-        decNumberMultiply(PARROT_DECNUM(dest)->number, 
-                          PARROT_DECNUM(SELF)->number, 
+        decNumberMultiply(PARROT_DECNUM(dest)->number,
+                          PARROT_DECNUM(SELF)->number,
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
@@ -398,14 +478,28 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI void i_multiply(DecNum value) {
+    VTABLE void i_multiply(PMC *value) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decNumberMultiply(PARROT_DECNUM(SELF)->number, 
-                          PARROT_DECNUM(SELF)->number,
-                          PARROT_DECNUM(value)->number, 
-                          ctxt);
-        check_flags_and_throw(INTERP, ctxt);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberMultiply(PARROT_DECNUM(SELF)->number, 
+                              PARROT_DECNUM(SELF)->number,
+                              PARROT_DECNUM(value)->number, 
+                              ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                VTABLE_i_multiply_int(INTERP, SELF,
+                                      VTABLE_get_integer(INTERP,value));
+                break;
+            case enum_class_Float:
+            default:
+                VTABLE_i_multiply_float(INTERP, SELF,
+                                       VTABLE_get_number(INTERP,value));
+                break;
+        }
     }
 
     VTABLE void i_multiply_int(INTVAL value) {
@@ -436,16 +530,34 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
     }
 
-    MULTI PMC *divide(DecNum value, PMC* dest) {
+    VTABLE PMC *divide(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
-        decNumberDivide(PARROT_DECNUM(dest)->number, 
-                        PARROT_DECNUM(SELF)->number,
-                        PARROT_DECNUM(value)->number, 
-                        ctxt);
-        check_flags_and_throw(INTERP, ctxt);
 
-        return dest;
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivide(PARROT_DECNUM(dest)->number,
+                            PARROT_DECNUM(SELF)->number,
+                            PARROT_DECNUM(value)->number,
+                            ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return dest;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_divide_int(INTERP, SELF,
+                                         VTABLE_get_integer(INTERP,
+                                                            value),
+                                         dest);
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_divide_float(INTERP, SELF,
+                                           VTABLE_get_number(INTERP,
+                                                             value),
+                                           dest);
+                break;
+        }
     }
 
     VTABLE PMC *divide_int(INTVAL value, PMC *dest) {
@@ -455,8 +567,8 @@ pmclass DecNum
         decNumber   number;
 
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
-        decNumberDivide(PARROT_DECNUM(dest)->number, 
-                          PARROT_DECNUM(SELF)->number, 
+        decNumberDivide(PARROT_DECNUM(dest)->number,
+                          PARROT_DECNUM(SELF)->number,
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
@@ -482,14 +594,29 @@ pmclass DecNum
         return dest;
     }
 
-    MULTI void i_divide(DecNum value) {
+    VTABLE void i_divide(PMC* value) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decNumberDivide(PARROT_DECNUM(SELF)->number, 
-                        PARROT_DECNUM(SELF)->number,
-                        PARROT_DECNUM(value)->number, 
-                        ctxt);
-        check_flags_and_throw(INTERP, ctxt);
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivide(PARROT_DECNUM(SELF)->number, 
+                            PARROT_DECNUM(SELF)->number,
+                            PARROT_DECNUM(value)->number, 
+                            ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                VTABLE_i_divide_int(INTERP, SELF,
+                                    VTABLE_get_integer(INTERP, value));
+                break;
+            case enum_class_Float:
+            default:
+                VTABLE_i_divide_float(INTERP, SELF,
+                                      VTABLE_get_number(INTERP, value));
+                break;
+        }
+
     }
 
     VTABLE void i_divide_int(INTVAL value) {
