@@ -647,4 +647,126 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
     }
 
+    VTABLE PMC *floor_divide(PMC *value, PMC* dest) {
+        decContext *ctxt = get_context(PARROT_DECNUM(SELF)->context);
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivideInteger(PARROT_DECNUM(dest)->number,
+                                   PARROT_DECNUM(SELF)->number,
+                                   PARROT_DECNUM(value)->number,
+                                   ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return dest;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_floor_divide_int(INTERP, SELF,
+                                              VTABLE_get_integer(INTERP,
+                                                                 value),
+                                         dest);
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_floor_divide_float(INTERP, SELF,
+                                               VTABLE_get_number(INTERP,
+                                                                 value),
+                                           dest);
+                break;
+        }
+    }
+
+    VTABLE PMC *floor_divide_int(INTVAL value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberDivideInteger(PARROT_DECNUM(dest)->number,
+                               PARROT_DECNUM(SELF)->number,
+                               decNumberFromString(&number , cstr,
+                                                   ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
+    VTABLE PMC *floor_divide_float(FLOATVAL value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberDivideInteger(PARROT_DECNUM(dest)->number, 
+                               PARROT_DECNUM(SELF)->number, 
+                               decNumberFromString(&number , cstr,
+                                                   ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
+    VTABLE void i_floor_divide(PMC* value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+
+        if ( value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivideInteger(PARROT_DECNUM(SELF)->number,
+                                   PARROT_DECNUM(SELF)->number,
+                                   PARROT_DECNUM(value)->number,
+                                   ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                VTABLE_i_floor_divide_int(INTERP, SELF,
+                                     VTABLE_get_integer(INTERP, value));
+                break;
+            case enum_class_Float:
+            default:
+                VTABLE_i_floor_divide_float(INTERP, SELF,
+                                      VTABLE_get_number(INTERP, value));
+                break;
+        }
+
+    }
+
+    VTABLE void i_floor_divide_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberDivideInteger(PARROT_DECNUM(SELF)->number, 
+                               PARROT_DECNUM(SELF)->number, 
+                               decNumberFromString(&number , cstr, 
+                                                   ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_floor_divide_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberDivideInteger(PARROT_DECNUM(SELF)->number, 
+                               PARROT_DECNUM(SELF)->number, 
+                               decNumberFromString(&number , cstr, 
+                                                   ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
 }
