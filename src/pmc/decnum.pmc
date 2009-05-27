@@ -773,7 +773,6 @@ pmclass DecNum
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         decNumber   temp;
         char       *cstr;
-        STRING     *pstr;
 
         if (value->vtable->base_type == SELF->vtable->base_type) {
             decNumberCopy(&temp, PARROT_DECNUM(value)->number);
@@ -805,12 +804,24 @@ pmclass DecNum
                                         EXCEPTION_INVALID_OPERATION,
                                         "Tried to compare a NaN.");
 
-        cstr = mem_allocate_n_typed(temp.digits + 15, char);
-        decNumberToString(&temp, cstr);
-        pstr = Parrot_str_new(INTERP, cstr, 0);
-        mem_sys_free(cstr);
+        return decNumberToInt32(&temp, ctxt);
+    }
 
-        return Parrot_str_to_int(INTERP, pstr);
+    METHOD ieee754_cmp(PMC *value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decNumber   temp;
+        INTVAL      result;
+        
+        if (value->vtable->base_type != SELF->vtable->base_type)
+            Parrot_ex_throw_from_c_args(interp, NULL, 
+                                        EXCEPTION_INVALID_OPERATION,
+                                        "Argument is not a DecNum.");
+
+        decNumberCompareTotal(&temp, PARROT_DECNUM(SELF)->number,
+                              PARROT_DECNUM(value)->number, ctxt);
+        result = decNumberToInt32(&temp, ctxt);
+        RETURN(INTVAL result);
+
     }
 
 }
