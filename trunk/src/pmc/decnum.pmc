@@ -824,4 +824,32 @@ pmclass DecNum
 
     }
 
+    VTABLE PMC *absolute(PMC *dest) {
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberCopyAbs(PARROT_DECNUM(dest)->number,
+                         PARROT_DECNUM(SELF)->number);
+
+        return dest;
+    }
+
+
+    VTABLE void i_absolute() {
+        decNumberCopyAbs(PARROT_DECNUM(SELF)->number,
+                         PARROT_DECNUM(SELF)->number);
+    }
+
+    VTABLE PMC *neg(PMC *dest) {
+        dest = new_if_not_a_decnum(INTERP, SELF, dest);
+        decNumberCopyNegate(PARROT_DECNUM(dest)->number,
+                            PARROT_DECNUM(SELF)->number);
+
+        return dest;
+    }
+
+
+    VTABLE void i_neg() {
+        decNumberCopyNegate(PARROT_DECNUM(SELF)->number,
+                            PARROT_DECNUM(SELF)->number);
+    }
+
 }
