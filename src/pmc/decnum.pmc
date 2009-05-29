@@ -824,6 +824,10 @@ pmclass DecNum
 
     }
 
+    VTABLE INTVAL is_equal(PMC *value) {
+        return !VTABLE_cmp(INTERP, SELF, value);
+    }
+
     VTABLE PMC *absolute(PMC *dest) {
         dest = new_if_not_a_decnum(INTERP, SELF, dest);
         decNumberCopyAbs(PARROT_DECNUM(dest)->number,
@@ -831,7 +835,6 @@ pmclass DecNum
 
         return dest;
     }
-
 
     VTABLE void i_absolute() {
         decNumberCopyAbs(PARROT_DECNUM(SELF)->number,
