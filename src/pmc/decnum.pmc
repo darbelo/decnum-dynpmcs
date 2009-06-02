@@ -181,7 +181,7 @@ pmclass DecNum
     VTABLE PMC *add(PMC *value, PMC *dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, value, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         if ( value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberAdd(PARROT_DECNUM(dest)->number,
                          PARROT_DECNUM(SELF)->number,
@@ -212,7 +212,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberAdd(PARROT_DECNUM(dest)->number, 
                      PARROT_DECNUM(SELF)->number, 
                      decNumberFromString(&number , cstr, ctxt),
@@ -229,7 +229,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberAdd(PARROT_DECNUM(dest)->number, 
                      PARROT_DECNUM(SELF)->number, 
                      decNumberFromString(&number , cstr, ctxt),
@@ -295,7 +295,7 @@ pmclass DecNum
     VTABLE PMC *subtract(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, value, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         if ( value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberSubtract(PARROT_DECNUM(dest)->number,
                               PARROT_DECNUM(SELF)->number,
@@ -329,7 +329,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberSubtract(PARROT_DECNUM(dest)->number, 
                           PARROT_DECNUM(SELF)->number, 
                           decNumberFromString(&number , cstr, ctxt),
@@ -346,7 +346,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberSubtract(PARROT_DECNUM(dest)->number, 
                           PARROT_DECNUM(SELF)->number, 
                           decNumberFromString(&number , cstr, ctxt),
@@ -411,7 +411,7 @@ pmclass DecNum
     VTABLE PMC *multiply(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, value, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         if ( value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberMultiply(PARROT_DECNUM(dest)->number,
                               PARROT_DECNUM(SELF)->number,
@@ -444,7 +444,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberMultiply(PARROT_DECNUM(dest)->number, 
                           PARROT_DECNUM(SELF)->number, 
                           decNumberFromString(&number , cstr, ctxt),
@@ -461,7 +461,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberMultiply(PARROT_DECNUM(dest)->number,
                           PARROT_DECNUM(SELF)->number,
                           decNumberFromString(&number , cstr, ctxt),
@@ -526,7 +526,7 @@ pmclass DecNum
 
     VTABLE PMC *divide(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, value, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
 
         if ( value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberDivide(PARROT_DECNUM(dest)->number,
@@ -560,7 +560,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberDivide(PARROT_DECNUM(dest)->number,
                           PARROT_DECNUM(SELF)->number,
                           decNumberFromString(&number , cstr, ctxt),
@@ -577,7 +577,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberDivide(PARROT_DECNUM(dest)->number, 
                           PARROT_DECNUM(SELF)->number, 
                           decNumberFromString(&number , cstr, ctxt),
@@ -643,7 +643,7 @@ pmclass DecNum
 
     VTABLE PMC *floor_divide(PMC *value, PMC* dest) {
         decContext *ctxt = get_context(PARROT_DECNUM(SELF)->context);
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, value, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
 
         if ( value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberDivideInteger(PARROT_DECNUM(dest)->number,
@@ -677,7 +677,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberDivideInteger(PARROT_DECNUM(dest)->number,
                                PARROT_DECNUM(SELF)->number,
                                decNumberFromString(&number , cstr,
@@ -695,7 +695,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberDivideInteger(PARROT_DECNUM(dest)->number, 
                                PARROT_DECNUM(SELF)->number, 
                                decNumberFromString(&number , cstr,
@@ -766,7 +766,7 @@ pmclass DecNum
     VTABLE PMC *pow(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, value, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         if ( value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberPower(PARROT_DECNUM(dest)->number,
                            PARROT_DECNUM(SELF)->number,
@@ -798,7 +798,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberPower(PARROT_DECNUM(dest)->number,
                        PARROT_DECNUM(SELF)->number,
                        decNumberFromString(&number , cstr, ctxt),
@@ -815,7 +815,7 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberPower(PARROT_DECNUM(dest)->number,
                        PARROT_DECNUM(SELF)->number,
                        decNumberFromString(&number , cstr, ctxt),
@@ -886,7 +886,7 @@ pmclass DecNum
     }
 
     VTABLE PMC *absolute(PMC *dest) {
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberCopyAbs(PARROT_DECNUM(dest)->number,
                          PARROT_DECNUM(SELF)->number);
 
@@ -899,7 +899,7 @@ pmclass DecNum
     }
 
     VTABLE PMC *neg(PMC *dest) {
-        dest = Parrot_pmc_try_reuse(INTERP, SELF, NULL, dest);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
         decNumberCopyNegate(PARROT_DECNUM(dest)->number,
                             PARROT_DECNUM(SELF)->number);
 
