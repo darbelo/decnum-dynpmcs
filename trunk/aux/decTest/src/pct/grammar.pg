@@ -1,0 +1,58 @@
+grammar decTest::Grammar is PCT::Grammar;
+
+rule TOP {
+    <statement>*
+    [ $ || <panic: 'Syntax error'> ]
+    {*}
+}
+
+token ws {
+    <!ww>
+    [ '--' \N* \n? | \s+ ]*
+}
+
+rule statement {
+    | <test> 
+    | <context> 
+}
+
+rule test { :i
+    <testname> <operation> <number> <number>? '->' <number> [ <status> ]*
+}
+
+token testname {
+    \w+
+}
+
+token operation {
+    [ 'add' | 'multiply' | 'subtract' | 'divide'| 'divideint' | 'minus' | 'apply' | 'exp' ]
+}
+
+token number { :i
+    ['\'' | '"']?  ['+'|'-']? [ 
+        [ [\d+ '.'? \d*] | ['.'? \d+] ] ['e' ['+'|'-']? \d+ ]? 
+        | [ 'inf' 'inity'? ]
+        | [ 's'? 'nan' \d* ]
+        | '#'
+    ] ['\'' | '"']?
+
+}
+
+token status { :i
+    | 'inexact' | 'rounded' | 'invalid_operation' | 'overflow'
+    | 'underflow' | 'subnormal' | 'clamped' | 'invalid_context'
+}
+
+rule context {
+    <context_field> [<number> | <rounding_mode>]
+}
+
+token context_field { :i
+    [ 'clamp' | 'maxexponent' | 'minexponent' | 'precision' | 'version'
+      | 'rounding' | 'extended'
+    ] ':'
+}
+
+token rounding_mode { :i
+    'half_up' | 'half_down' | 'half_even' | 'down' | 'up' | 'floor' | 'ceiling'
+}
