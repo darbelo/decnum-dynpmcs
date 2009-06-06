@@ -84,11 +84,12 @@ pmclass DecNum
     VTABLE STRING *get_string() {
         char      *cstr;
         STRING    *pstr;
-        decNumber *num;
+        decNumber  num;
 
-        num = PARROT_DECNUM(SELF)->number;
-        cstr = mem_allocate_n_typed(num->digits + 15, char);
-        decNumberToString(num, cstr);
+        decNumberReduce(&num, PARROT_DECNUM(SELF)->number,
+                        get_context(PARROT_DECNUM(SELF)->context));
+        cstr = mem_allocate_n_typed(num.digits + 15, char);
+        decNumberToString(&num, cstr);
         pstr = Parrot_str_new(INTERP, cstr, 0);
         mem_sys_free(cstr);
 
