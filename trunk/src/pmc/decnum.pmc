@@ -764,6 +764,125 @@ pmclass DecNum
         check_flags_and_throw(INTERP, ctxt);
     }
 
+    VTABLE PMC *modulus(PMC *value, PMC* dest) {
+        decContext *ctxt = get_context(PARROT_DECNUM(SELF)->context);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
+
+        if (value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivideInteger(PARROT_DECNUM(dest)->number,
+                                   PARROT_DECNUM(SELF)->number,
+                                   PARROT_DECNUM(value)->number,
+                                   ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return dest;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_modulus_int(INTERP, SELF,
+                                          VTABLE_get_integer(INTERP,
+                                                             value),
+                                          dest);
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_modulus_float(INTERP, SELF,
+                                            VTABLE_get_number(INTERP,
+                                                              value),
+                                            dest);
+                break;
+        }
+    }
+
+    VTABLE PMC *modulus_int(INTVAL value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decNumberRemainder(PARROT_DECNUM(dest)->number,
+                           PARROT_DECNUM(SELF)->number,
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
+    VTABLE PMC *modulus_float(FLOATVAL value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decNumberRemainder(PARROT_DECNUM(dest)->number, 
+                           PARROT_DECNUM(SELF)->number, 
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+
+        return dest;
+    }
+
+    VTABLE void i_modulus(PMC *value) {
+        decContext *ctxt = get_context(PARROT_DECNUM(SELF)->context);
+
+        if (value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivideInteger(PARROT_DECNUM(SELF)->number,
+                                   PARROT_DECNUM(SELF)->number,
+                                   PARROT_DECNUM(value)->number,
+                                   ctxt);
+            check_flags_and_throw(INTERP, ctxt);
+            return;
+        }
+
+        switch (value->vtable->base_type) {
+            case enum_class_Integer:
+                return VTABLE_i_modulus_int(INTERP, SELF,
+                                            VTABLE_get_integer(INTERP,
+                                                               value));
+                break;
+            case enum_class_Float:
+            default:
+                return VTABLE_i_modulus_float(INTERP, SELF,
+                                              VTABLE_get_number(INTERP,
+                                                                value));
+                break;
+        }
+    }
+
+    VTABLE void i_modulus_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberRemainder(PARROT_DECNUM(SELF)->number,
+                           PARROT_DECNUM(SELF)->number,
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
+    VTABLE void i_modulus_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   number;
+
+        decNumberRemainder(PARROT_DECNUM(SELF)->number, 
+                           PARROT_DECNUM(SELF)->number, 
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt);
+    }
+
     VTABLE PMC *pow(PMC *value, PMC* dest) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
