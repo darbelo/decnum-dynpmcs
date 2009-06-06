@@ -931,6 +931,26 @@ pmclass DecNum
         RETURN(PMC *dest);
     }
 
+    METHOD ln() {
+        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        
+        decNumberLn(PARROT_DECNUM(dest)->number,
+                    PARROT_DECNUM(SELF)->number,
+                    get_context(PARROT_DECNUM(SELF)->context));
+
+        RETURN(PMC *dest);
+    }
+
+    METHOD log10() {
+        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        
+        decNumberLog10(PARROT_DECNUM(dest)->number,
+                       PARROT_DECNUM(SELF)->number,
+                       get_context(PARROT_DECNUM(SELF)->context));
+
+        RETURN(PMC *dest);
+    }
+
     METHOD exp() {
         PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
