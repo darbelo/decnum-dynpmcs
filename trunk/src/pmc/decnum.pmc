@@ -913,6 +913,21 @@ pmclass DecNum
                             PARROT_DECNUM(SELF)->number);
     }
 
+    METHOD get_eng_string() {
+        char      *cstr;
+        STRING    *pstr;
+        decNumber  num;
+
+        decNumberReduce(&num, PARROT_DECNUM(SELF)->number,
+                        get_context(PARROT_DECNUM(SELF)->context));
+        cstr = mem_allocate_n_typed(num.digits + 15, char);
+        decNumberToEngString(&num, cstr);
+        pstr = Parrot_str_new(INTERP, cstr, 0);
+        mem_sys_free(cstr);
+
+        RETURN(STRING *pstr)
+    }
+
     METHOD multiply_add(PMC *times, PMC *plus) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
         PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
