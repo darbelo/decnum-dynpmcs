@@ -912,4 +912,23 @@ pmclass DecNum
                             PARROT_DECNUM(SELF)->number);
     }
 
+    METHOD multiply_add(PMC *times, PMC *plus) {
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        
+        if ( (times->vtable->base_type != SELF->vtable->base_type)
+            || (plus->vtable->base_type != SELF->vtable->base_type) )
+            Parrot_ex_throw_from_c_args(interp, NULL,
+                                        EXCEPTION_INVALID_OPERATION,
+                                        "Argument is not a DecNum.");
+
+        decNumberFMA(PARROT_DECNUM(dest)->number,
+                     PARROT_DECNUM(SELF)->number,
+                     PARROT_DECNUM(times)->number,
+                     PARROT_DECNUM(plus)->number, ctxt);
+
+        RETURN(PMC *dest);
+
+    }
+
 }
