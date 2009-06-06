@@ -928,7 +928,26 @@ pmclass DecNum
                      PARROT_DECNUM(plus)->number, ctxt);
 
         RETURN(PMC *dest);
+    }
 
+    METHOD exp() {
+        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        
+        decNumberExp(PARROT_DECNUM(dest)->number,
+                     PARROT_DECNUM(SELF)->number,
+                     get_context(PARROT_DECNUM(SELF)->context));
+
+        RETURN(PMC *dest);
+    }
+
+    METHOD sqrt() {
+        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        
+        decNumberSquareRoot(PARROT_DECNUM(dest)->number,
+                            PARROT_DECNUM(SELF)->number,
+                            get_context(PARROT_DECNUM(SELF)->context));
+
+        RETURN(PMC *dest);
     }
 
 }
