@@ -11,6 +11,51 @@
 #define MIN_EMAX 0 
 #define MAX_EMAX 999999999
 
+static STRING *
+rounding_mode_to_str(PARROT_INTERP, struct decContext *ctx) {
+    STRING *rounding_str;
+
+    switch (decContextGetRounding(ctx)) {
+        case DEC_ROUND_CEILING:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_CEILING", 0);
+            break;
+        case DEC_ROUND_UP:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_UP", 0);
+            break;
+        case DEC_ROUND_HALF_UP:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_HALF_UP", 0);
+            break;
+        case DEC_ROUND_HALF_EVEN:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_HALF_EVEN", 0);
+            break;
+        case DEC_ROUND_HALF_DOWN:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_HALF_DOWN", 0);
+            break;
+        case DEC_ROUND_DOWN:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_DOWN", 0);
+            break;
+        case DEC_ROUND_FLOOR:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_FLOOR", 0);
+            break;
+        case DEC_ROUND_05UP:
+            rounding_str = Parrot_str_new(interp,
+                                          "DEC_ROUND_05UP", 0);
+            break;
+        default: /* Sould never happen*/
+            Parrot_ex_throw_from_c_args(interp, NULL,
+                                        EXCEPTION_INVALID_OPERATION,
+            "Invalid rounding mode found on the decContext structure!");
+    }
+    return rounding_str;
+}
+
 static PMC *DecNumContext_PMC = NULL;
 
 pmclass DecNumContext 
@@ -151,49 +196,10 @@ pmclass DecNumContext
     }
 
     METHOD get_rounding_mode() {
-        STRING *rounding_str;
+        STRING *s = rounding_mode_to_str(INTERP,
+                                       PARROT_DECNUMCONTEXT(SELF)->ctx);
 
-        switch (decContextGetRounding(PARROT_DECNUMCONTEXT(SELF)->ctx) ) {
-            case DEC_ROUND_CEILING:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_CEILING", 0);
-                break;
-            case DEC_ROUND_UP:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_UP", 0);
-                break;
-            case DEC_ROUND_HALF_UP:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_HALF_UP", 0);
-                break;
-            case DEC_ROUND_HALF_EVEN:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_HALF_EVEN", 0);
-                break;
-            case DEC_ROUND_HALF_DOWN:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_HALF_DOWN", 0);
-                break;
-            case DEC_ROUND_DOWN:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_DOWN", 0);
-                break;
-            case DEC_ROUND_FLOOR:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_FLOOR", 0);
-                break;
-            case DEC_ROUND_05UP:
-                rounding_str = Parrot_str_new(INTERP, 
-                                              "DEC_ROUND_05UP", 0);
-                break;
-            default: /* Sould never happen*/
-                Parrot_ex_throw_from_c_args(INTERP, NULL, 
-                                            EXCEPTION_INVALID_OPERATION,
-            "Invalid rounding mode found on the decContext structure!");
-        }
-
-        RETURN(STRING *rounding_str);
-
+        RETURN(STRING *s);
     }
 
     METHOD set_rounding_mode(STRING *rounding) {
