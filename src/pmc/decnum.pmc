@@ -71,6 +71,20 @@ pmclass DecNum
                                   (PObj*)PARROT_DECNUM(SELF)->context);
     }
 
+    VTABLE void freeze(visit_info *info) {
+        STRING *s;
+        SUPER(info);
+        s = VTABLE_get_string(INTERP, SELF);
+        VTABLE_push_string(INTERP, info->image_io, s);
+    }
+
+    VTABLE void thaw(visit_info *info) {
+        STRING *s;
+        SUPER(info);
+        s = VTABLE_shift_string(INTERP, info->image_io);
+        VTABLE_set_string_native(INTERP, SELF, s);
+    }
+
     VTABLE void set_string_native(STRING *value) {
         char * const str = Parrot_str_to_cstring(INTERP, value);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
