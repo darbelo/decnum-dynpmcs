@@ -4,12 +4,13 @@
 .include 'test_more.pir'
 
     $P0 = loadlib 'decnum_group'
-    plan(5)
+    plan(6)
     'digits'()
     'emax'()
     'emin'()
     'clamp'()
     'rounding_mode'()
+    'decnum'()
 .end
 
 .sub digits
@@ -60,6 +61,15 @@
     $P2 = thaw $S0
     $S1 = $P1.'get_rounding_mode'()
     is("DEC_ROUND_UP", $S1)
+.end
+
+.sub decnum
+    $P1 = new 'DecNum'
+    $P1 = "163216854760E-16"
+    $S0 = freeze $P1
+    $P2 = thaw $S0
+    $I0 =  $P1 == $P2
+    ok($I0)
 .end
 
 # Local Variables:
