@@ -56,6 +56,49 @@ rounding_mode_to_str(PARROT_INTERP, struct decContext *ctx) {
     return rounding_str;
 }
 
+static enum rounding
+str_to_rounding_mode(PARROT_INTERP, STRING *round) {
+        char *rounding_str = Parrot_str_to_cstring(interp, round);
+        enum rounding rounding_enum;
+
+        if (!strcmp(rounding_str, "DEC_ROUND_CEILING")) {
+            /* Round towards +Infinity. */
+            rounding_enum = DEC_ROUND_CEILING;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_DOWN")) {
+            /* Round towards 0 (truncation). */
+            rounding_enum = DEC_ROUND_DOWN;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_FLOOR")) {
+            /* Round towards -Infinity. */
+            rounding_enum = DEC_ROUND_FLOOR;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_DOWN")) {
+            /* Round to nearest; if equidistant, round down. */
+            rounding_enum = DEC_ROUND_HALF_DOWN;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_EVEN")) {
+            /* Round to nearest; if equidistant, round so that the final
+               digit is even. */
+            rounding_enum = DEC_ROUND_HALF_EVEN;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_UP")) {
+            /* Round to nearest; if equidistant, round up. */
+            rounding_enum = DEC_ROUND_HALF_UP;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_UP")) {
+            /* Round away from 0. */
+            rounding_enum = DEC_ROUND_UP;
+        } else if (!strcmp(rounding_str, "DEC_ROUND_05UP")) {
+            /* The same as DEC_ROUND_UP, except that rounding up only 
+               occurs if the digit to be rounded up is 0 or 5 and after
+               Overflow the result is the same as for DEC_ROUND_DOWN. */
+            rounding_enum = DEC_ROUND_05UP;
+        } else {
+            Parrot_str_free_cstring(rounding_str);
+            Parrot_ex_throw_from_c_args(interp, NULL, EXCEPTION_INVALID_OPERATION,  
+            "Invalid rounding mode provided!");
+        }
+
+        Parrot_str_free_cstring(rounding_str);
+
+        return rounding_enum;
+}
+
 static PMC *DecNumContext_PMC = NULL;
 
 pmclass DecNumContext 
@@ -196,52 +239,17 @@ pmclass DecNumContext
     }
 
     METHOD get_rounding_mode() {
-        STRING *s = rounding_mode_to_str(INTERP,
-                                       PARROT_DECNUMCONTEXT(SELF)->ctx);
+        STRING *s;
+        s = rounding_mode_to_str(INTERP,
+                                 PARROT_DECNUMCONTEXT(SELF)->ctx);
 
         RETURN(STRING *s);
     }
 
     METHOD set_rounding_mode(STRING *rounding) {
-        char * const rounding_str = Parrot_str_to_cstring(INTERP, rounding);
-        enum rounding rounding_enum;
 
-        if (!strcmp(rounding_str, "DEC_ROUND_CEILING")) {
-            /* Round towards +Infinity. */
-            rounding_enum = DEC_ROUND_CEILING;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_DOWN")) {
-            /* Round towards 0 (truncation). */
-            rounding_enum = DEC_ROUND_DOWN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_FLOOR")) {
-            /* Round towards -Infinity. */
-            rounding_enum = DEC_ROUND_FLOOR;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_DOWN")) {
-            /* Round to nearest; if equidistant, round down. */
-            rounding_enum = DEC_ROUND_HALF_DOWN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_EVEN")) {
-            /* Round to nearest; if equidistant, round so that the final
-               digit is even. */
-            rounding_enum = DEC_ROUND_HALF_EVEN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_UP")) {
-            /* Round to nearest; if equidistant, round up. */
-            rounding_enum = DEC_ROUND_HALF_UP;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_UP")) {
-            /* Round away from 0. */
-            rounding_enum = DEC_ROUND_UP;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_05UP")) {
-            /* The same as DEC_ROUND_UP, except that rounding up only 
-               occurs if the digit to be rounded up is 0 or 5 and after
-               Overflow the result is the same as for DEC_ROUND_DOWN. */
-            rounding_enum = DEC_ROUND_05UP;
-        } else {
-            Parrot_str_free_cstring(rounding_str);
-            Parrot_ex_throw_from_c_args(INTERP, NULL, EXCEPTION_INVALID_OPERATION,  
-            "Invalid rounding mode provided!");
-        }
-
-        decContextSetRounding(PARROT_DECNUMCONTEXT(SELF)->ctx, rounding_enum);
-
-        Parrot_str_free_cstring(rounding_str);
+        decContextSetRounding(PARROT_DECNUMCONTEXT(SELF)->ctx, 
+                              str_to_rounding_mode(INTERP, rounding));
 
     }
 
