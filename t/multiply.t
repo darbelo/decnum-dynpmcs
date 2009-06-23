@@ -4,7 +4,7 @@
     $P0 = loadlib 'decnum_group'
 
     $P0 = new 'DecNumContext'
-    plan( 511 )
+    plan( 456 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_UP' )
@@ -312,32 +312,24 @@
     'mulx580'()
     'mulx581'()
     'mulx582'()
-    'mulx583'()
-    'mulx584'()
     'mulx585'()
     'mulx586'()
     'mulx587'()
     'mulx588'()
     'mulx589'()
     'mulx590'()
-    'mulx591'()
-    'mulx592'()
     'mulx593'()
     'mulx594'()
     'mulx595'()
     'mulx600'()
     'mulx601'()
     'mulx602'()
-    'mulx603'()
-    'mulx604'()
     'mulx605'()
     'mulx606'()
     'mulx607'()
     'mulx608'()
     'mulx609'()
     'mulx610'()
-    'mulx611'()
-    'mulx612'()
     'mulx613'()
     'mulx614'()
     'mulx615'()
@@ -358,25 +350,6 @@
     'mulx635'()
     'mulx636'()
     'mulx637'()
-    'mulx641'()
-    'mulx642'()
-    'mulx643'()
-    'mulx644'()
-    'mulx645'()
-    'mulx646'()
-    'mulx647'()
-    'mulx648'()
-    'mulx649'()
-    'mulx650'()
-    'mulx651'()
-    'mulx652'()
-    'mulx653'()
-    'mulx654'()
-    'mulx655'()
-    'mulx656'()
-    'mulx657'()
-    'mulx658'()
-    'mulx659'()
     'mulx661'()
     'mulx662'()
     'mulx663'()
@@ -384,15 +357,6 @@
     'mulx665'()
     'mulx666'()
     'mulx667'()
-    'mulx671'()
-    'mulx672'()
-    'mulx673'()
-    'mulx674'()
-    'mulx675'()
-    'mulx676'()
-    'mulx677'()
-    'mulx678'()
-    'mulx679'()
     'mulx681'()
     'mulx682'()
     'mulx683'()
@@ -400,15 +364,6 @@
     'mulx685'()
     'mulx686'()
     'mulx687'()
-    'mulx691'()
-    'mulx692'()
-    'mulx693'()
-    'mulx694'()
-    'mulx695'()
-    'mulx696'()
-    'mulx697'()
-    'mulx698'()
-    'mulx699'()
     'mulx701'()
     'mulx702'()
     'mulx703'()
@@ -416,15 +371,6 @@
     'mulx705'()
     'mulx706'()
     'mulx707'()
-    'mulx711'()
-    'mulx712'()
-    'mulx713'()
-    'mulx714'()
-    'mulx715'()
-    'mulx716'()
-    'mulx717'()
-    'mulx718'()
-    'mulx719'()
     $P0.'set_emax'( 99999999 )
     $P0.'set_emin'( -99999999 )
     'mulx730'()
@@ -612,7 +558,6 @@
     'mulx1003'()
     'mulx1004'()
     $P0.'set_digits'( 5 )
-    'mulx1010'()
 .end
 
 #mulx000 multiply 2      2 -> 4
@@ -3474,77 +3419,73 @@
 #mulx580 multiply  Inf  -Inf   -> -Infinity
 .sub mulx580
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx581 multiply  Inf  -1000  -> -Infinity
 .sub mulx581
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx582 multiply  Inf  -1     -> -Infinity
 .sub mulx582
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx583 multiply  Inf  -0     ->  NaN  Invalid_operation
-.sub mulx583
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx584 multiply  Inf   0     ->  NaN  Invalid_operation
-.sub mulx584
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx585 multiply  Inf   1     ->  Infinity
 .sub mulx585
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx586 multiply  Inf   1000  ->  Infinity
 .sub mulx586
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx587 multiply  Inf   Inf   ->  Infinity
 .sub mulx587
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx588 multiply -1000  Inf   -> -Infinity
@@ -3552,17 +3493,23 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx589 multiply -Inf   Inf   -> -Infinity
 .sub mulx589
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx590 multiply -1     Inf   -> -Infinity
@@ -3570,29 +3517,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx591 multiply -0     Inf   ->  NaN  Invalid_operation
-.sub mulx591
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx592 multiply  0     Inf   ->  NaN  Invalid_operation
-.sub mulx592
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx593 multiply  1     Inf   ->  Infinity
@@ -3600,9 +3529,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx594 multiply  1000  Inf   ->  Infinity
@@ -3610,93 +3541,95 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx595 multiply  Inf   Inf   ->  Infinity
 .sub mulx595
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx600 multiply -Inf  -Inf   ->  Infinity
 .sub mulx600
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx601 multiply -Inf  -1000  ->  Infinity
 .sub mulx601
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx602 multiply -Inf  -1     ->  Infinity
 .sub mulx602
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx603 multiply -Inf  -0     ->  NaN  Invalid_operation
-.sub mulx603
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx604 multiply -Inf   0     ->  NaN  Invalid_operation
-.sub mulx604
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx605 multiply -Inf   1     -> -Infinity
 .sub mulx605
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx606 multiply -Inf   1000  -> -Infinity
 .sub mulx606
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx607 multiply -Inf   Inf   -> -Infinity
 .sub mulx607
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx608 multiply -1000  Inf   -> -Infinity
@@ -3704,17 +3637,23 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx609 multiply -Inf  -Inf   ->  Infinity
 .sub mulx609
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx610 multiply -1    -Inf   ->  Infinity
@@ -3722,29 +3661,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx611 multiply -0    -Inf   ->  NaN  Invalid_operation
-.sub mulx611
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx612 multiply  0    -Inf   ->  NaN  Invalid_operation
-.sub mulx612
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx613 multiply  1    -Inf   -> -Infinity
@@ -3752,9 +3673,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx614 multiply  1000 -Inf   -> -Infinity
@@ -3762,17 +3685,23 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx615 multiply  Inf  -Inf   -> -Infinity
 .sub mulx615
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 * $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx621 multiply  NaN -Inf    ->  NaN
@@ -3780,9 +3709,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx622 multiply  NaN -1000   ->  NaN
@@ -3862,9 +3793,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx629 multiply  NaN  NaN    ->  NaN
@@ -3882,11 +3815,13 @@
 #mulx630 multiply -Inf  NaN    ->  NaN
 .sub mulx630
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx631 multiply -1000 NaN    ->  NaN
@@ -3964,229 +3899,9 @@
 #mulx637 multiply  Inf  NaN    ->  NaN
 .sub mulx637
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx641 multiply  sNaN -Inf   ->  NaN  Invalid_operation
-.sub mulx641
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx642 multiply  sNaN -1000  ->  NaN  Invalid_operation
-.sub mulx642
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx643 multiply  sNaN -1     ->  NaN  Invalid_operation
-.sub mulx643
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx644 multiply  sNaN -0     ->  NaN  Invalid_operation
-.sub mulx644
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx645 multiply  sNaN  0     ->  NaN  Invalid_operation
-.sub mulx645
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx646 multiply  sNaN  1     ->  NaN  Invalid_operation
-.sub mulx646
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx647 multiply  sNaN  1000  ->  NaN  Invalid_operation
-.sub mulx647
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx648 multiply  sNaN  NaN   ->  NaN  Invalid_operation
-.sub mulx648
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx649 multiply  sNaN sNaN   ->  NaN  Invalid_operation
-.sub mulx649
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx650 multiply  NaN  sNaN   ->  NaN  Invalid_operation
-.sub mulx650
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx651 multiply -Inf  sNaN   ->  NaN  Invalid_operation
-.sub mulx651
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx652 multiply -1000 sNaN   ->  NaN  Invalid_operation
-.sub mulx652
-    $P1 = new 'DecNum'
-    $P1 = "-1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx653 multiply -1    sNaN   ->  NaN  Invalid_operation
-.sub mulx653
-    $P1 = new 'DecNum'
-    $P1 = "-1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx654 multiply -0    sNaN   ->  NaN  Invalid_operation
-.sub mulx654
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx655 multiply  0    sNaN   ->  NaN  Invalid_operation
-.sub mulx655
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx656 multiply  1    sNaN   ->  NaN  Invalid_operation
-.sub mulx656
-    $P1 = new 'DecNum'
-    $P1 = "1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx657 multiply  1000 sNaN   ->  NaN  Invalid_operation
-.sub mulx657
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx658 multiply  Inf  sNaN   ->  NaN  Invalid_operation
-.sub mulx658
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx659 multiply  NaN  sNaN   ->  NaN  Invalid_operation
-.sub mulx659
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
     $P3 = new 'DecNum'
     $P3 = "NaN"
     $P4 = $P1 * $P2
@@ -4198,9 +3913,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN9"
     $P2 = new 'DecNum'
-    $P2 = "NaN9"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN9"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx662 multiply  NaN8  999   ->  NaN8
@@ -4220,9 +3937,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN71"
     $P2 = new 'DecNum'
-    $P2 = "NaN71"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN71"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx664 multiply  NaN6  NaN5  ->  NaN6
@@ -4240,11 +3959,13 @@
 #mulx665 multiply -Inf   NaN4  ->  NaN4
 .sub mulx665
     $P1 = new 'DecNum'
-    $P1 = "NaN4"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN4"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN4"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx666 multiply -999   NaN33 ->  NaN33
@@ -4262,111 +3983,11 @@
 #mulx667 multiply  Inf   NaN2  ->  NaN2
 .sub mulx667
     $P1 = new 'DecNum'
-    $P1 = "NaN2"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN2"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx671 multiply  sNaN99 -Inf    ->  NaN99 Invalid_operation
-.sub mulx671
-    $P1 = new 'DecNum'
-    $P1 = "sNaN99"
-    $P2 = new 'DecNum'
-    $P2 = "NaN99"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx672 multiply  sNaN98 -11     ->  NaN98 Invalid_operation
-.sub mulx672
-    $P1 = new 'DecNum'
-    $P1 = "sNaN98"
-    $P2 = new 'DecNum'
-    $P2 = "-11"
     $P3 = new 'DecNum'
-    $P3 = "NaN98"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx673 multiply  sNaN97  NaN    ->  NaN97 Invalid_operation
-.sub mulx673
-    $P1 = new 'DecNum'
-    $P1 = "sNaN97"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN97"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx674 multiply  sNaN16 sNaN94  ->  NaN16 Invalid_operation
-.sub mulx674
-    $P1 = new 'DecNum'
-    $P1 = "sNaN16"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN94"
-    $P3 = new 'DecNum'
-    $P3 = "NaN16"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx675 multiply  NaN95  sNaN93  ->  NaN93 Invalid_operation
-.sub mulx675
-    $P1 = new 'DecNum'
-    $P1 = "NaN95"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN93"
-    $P3 = new 'DecNum'
-    $P3 = "NaN93"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx676 multiply -Inf    sNaN92  ->  NaN92 Invalid_operation
-.sub mulx676
-    $P1 = new 'DecNum'
-    $P1 = "sNaN92"
-    $P2 = new 'DecNum'
-    $P2 = "NaN92"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx677 multiply  088    sNaN91  ->  NaN91 Invalid_operation
-.sub mulx677
-    $P1 = new 'DecNum'
-    $P1 = "088"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN91"
-    $P3 = new 'DecNum'
-    $P3 = "NaN91"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx678 multiply  Inf    sNaN90  ->  NaN90 Invalid_operation
-.sub mulx678
-    $P1 = new 'DecNum'
-    $P1 = "sNaN90"
-    $P2 = new 'DecNum'
-    $P2 = "NaN90"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx679 multiply  NaN    sNaN89  ->  NaN89 Invalid_operation
-.sub mulx679
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN89"
-    $P3 = new 'DecNum'
-    $P3 = "NaN89"
+    $P3 = "NaN2"
     $P4 = $P1 * $P2
     is($P4, $P3)
 .end
@@ -4376,9 +3997,11 @@
     $P1 = new 'DecNum'
     $P1 = "-NaN9"
     $P2 = new 'DecNum'
-    $P2 = "-NaN9"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN9"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx682 multiply -NaN8  999   -> -NaN8
@@ -4398,9 +4021,11 @@
     $P1 = new 'DecNum'
     $P1 = "-NaN71"
     $P2 = new 'DecNum'
-    $P2 = "-NaN71"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN71"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx684 multiply -NaN6 -NaN5  -> -NaN6
@@ -4418,11 +4043,13 @@
 #mulx685 multiply -Inf  -NaN4  -> -NaN4
 .sub mulx685
     $P1 = new 'DecNum'
-    $P1 = "-NaN4"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "-NaN4"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "-NaN4"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx686 multiply -999  -NaN33 -> -NaN33
@@ -4440,111 +4067,11 @@
 #mulx687 multiply  Inf  -NaN2  -> -NaN2
 .sub mulx687
     $P1 = new 'DecNum'
-    $P1 = "-NaN2"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "-NaN2"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx691 multiply -sNaN99 -Inf    -> -NaN99 Invalid_operation
-.sub mulx691
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN99"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN99"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx692 multiply -sNaN98 -11     -> -NaN98 Invalid_operation
-.sub mulx692
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN98"
-    $P2 = new 'DecNum'
-    $P2 = "-11"
     $P3 = new 'DecNum'
-    $P3 = "-NaN98"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx693 multiply -sNaN97  NaN    -> -NaN97 Invalid_operation
-.sub mulx693
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN97"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN97"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx694 multiply -sNaN16 -sNaN94 -> -NaN16 Invalid_operation
-.sub mulx694
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN16"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN94"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN16"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx695 multiply -NaN95  -sNaN93 -> -NaN93 Invalid_operation
-.sub mulx695
-    $P1 = new 'DecNum'
-    $P1 = "-NaN95"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN93"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN93"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx696 multiply -Inf    -sNaN92 -> -NaN92 Invalid_operation
-.sub mulx696
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN92"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN92"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx697 multiply  088    -sNaN91 -> -NaN91 Invalid_operation
-.sub mulx697
-    $P1 = new 'DecNum'
-    $P1 = "088"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN91"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN91"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx698 multiply  Inf    -sNaN90 -> -NaN90 Invalid_operation
-.sub mulx698
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN90"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN90"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx699 multiply -NaN    -sNaN89 -> -NaN89 Invalid_operation
-.sub mulx699
-    $P1 = new 'DecNum'
-    $P1 = "-NaN"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN89"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN89"
+    $P3 = "-NaN2"
     $P4 = $P1 * $P2
     is($P4, $P3)
 .end
@@ -4554,9 +4081,11 @@
     $P1 = new 'DecNum'
     $P1 = "-NaN"
     $P2 = new 'DecNum'
-    $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx702 multiply -NaN   999   -> -NaN
@@ -4576,9 +4105,11 @@
     $P1 = new 'DecNum'
     $P1 = "-NaN"
     $P2 = new 'DecNum'
-    $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx704 multiply -NaN  -NaN   -> -NaN
@@ -4596,11 +4127,13 @@
 #mulx705 multiply -Inf  -NaN0  -> -NaN
 .sub mulx705
     $P1 = new 'DecNum'
-    $P1 = "-NaN0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
+    $P2 = "-NaN0"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN"
+    $P4 = $P1 * $P2
+    is($P4, $P3)
 .end
 
 #mulx706 multiply -999  -NaN   -> -NaN
@@ -4618,109 +4151,9 @@
 #mulx707 multiply  Inf  -NaN   -> -NaN
 .sub mulx707
     $P1 = new 'DecNum'
-    $P1 = "-NaN"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx711 multiply -sNaN   -Inf    -> -NaN Invalid_operation
-.sub mulx711
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx712 multiply -sNaN   -11     -> -NaN Invalid_operation
-.sub mulx712
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-11"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx713 multiply -sNaN00  NaN    -> -NaN Invalid_operation
-.sub mulx713
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN00"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx714 multiply -sNaN   -sNaN   -> -NaN Invalid_operation
-.sub mulx714
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx715 multiply -NaN    -sNaN   -> -NaN Invalid_operation
-.sub mulx715
-    $P1 = new 'DecNum'
-    $P1 = "-NaN"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx716 multiply -Inf    -sNaN   -> -NaN Invalid_operation
-.sub mulx716
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx717 multiply  088    -sNaN   -> -NaN Invalid_operation
-.sub mulx717
-    $P1 = new 'DecNum'
-    $P1 = "088"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx718 multiply  Inf    -sNaN   -> -NaN Invalid_operation
-.sub mulx718
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN"
-    $P3 = $P1 * $P2
-    is($P3, $P2)
-.end
-
-#mulx719 multiply -NaN    -sNaN   -> -NaN Invalid_operation
-.sub mulx719
-    $P1 = new 'DecNum'
-    $P1 = "-NaN"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN"
     $P3 = new 'DecNum'
     $P3 = "-NaN"
     $P4 = $P1 * $P2
@@ -6595,18 +6028,6 @@
     $P2 = "1E4"
     $P3 = new 'DecNum'
     $P3 = "1E+6"
-    $P4 = $P1 * $P2
-    is($P4, $P3)
-.end
-
-#mulx1010  multiply 11 -sNaN1234567890 -> -NaN67890  Invalid_operation
-.sub mulx1010
-    $P1 = new 'DecNum'
-    $P1 = "11"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN1234567890"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN67890"
     $P4 = $P1 * $P2
     is($P4, $P3)
 .end

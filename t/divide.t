@@ -4,7 +4,7 @@
     $P0 = loadlib 'decnum_group'
 
     $P0 = new 'DecNumContext'
-    plan( 629 )
+    plan( 583 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_UP' )
@@ -514,38 +514,30 @@
     'divx776'()
     'divx777'()
     'divx778'()
-    'divx780'()
     'divx781'()
     'divx782'()
     'divx783'()
     'divx784'()
     'divx785'()
     'divx786'()
-    'divx787'()
     'divx788'()
-    'divx789'()
     'divx790'()
     'divx791'()
     'divx792'()
     'divx793'()
     'divx794'()
-    'divx795'()
-    'divx800'()
     'divx801'()
     'divx802'()
     'divx803'()
     'divx804'()
     'divx805'()
     'divx806'()
-    'divx807'()
     'divx808'()
-    'divx809'()
     'divx810'()
     'divx811'()
     'divx812'()
     'divx813'()
     'divx814'()
-    'divx815'()
     'divx821'()
     'divx822'()
     'divx823'()
@@ -563,25 +555,6 @@
     'divx835'()
     'divx836'()
     'divx837'()
-    'divx841'()
-    'divx842'()
-    'divx843'()
-    'divx844'()
-    'divx845'()
-    'divx846'()
-    'divx847'()
-    'divx848'()
-    'divx849'()
-    'divx850'()
-    'divx851'()
-    'divx852'()
-    'divx853'()
-    'divx854'()
-    'divx855'()
-    'divx856'()
-    'divx857'()
-    'divx858'()
-    'divx859'()
     'divx861'()
     'divx862'()
     'divx863'()
@@ -589,15 +562,6 @@
     'divx865'()
     'divx866'()
     'divx867'()
-    'divx871'()
-    'divx872'()
-    'divx873'()
-    'divx874'()
-    'divx875'()
-    'divx876'()
-    'divx877'()
-    'divx878'()
-    'divx879'()
     'divx881'()
     'divx882'()
     'divx883'()
@@ -605,15 +569,6 @@
     'divx885'()
     'divx886'()
     'divx887'()
-    'divx891'()
-    'divx892'()
-    'divx893'()
-    'divx894'()
-    'divx895'()
-    'divx896'()
-    'divx897'()
-    'divx898'()
-    'divx899'()
     $P0.'set_emax'( 99999999 )
     $P0.'set_emin'( -99999999 )
     'divx901'()
@@ -731,7 +686,6 @@
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_EVEN' )
     'divx1051'()
     $P0.'set_digits'( 5 )
-    'divx1055'()
 .end
 
 #divx001 divide  1     1    ->  1
@@ -5930,80 +5884,76 @@
     is($P4, $P3)
 .end
 
-#divx780 divide  Inf  -Inf   ->  NaN Invalid_operation
-.sub divx780
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
-.end
-
 #divx781 divide  Inf  -1000  -> -Infinity
 .sub divx781
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx782 divide  Inf  -1     -> -Infinity
 .sub divx782
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx783 divide  Inf  -0     -> -Infinity
 .sub divx783
     $P1 = new 'DecNum'
-    $P1 = "-0"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-0"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx784 divide  Inf   0     ->  Infinity
 .sub divx784
     $P1 = new 'DecNum'
-    $P1 = "0"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "0"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx785 divide  Inf   1     ->  Infinity
 .sub divx785
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx786 divide  Inf   1000  ->  Infinity
 .sub divx786
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx787 divide  Inf   Inf   ->  NaN Invalid_operation
-.sub divx787
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx788 divide -1000  Inf   -> -0E-398 Clamped
@@ -6011,17 +5961,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx789 divide -Inf   Inf   ->  NaN Invalid_operation
-.sub divx789
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx790 divide -1     Inf   -> -0E-398 Clamped
@@ -6029,9 +5973,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx791 divide -0     Inf   -> -0E-398 Clamped
@@ -6039,9 +5985,11 @@
     $P1 = new 'DecNum'
     $P1 = "-0"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx792 divide  0     Inf   ->  0E-398 Clamped
@@ -6049,9 +5997,11 @@
     $P1 = new 'DecNum'
     $P1 = "0"
     $P2 = new 'DecNum'
-    $P2 = "0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx793 divide  1     Inf   ->  0E-398 Clamped
@@ -6059,9 +6009,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx794 divide  1000  Inf   ->  0E-398 Clamped
@@ -6069,93 +6021,83 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx795 divide  Inf   Inf   ->  NaN Invalid_operation
-.sub divx795
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
-.end
-
-#divx800 divide -Inf  -Inf   ->  NaN Invalid_operation
-.sub divx800
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx801 divide -Inf  -1000  ->  Infinity
 .sub divx801
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx802 divide -Inf  -1     ->  Infinity
 .sub divx802
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx803 divide -Inf  -0     ->  Infinity
 .sub divx803
     $P1 = new 'DecNum'
-    $P1 = "-0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-0"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx804 divide -Inf   0     -> -Infinity
 .sub divx804
     $P1 = new 'DecNum'
-    $P1 = "0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "0"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx805 divide -Inf   1     -> -Infinity
 .sub divx805
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx806 divide -Inf   1000  -> -Infinity
 .sub divx806
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx807 divide -Inf   Inf   ->  NaN Invalid_operation
-.sub divx807
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx808 divide -1000  Inf   -> -0E-398 Clamped
@@ -6163,17 +6105,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx809 divide -Inf  -Inf   ->  NaN Invalid_operation
-.sub divx809
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx810 divide -1    -Inf   ->  0E-398 Clamped
@@ -6181,9 +6117,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx811 divide -0    -Inf   ->  0E-398 Clamped
@@ -6191,9 +6129,11 @@
     $P1 = new 'DecNum'
     $P1 = "-0"
     $P2 = new 'DecNum'
-    $P2 = "0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx812 divide  0    -Inf   -> -0E-398 Clamped
@@ -6201,9 +6141,11 @@
     $P1 = new 'DecNum'
     $P1 = "0"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx813 divide  1    -Inf   -> -0E-398 Clamped
@@ -6211,9 +6153,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx814 divide  1000 -Inf   -> -0E-398 Clamped
@@ -6221,17 +6165,11 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "-0E-398"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx815 divide  Inf  -Inf   ->  NaN Invalid_operation
-.sub divx815
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 / $P2
-    is($P2, $P1)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-0E-398"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx821 divide  NaN -Inf    ->  NaN
@@ -6239,9 +6177,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx822 divide  NaN -1000   ->  NaN
@@ -6321,9 +6261,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx829 divide  NaN  NaN    ->  NaN
@@ -6341,11 +6283,13 @@
 #divx830 divide -Inf  NaN    ->  NaN
 .sub divx830
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx831 divide -1000 NaN    ->  NaN
@@ -6423,229 +6367,9 @@
 #divx837 divide  Inf  NaN    ->  NaN
 .sub divx837
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx841 divide  sNaN -Inf   ->  NaN  Invalid_operation
-.sub divx841
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx842 divide  sNaN -1000  ->  NaN  Invalid_operation
-.sub divx842
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx843 divide  sNaN -1     ->  NaN  Invalid_operation
-.sub divx843
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx844 divide  sNaN -0     ->  NaN  Invalid_operation
-.sub divx844
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx845 divide  sNaN  0     ->  NaN  Invalid_operation
-.sub divx845
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx846 divide  sNaN  1     ->  NaN  Invalid_operation
-.sub divx846
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx847 divide  sNaN  1000  ->  NaN  Invalid_operation
-.sub divx847
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx848 divide  sNaN  NaN   ->  NaN  Invalid_operation
-.sub divx848
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx849 divide  sNaN sNaN   ->  NaN  Invalid_operation
-.sub divx849
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx850 divide  NaN  sNaN   ->  NaN  Invalid_operation
-.sub divx850
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx851 divide -Inf  sNaN   ->  NaN  Invalid_operation
-.sub divx851
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx852 divide -1000 sNaN   ->  NaN  Invalid_operation
-.sub divx852
-    $P1 = new 'DecNum'
-    $P1 = "-1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx853 divide -1    sNaN   ->  NaN  Invalid_operation
-.sub divx853
-    $P1 = new 'DecNum'
-    $P1 = "-1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx854 divide -0    sNaN   ->  NaN  Invalid_operation
-.sub divx854
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx855 divide  0    sNaN   ->  NaN  Invalid_operation
-.sub divx855
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx856 divide  1    sNaN   ->  NaN  Invalid_operation
-.sub divx856
-    $P1 = new 'DecNum'
-    $P1 = "1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx857 divide  1000 sNaN   ->  NaN  Invalid_operation
-.sub divx857
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx858 divide  Inf  sNaN   ->  NaN  Invalid_operation
-.sub divx858
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx859 divide  NaN  sNaN   ->  NaN  Invalid_operation
-.sub divx859
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
     $P3 = new 'DecNum'
     $P3 = "NaN"
     $P4 = $P1 / $P2
@@ -6657,9 +6381,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN9"
     $P2 = new 'DecNum'
-    $P2 = "NaN9"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN9"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx862 divide  NaN8  1000  ->  NaN8
@@ -6679,9 +6405,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN7"
     $P2 = new 'DecNum'
-    $P2 = "NaN7"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN7"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx864 divide  NaN6  NaN5  ->  NaN6
@@ -6699,11 +6427,13 @@
 #divx865 divide -Inf   NaN4  ->  NaN4
 .sub divx865
     $P1 = new 'DecNum'
-    $P1 = "NaN4"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN4"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN4"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx866 divide -1000  NaN3  ->  NaN3
@@ -6721,111 +6451,11 @@
 #divx867 divide  Inf   NaN2  ->  NaN2
 .sub divx867
     $P1 = new 'DecNum'
-    $P1 = "NaN2"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN2"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx871 divide  sNaN99 -Inf    ->  NaN99 Invalid_operation
-.sub divx871
-    $P1 = new 'DecNum'
-    $P1 = "sNaN99"
-    $P2 = new 'DecNum'
-    $P2 = "NaN99"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx872 divide  sNaN98 -1      ->  NaN98 Invalid_operation
-.sub divx872
-    $P1 = new 'DecNum'
-    $P1 = "sNaN98"
-    $P2 = new 'DecNum'
-    $P2 = "-1"
     $P3 = new 'DecNum'
-    $P3 = "NaN98"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx873 divide  sNaN97  NaN    ->  NaN97 Invalid_operation
-.sub divx873
-    $P1 = new 'DecNum'
-    $P1 = "sNaN97"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN97"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx874 divide  sNaN96 sNaN94  ->  NaN96 Invalid_operation
-.sub divx874
-    $P1 = new 'DecNum'
-    $P1 = "sNaN96"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN94"
-    $P3 = new 'DecNum'
-    $P3 = "NaN96"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx875 divide  NaN95  sNaN93  ->  NaN93 Invalid_operation
-.sub divx875
-    $P1 = new 'DecNum'
-    $P1 = "NaN95"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN93"
-    $P3 = new 'DecNum'
-    $P3 = "NaN93"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx876 divide -Inf    sNaN92  ->  NaN92 Invalid_operation
-.sub divx876
-    $P1 = new 'DecNum'
-    $P1 = "sNaN92"
-    $P2 = new 'DecNum'
-    $P2 = "NaN92"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx877 divide  0      sNaN91  ->  NaN91 Invalid_operation
-.sub divx877
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN91"
-    $P3 = new 'DecNum'
-    $P3 = "NaN91"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx878 divide  Inf    sNaN90  ->  NaN90 Invalid_operation
-.sub divx878
-    $P1 = new 'DecNum'
-    $P1 = "sNaN90"
-    $P2 = new 'DecNum'
-    $P2 = "NaN90"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx879 divide  NaN    sNaN89  ->  NaN89 Invalid_operation
-.sub divx879
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN89"
-    $P3 = new 'DecNum'
-    $P3 = "NaN89"
+    $P3 = "NaN2"
     $P4 = $P1 / $P2
     is($P4, $P3)
 .end
@@ -6835,9 +6465,11 @@
     $P1 = new 'DecNum'
     $P1 = "-NaN9"
     $P2 = new 'DecNum'
-    $P2 = "-NaN9"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN9"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx882 divide  -NaN8   1000  ->  -NaN8
@@ -6857,9 +6489,11 @@
     $P1 = new 'DecNum'
     $P1 = "-NaN7"
     $P2 = new 'DecNum'
-    $P2 = "-NaN7"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-NaN7"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx884 divide  -NaN6  -NaN5  ->  -NaN6
@@ -6877,11 +6511,13 @@
 #divx885 divide  -Inf   -NaN4  ->  -NaN4
 .sub divx885
     $P1 = new 'DecNum'
-    $P1 = "-NaN4"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "-NaN4"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "-NaN4"
+    $P4 = $P1 / $P2
+    is($P4, $P3)
 .end
 
 #divx886 divide  -1000  -NaN3  ->  -NaN3
@@ -6899,111 +6535,11 @@
 #divx887 divide   Inf   -NaN2  ->  -NaN2
 .sub divx887
     $P1 = new 'DecNum'
-    $P1 = "-NaN2"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "-NaN2"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx891 divide -sNaN99 -Inf    -> -NaN99 Invalid_operation
-.sub divx891
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN99"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN99"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx892 divide -sNaN98 -1      -> -NaN98 Invalid_operation
-.sub divx892
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN98"
-    $P2 = new 'DecNum'
-    $P2 = "-1"
     $P3 = new 'DecNum'
-    $P3 = "-NaN98"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx893 divide -sNaN97  NaN    -> -NaN97 Invalid_operation
-.sub divx893
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN97"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN97"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx894 divide -sNaN96 -sNaN94 -> -NaN96 Invalid_operation
-.sub divx894
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN96"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN94"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN96"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx895 divide -NaN95  -sNaN93 -> -NaN93 Invalid_operation
-.sub divx895
-    $P1 = new 'DecNum'
-    $P1 = "-NaN95"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN93"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN93"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx896 divide -Inf    -sNaN92 -> -NaN92 Invalid_operation
-.sub divx896
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN92"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN92"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx897 divide  0      -sNaN91 -> -NaN91 Invalid_operation
-.sub divx897
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN91"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN91"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx898 divide  Inf    -sNaN90 -> -NaN90 Invalid_operation
-.sub divx898
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN90"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN90"
-    $P3 = $P1 / $P2
-    is($P3, $P2)
-.end
-
-#divx899 divide -NaN    -sNaN89 -> -NaN89 Invalid_operation
-.sub divx899
-    $P1 = new 'DecNum'
-    $P1 = "-NaN"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN89"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN89"
+    $P3 = "-NaN2"
     $P4 = $P1 / $P2
     is($P4, $P3)
 .end
@@ -8144,18 +7680,6 @@
     $P2 = "11"
     $P3 = new 'DecNum'
     $P3 = "0.4545455"
-    $P4 = $P1 / $P2
-    is($P4, $P3)
-.end
-
-#divx1055  divide   sNaN987654321 1 ->  NaN54321  Invalid_operation
-.sub divx1055
-    $P1 = new 'DecNum'
-    $P1 = "sNaN987654321"
-    $P2 = new 'DecNum'
-    $P2 = "1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN54321"
     $P4 = $P1 / $P2
     is($P4, $P3)
 .end

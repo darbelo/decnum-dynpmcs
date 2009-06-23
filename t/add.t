@@ -4,7 +4,7 @@
     $P0 = loadlib 'decnum_group'
 
     $P0 = new 'DecNumContext'
-    plan( 2084 )
+    plan( 2012 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_UP' )
@@ -727,8 +727,6 @@
     'addx791'()
     'addx792'()
     'addx793'()
-    'addx794'()
-    'addx800'()
     'addx801'()
     'addx802'()
     'addx803'()
@@ -737,7 +735,6 @@
     'addx806'()
     'addx807'()
     'addx808'()
-    'addx809'()
     'addx810'()
     'addx811'()
     'addx812'()
@@ -761,25 +758,6 @@
     'addx835'()
     'addx836'()
     'addx837'()
-    'addx841'()
-    'addx842'()
-    'addx843'()
-    'addx844'()
-    'addx845'()
-    'addx846'()
-    'addx847'()
-    'addx848'()
-    'addx849'()
-    'addx850'()
-    'addx851'()
-    'addx852'()
-    'addx853'()
-    'addx854'()
-    'addx855'()
-    'addx856'()
-    'addx857'()
-    'addx858'()
-    'addx859'()
     'addx861'()
     'addx862'()
     'addx863'()
@@ -789,21 +767,8 @@
     'addx867'()
     'addx868'()
     'addx869'()
-    'addx871'()
-    'addx872'()
-    'addx873'()
-    'addx874'()
-    'addx875'()
-    'addx876'()
-    'addx877'()
-    'addx878'()
-    'addx879'()
-    'addx880'()
-    'addx881'()
     'addx882'()
-    'addx883'()
     'addx884'()
-    'addx885'()
     $P0.'set_emax'( 99999999 )
     $P0.'set_emin'( -99999999 )
     $P0.'set_digits'( 9 )
@@ -1846,8 +1811,6 @@
     'addx6791'()
     'addx6792'()
     'addx6793'()
-    'addx6794'()
-    'addx6800'()
     'addx6801'()
     'addx6802'()
     'addx6803'()
@@ -1856,7 +1819,6 @@
     'addx6806'()
     'addx6807'()
     'addx6808'()
-    'addx6809'()
     'addx6810'()
     'addx6811'()
     'addx6812'()
@@ -1880,25 +1842,6 @@
     'addx6835'()
     'addx6836'()
     'addx6837'()
-    'addx6841'()
-    'addx6842'()
-    'addx6843'()
-    'addx6844'()
-    'addx6845'()
-    'addx6846'()
-    'addx6847'()
-    'addx6848'()
-    'addx6849'()
-    'addx6850'()
-    'addx6851'()
-    'addx6852'()
-    'addx6853'()
-    'addx6854'()
-    'addx6855'()
-    'addx6856'()
-    'addx6857'()
-    'addx6858'()
-    'addx6859'()
     'addx6861'()
     'addx6862'()
     'addx6863'()
@@ -1908,21 +1851,8 @@
     'addx6867'()
     'addx6868'()
     'addx6869'()
-    'addx6871'()
-    'addx6872'()
-    'addx6873'()
-    'addx6874'()
-    'addx6875'()
-    'addx6876'()
-    'addx6877'()
-    'addx6878'()
-    'addx6879'()
-    'addx6880'()
-    'addx6881'()
     'addx6882'()
-    'addx6883'()
     'addx6884'()
-    'addx6885'()
     'addx6571'()
     'addx6572'()
     'addx6573'()
@@ -2322,8 +2252,6 @@
     'addx62088'()
     'addx62089'()
     $P0.'set_digits'( 5 )
-    'addx62100'()
-    'addx62101'()
     'addx62102'()
     'addx62103'()
 .end
@@ -3568,7 +3496,6 @@
 .sub addx111
     $P1 = new 'DecNum'
     $P1 = "-5E100"
-    say  $P1
     $P2 = new 'DecNum'
     $P2 = "0"
     $P3 = new 'DecNum'
@@ -9280,69 +9207,85 @@
 #addx780 add -Inf  -Inf   -> -Infinity
 .sub addx780
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx781 add -Inf  -1000  -> -Infinity
 .sub addx781
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx782 add -Inf  -1     -> -Infinity
 .sub addx782
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx783 add -Inf  -0     -> -Infinity
 .sub addx783
     $P1 = new 'DecNum'
-    $P1 = "-0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-0"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx784 add -Inf   0     -> -Infinity
 .sub addx784
     $P1 = new 'DecNum'
-    $P1 = "0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "0"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx785 add -Inf   1     -> -Infinity
 .sub addx785
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx786 add -Inf   1000  -> -Infinity
 .sub addx786
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx787 add -1000 -Inf   -> -Infinity
@@ -9350,17 +9293,23 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx788 add -Inf  -Inf   -> -Infinity
 .sub addx788
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx789 add -1    -Inf   -> -Infinity
@@ -9368,9 +9317,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx790 add -0    -Inf   -> -Infinity
@@ -9378,9 +9329,11 @@
     $P1 = new 'DecNum'
     $P1 = "-0"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx791 add  0    -Inf   -> -Infinity
@@ -9388,9 +9341,11 @@
     $P1 = new 'DecNum'
     $P1 = "0"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx792 add  1    -Inf   -> -Infinity
@@ -9398,9 +9353,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx793 add  1000 -Inf   -> -Infinity
@@ -9408,93 +9365,95 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx794 add  Inf  -Inf   ->  NaN  Invalid_operation
-.sub addx794
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
-.end
-
-#addx800 add  Inf  -Inf   ->  NaN  Invalid_operation
-.sub addx800
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx801 add  Inf  -1000  ->  Infinity
 .sub addx801
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx802 add  Inf  -1     ->  Infinity
 .sub addx802
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx803 add  Inf  -0     ->  Infinity
 .sub addx803
     $P1 = new 'DecNum'
-    $P1 = "-0"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-0"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx804 add  Inf   0     ->  Infinity
 .sub addx804
     $P1 = new 'DecNum'
-    $P1 = "0"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "0"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx805 add  Inf   1     ->  Infinity
 .sub addx805
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx806 add  Inf   1000  ->  Infinity
 .sub addx806
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx807 add  Inf   Inf   ->  Infinity
 .sub addx807
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx808 add -1000  Inf   ->  Infinity
@@ -9502,17 +9461,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx809 add -Inf   Inf   ->  NaN  Invalid_operation
-.sub addx809
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx810 add -1     Inf   ->  Infinity
@@ -9520,9 +9473,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx811 add -0     Inf   ->  Infinity
@@ -9530,9 +9485,11 @@
     $P1 = new 'DecNum'
     $P1 = "-0"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx812 add  0     Inf   ->  Infinity
@@ -9540,9 +9497,11 @@
     $P1 = new 'DecNum'
     $P1 = "0"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx813 add  1     Inf   ->  Infinity
@@ -9550,9 +9509,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx814 add  1000  Inf   ->  Infinity
@@ -9560,17 +9521,23 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx815 add  Inf   Inf   ->  Infinity
 .sub addx815
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx821 add  NaN -Inf    ->  NaN
@@ -9578,9 +9545,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx822 add  NaN -1000   ->  NaN
@@ -9660,9 +9629,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx829 add  NaN  NaN    ->  NaN
@@ -9680,11 +9651,13 @@
 #addx830 add -Inf  NaN    ->  NaN
 .sub addx830
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx831 add -1000 NaN    ->  NaN
@@ -9762,229 +9735,9 @@
 #addx837 add  Inf  NaN    ->  NaN
 .sub addx837
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx841 add  sNaN -Inf   ->  NaN  Invalid_operation
-.sub addx841
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx842 add  sNaN -1000  ->  NaN  Invalid_operation
-.sub addx842
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx843 add  sNaN -1     ->  NaN  Invalid_operation
-.sub addx843
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx844 add  sNaN -0     ->  NaN  Invalid_operation
-.sub addx844
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx845 add  sNaN  0     ->  NaN  Invalid_operation
-.sub addx845
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx846 add  sNaN  1     ->  NaN  Invalid_operation
-.sub addx846
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx847 add  sNaN  1000  ->  NaN  Invalid_operation
-.sub addx847
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx848 add  sNaN  NaN   ->  NaN  Invalid_operation
-.sub addx848
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx849 add  sNaN sNaN   ->  NaN  Invalid_operation
-.sub addx849
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx850 add  NaN  sNaN   ->  NaN  Invalid_operation
-.sub addx850
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx851 add -Inf  sNaN   ->  NaN  Invalid_operation
-.sub addx851
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx852 add -1000 sNaN   ->  NaN  Invalid_operation
-.sub addx852
-    $P1 = new 'DecNum'
-    $P1 = "-1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx853 add -1    sNaN   ->  NaN  Invalid_operation
-.sub addx853
-    $P1 = new 'DecNum'
-    $P1 = "-1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx854 add -0    sNaN   ->  NaN  Invalid_operation
-.sub addx854
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx855 add  0    sNaN   ->  NaN  Invalid_operation
-.sub addx855
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx856 add  1    sNaN   ->  NaN  Invalid_operation
-.sub addx856
-    $P1 = new 'DecNum'
-    $P1 = "1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx857 add  1000 sNaN   ->  NaN  Invalid_operation
-.sub addx857
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx858 add  Inf  sNaN   ->  NaN  Invalid_operation
-.sub addx858
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx859 add  NaN  sNaN   ->  NaN  Invalid_operation
-.sub addx859
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
     $P3 = new 'DecNum'
     $P3 = "NaN"
     $P4 = $P1 + $P2
@@ -9996,9 +9749,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN1"
     $P2 = new 'DecNum'
-    $P2 = "NaN1"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN1"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx862 add +NaN2   -1000   ->  NaN2
@@ -10030,9 +9785,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN4"
     $P2 = new 'DecNum'
-    $P2 = "NaN4"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN4"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx865 add  NaN5   +NaN6   ->  NaN5
@@ -10050,11 +9807,13 @@
 #addx866 add -Inf     NaN7   ->  NaN7
 .sub addx866
     $P1 = new 'DecNum'
-    $P1 = "NaN7"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN7"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN7"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx867 add -1000    NaN8   ->  NaN8
@@ -10084,135 +9843,11 @@
 #addx869 add  Inf    +NaN10  ->  NaN10
 .sub addx869
     $P1 = new 'DecNum'
-    $P1 = "+NaN10"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "NaN10"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx871 add  sNaN11  -Inf   ->  NaN11  Invalid_operation
-.sub addx871
-    $P1 = new 'DecNum'
-    $P1 = "sNaN11"
-    $P2 = new 'DecNum'
-    $P2 = "NaN11"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx872 add  sNaN12  -1000  ->  NaN12  Invalid_operation
-.sub addx872
-    $P1 = new 'DecNum'
-    $P1 = "sNaN12"
-    $P2 = new 'DecNum'
-    $P2 = "-1000"
+    $P2 = "+NaN10"
     $P3 = new 'DecNum'
-    $P3 = "NaN12"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx873 add  sNaN13   1000  ->  NaN13  Invalid_operation
-.sub addx873
-    $P1 = new 'DecNum'
-    $P1 = "sNaN13"
-    $P2 = new 'DecNum'
-    $P2 = "1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN13"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx874 add  sNaN14   NaN17 ->  NaN14  Invalid_operation
-.sub addx874
-    $P1 = new 'DecNum'
-    $P1 = "sNaN14"
-    $P2 = new 'DecNum'
-    $P2 = "NaN17"
-    $P3 = new 'DecNum'
-    $P3 = "NaN14"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx875 add  sNaN15  sNaN18 ->  NaN15  Invalid_operation
-.sub addx875
-    $P1 = new 'DecNum'
-    $P1 = "sNaN15"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN18"
-    $P3 = new 'DecNum'
-    $P3 = "NaN15"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx876 add  NaN16   sNaN19 ->  NaN19  Invalid_operation
-.sub addx876
-    $P1 = new 'DecNum'
-    $P1 = "NaN16"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN19"
-    $P3 = new 'DecNum'
-    $P3 = "NaN19"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx877 add -Inf    +sNaN20 ->  NaN20  Invalid_operation
-.sub addx877
-    $P1 = new 'DecNum'
-    $P1 = "+sNaN20"
-    $P2 = new 'DecNum'
-    $P2 = "NaN20"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx878 add -1000    sNaN21 ->  NaN21  Invalid_operation
-.sub addx878
-    $P1 = new 'DecNum'
-    $P1 = "-1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN21"
-    $P3 = new 'DecNum'
-    $P3 = "NaN21"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx879 add  1000    sNaN22 ->  NaN22  Invalid_operation
-.sub addx879
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN22"
-    $P3 = new 'DecNum'
-    $P3 = "NaN22"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx880 add  Inf     sNaN23 ->  NaN23  Invalid_operation
-.sub addx880
-    $P1 = new 'DecNum'
-    $P1 = "sNaN23"
-    $P2 = new 'DecNum'
-    $P2 = "NaN23"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx881 add +NaN25  +sNaN24 ->  NaN24  Invalid_operation
-.sub addx881
-    $P1 = new 'DecNum'
-    $P1 = "+NaN25"
-    $P2 = new 'DecNum'
-    $P2 = "+sNaN24"
-    $P3 = new 'DecNum'
-    $P3 = "NaN24"
+    $P3 = "NaN10"
     $P4 = $P1 + $P2
     is($P4, $P3)
 .end
@@ -10229,18 +9864,6 @@
     is($P4, $P3)
 .end
 
-#addx883 add -sNaN27  sNaN29 -> -NaN27  Invalid_operation
-.sub addx883
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN27"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN29"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN27"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
 #addx884 add  1000    -NaN30 -> -NaN30
 .sub addx884
     $P1 = new 'DecNum'
@@ -10249,18 +9872,6 @@
     $P2 = "-NaN30"
     $P3 = new 'DecNum'
     $P3 = "-NaN30"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx885 add  1000   -sNaN31 -> -NaN31  Invalid_operation
-.sub addx885
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN31"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN31"
     $P4 = $P1 + $P2
     is($P4, $P3)
 .end
@@ -11089,6 +10700,7 @@
     $P2 = "1E-384"
     $P3 = new 'DecNum'
     $P3 = "9E-384"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -11100,6 +10712,7 @@
     $P2 = "1E-398"
     $P3 = new 'DecNum'
     $P3 = "9.99999999999999E-384"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -11111,6 +10724,7 @@
     $P2 = "1E-398"
     $P3 = new 'DecNum'
     $P3 = "9.99999999999999E-384"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -11122,6 +10736,7 @@
     $P2 = "1E-399"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -11133,6 +10748,7 @@
     $P2 = "1E-400"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -11144,6 +10760,7 @@
     $P2 = "1E-401"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -11155,6 +10772,7 @@
     $P2 = "1E-402"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -16020,6 +15638,7 @@
     $P2 = "120E-2"
     $P3 = new 'DecNum'
     $P3 = "0.10"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -16031,6 +15650,7 @@
     $P2 = "12E-1"
     $P3 = new 'DecNum'
     $P3 = "0.10"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -16042,6 +15662,7 @@
     $P2 = "1E0"
     $P3 = new 'DecNum'
     $P3 = "0.30"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -16053,6 +15674,7 @@
     $P2 = "1E4"
     $P3 = new 'DecNum'
     $P3 = "-9.9E+3"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -21459,69 +21081,85 @@
 #addx6780 add -Inf  -Inf   -> -Infinity
 .sub addx6780
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6781 add -Inf  -1000  -> -Infinity
 .sub addx6781
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6782 add -Inf  -1     -> -Infinity
 .sub addx6782
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6783 add -Inf  -0     -> -Infinity
 .sub addx6783
     $P1 = new 'DecNum'
-    $P1 = "-0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-0"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6784 add -Inf   0     -> -Infinity
 .sub addx6784
     $P1 = new 'DecNum'
-    $P1 = "0"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "0"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6785 add -Inf   1     -> -Infinity
 .sub addx6785
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6786 add -Inf   1000  -> -Infinity
 .sub addx6786
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6787 add -1000 -Inf   -> -Infinity
@@ -21529,17 +21167,23 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6788 add -Inf  -Inf   -> -Infinity
 .sub addx6788
     $P1 = new 'DecNum'
-    $P1 = "-Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "-Inf"
+    $P2 = new 'DecNum'
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6789 add -1    -Inf   -> -Infinity
@@ -21547,9 +21191,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6790 add -0    -Inf   -> -Infinity
@@ -21557,9 +21203,11 @@
     $P1 = new 'DecNum'
     $P1 = "-0"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6791 add  0    -Inf   -> -Infinity
@@ -21567,9 +21215,11 @@
     $P1 = new 'DecNum'
     $P1 = "0"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6792 add  1    -Inf   -> -Infinity
@@ -21577,9 +21227,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6793 add  1000 -Inf   -> -Infinity
@@ -21587,93 +21239,95 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "-Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6794 add  Inf  -Inf   ->  NaN  Invalid_operation
-.sub addx6794
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
-.end
-
-#addx6800 add  Inf  -Inf   ->  NaN  Invalid_operation
-.sub addx6800
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "-Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6801 add  Inf  -1000  ->  Infinity
 .sub addx6801
     $P1 = new 'DecNum'
-    $P1 = "-1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6802 add  Inf  -1     ->  Infinity
 .sub addx6802
     $P1 = new 'DecNum'
-    $P1 = "-1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6803 add  Inf  -0     ->  Infinity
 .sub addx6803
     $P1 = new 'DecNum'
-    $P1 = "-0"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-0"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6804 add  Inf   0     ->  Infinity
 .sub addx6804
     $P1 = new 'DecNum'
-    $P1 = "0"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "0"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6805 add  Inf   1     ->  Infinity
 .sub addx6805
     $P1 = new 'DecNum'
-    $P1 = "1"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6806 add  Inf   1000  ->  Infinity
 .sub addx6806
     $P1 = new 'DecNum'
-    $P1 = "1000"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "1000"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6807 add  Inf   Inf   ->  Infinity
 .sub addx6807
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6808 add -1000  Inf   ->  Infinity
@@ -21681,17 +21335,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1000"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6809 add -Inf   Inf   ->  NaN  Invalid_operation
-.sub addx6809
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6810 add -1     Inf   ->  Infinity
@@ -21699,9 +21347,11 @@
     $P1 = new 'DecNum'
     $P1 = "-1"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6811 add -0     Inf   ->  Infinity
@@ -21709,9 +21359,11 @@
     $P1 = new 'DecNum'
     $P1 = "-0"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6812 add  0     Inf   ->  Infinity
@@ -21719,9 +21371,11 @@
     $P1 = new 'DecNum'
     $P1 = "0"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6813 add  1     Inf   ->  Infinity
@@ -21729,9 +21383,11 @@
     $P1 = new 'DecNum'
     $P1 = "1"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6814 add  1000  Inf   ->  Infinity
@@ -21739,17 +21395,23 @@
     $P1 = new 'DecNum'
     $P1 = "1000"
     $P2 = new 'DecNum'
-    $P2 = "Infinity"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6815 add  Inf   Inf   ->  Infinity
 .sub addx6815
     $P1 = new 'DecNum'
-    $P1 = "Infinity"
-    $P2 = $P1 + $P2
-    is($P2, $P1)
+    $P1 = "Inf"
+    $P2 = new 'DecNum'
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "Infinity"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6821 add  NaN -Inf    ->  NaN
@@ -21757,9 +21419,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6822 add  NaN -1000   ->  NaN
@@ -21839,9 +21503,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN"
     $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6829 add  NaN  NaN    ->  NaN
@@ -21859,11 +21525,13 @@
 #addx6830 add -Inf  NaN    ->  NaN
 .sub addx6830
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6831 add -1000 NaN    ->  NaN
@@ -21941,229 +21609,9 @@
 #addx6837 add  Inf  NaN    ->  NaN
 .sub addx6837
     $P1 = new 'DecNum'
-    $P1 = "NaN"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6841 add  sNaN -Inf   ->  NaN  Invalid_operation
-.sub addx6841
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6842 add  sNaN -1000  ->  NaN  Invalid_operation
-.sub addx6842
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6843 add  sNaN -1     ->  NaN  Invalid_operation
-.sub addx6843
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6844 add  sNaN -0     ->  NaN  Invalid_operation
-.sub addx6844
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "-0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6845 add  sNaN  0     ->  NaN  Invalid_operation
-.sub addx6845
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "0"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6846 add  sNaN  1     ->  NaN  Invalid_operation
-.sub addx6846
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6847 add  sNaN  1000  ->  NaN  Invalid_operation
-.sub addx6847
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6848 add  sNaN  NaN   ->  NaN  Invalid_operation
-.sub addx6848
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6849 add  sNaN sNaN   ->  NaN  Invalid_operation
-.sub addx6849
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6850 add  NaN  sNaN   ->  NaN  Invalid_operation
-.sub addx6850
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6851 add -Inf  sNaN   ->  NaN  Invalid_operation
-.sub addx6851
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6852 add -1000 sNaN   ->  NaN  Invalid_operation
-.sub addx6852
-    $P1 = new 'DecNum'
-    $P1 = "-1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6853 add -1    sNaN   ->  NaN  Invalid_operation
-.sub addx6853
-    $P1 = new 'DecNum'
-    $P1 = "-1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6854 add -0    sNaN   ->  NaN  Invalid_operation
-.sub addx6854
-    $P1 = new 'DecNum'
-    $P1 = "-0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6855 add  0    sNaN   ->  NaN  Invalid_operation
-.sub addx6855
-    $P1 = new 'DecNum'
-    $P1 = "0"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6856 add  1    sNaN   ->  NaN  Invalid_operation
-.sub addx6856
-    $P1 = new 'DecNum'
-    $P1 = "1"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6857 add  1000 sNaN   ->  NaN  Invalid_operation
-.sub addx6857
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
-    $P3 = new 'DecNum'
-    $P3 = "NaN"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6858 add  Inf  sNaN   ->  NaN  Invalid_operation
-.sub addx6858
-    $P1 = new 'DecNum'
-    $P1 = "sNaN"
-    $P2 = new 'DecNum'
-    $P2 = "NaN"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6859 add  NaN  sNaN   ->  NaN  Invalid_operation
-.sub addx6859
-    $P1 = new 'DecNum'
-    $P1 = "NaN"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN"
     $P3 = new 'DecNum'
     $P3 = "NaN"
     $P4 = $P1 + $P2
@@ -22175,9 +21623,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN1"
     $P2 = new 'DecNum'
-    $P2 = "NaN1"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "-Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN1"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6862 add +NaN2   -1000   ->  NaN2
@@ -22209,9 +21659,11 @@
     $P1 = new 'DecNum'
     $P1 = "NaN4"
     $P2 = new 'DecNum'
-    $P2 = "NaN4"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P2 = "Inf"
+    $P3 = new 'DecNum'
+    $P3 = "NaN4"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6865 add  NaN5   +NaN6   ->  NaN5
@@ -22229,11 +21681,13 @@
 #addx6866 add -Inf     NaN7   ->  NaN7
 .sub addx6866
     $P1 = new 'DecNum'
-    $P1 = "NaN7"
+    $P1 = "-Inf"
     $P2 = new 'DecNum'
     $P2 = "NaN7"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
+    $P3 = new 'DecNum'
+    $P3 = "NaN7"
+    $P4 = $P1 + $P2
+    is($P4, $P3)
 .end
 
 #addx6867 add -1000    NaN8   ->  NaN8
@@ -22263,135 +21717,11 @@
 #addx6869 add  Inf    +NaN10  ->  NaN10
 .sub addx6869
     $P1 = new 'DecNum'
-    $P1 = "+NaN10"
+    $P1 = "Inf"
     $P2 = new 'DecNum'
-    $P2 = "NaN10"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6871 add  sNaN11  -Inf   ->  NaN11  Invalid_operation
-.sub addx6871
-    $P1 = new 'DecNum'
-    $P1 = "sNaN11"
-    $P2 = new 'DecNum'
-    $P2 = "NaN11"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6872 add  sNaN12  -1000  ->  NaN12  Invalid_operation
-.sub addx6872
-    $P1 = new 'DecNum'
-    $P1 = "sNaN12"
-    $P2 = new 'DecNum'
-    $P2 = "-1000"
+    $P2 = "+NaN10"
     $P3 = new 'DecNum'
-    $P3 = "NaN12"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6873 add  sNaN13   1000  ->  NaN13  Invalid_operation
-.sub addx6873
-    $P1 = new 'DecNum'
-    $P1 = "sNaN13"
-    $P2 = new 'DecNum'
-    $P2 = "1000"
-    $P3 = new 'DecNum'
-    $P3 = "NaN13"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6874 add  sNaN14   NaN17 ->  NaN14  Invalid_operation
-.sub addx6874
-    $P1 = new 'DecNum'
-    $P1 = "sNaN14"
-    $P2 = new 'DecNum'
-    $P2 = "NaN17"
-    $P3 = new 'DecNum'
-    $P3 = "NaN14"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6875 add  sNaN15  sNaN18 ->  NaN15  Invalid_operation
-.sub addx6875
-    $P1 = new 'DecNum'
-    $P1 = "sNaN15"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN18"
-    $P3 = new 'DecNum'
-    $P3 = "NaN15"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6876 add  NaN16   sNaN19 ->  NaN19  Invalid_operation
-.sub addx6876
-    $P1 = new 'DecNum'
-    $P1 = "NaN16"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN19"
-    $P3 = new 'DecNum'
-    $P3 = "NaN19"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6877 add -Inf    +sNaN20 ->  NaN20  Invalid_operation
-.sub addx6877
-    $P1 = new 'DecNum'
-    $P1 = "+sNaN20"
-    $P2 = new 'DecNum'
-    $P2 = "NaN20"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6878 add -1000    sNaN21 ->  NaN21  Invalid_operation
-.sub addx6878
-    $P1 = new 'DecNum'
-    $P1 = "-1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN21"
-    $P3 = new 'DecNum'
-    $P3 = "NaN21"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6879 add  1000    sNaN22 ->  NaN22  Invalid_operation
-.sub addx6879
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN22"
-    $P3 = new 'DecNum'
-    $P3 = "NaN22"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6880 add  Inf     sNaN23 ->  NaN23  Invalid_operation
-.sub addx6880
-    $P1 = new 'DecNum'
-    $P1 = "sNaN23"
-    $P2 = new 'DecNum'
-    $P2 = "NaN23"
-    $P3 = $P1 + $P2
-    is($P3, $P2)
-.end
-
-#addx6881 add +NaN25  +sNaN24 ->  NaN24  Invalid_operation
-.sub addx6881
-    $P1 = new 'DecNum'
-    $P1 = "+NaN25"
-    $P2 = new 'DecNum'
-    $P2 = "+sNaN24"
-    $P3 = new 'DecNum'
-    $P3 = "NaN24"
+    $P3 = "NaN10"
     $P4 = $P1 + $P2
     is($P4, $P3)
 .end
@@ -22408,18 +21738,6 @@
     is($P4, $P3)
 .end
 
-#addx6883 add -sNaN27  sNaN29 -> -NaN27  Invalid_operation
-.sub addx6883
-    $P1 = new 'DecNum'
-    $P1 = "-sNaN27"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN29"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN27"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
 #addx6884 add  1000    -NaN30 -> -NaN30
 .sub addx6884
     $P1 = new 'DecNum'
@@ -22428,18 +21746,6 @@
     $P2 = "-NaN30"
     $P3 = new 'DecNum'
     $P3 = "-NaN30"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx6885 add  1000   -sNaN31 -> -NaN31  Invalid_operation
-.sub addx6885
-    $P1 = new 'DecNum'
-    $P1 = "1000"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN31"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN31"
     $P4 = $P1 + $P2
     is($P4, $P3)
 .end
@@ -22488,6 +21794,7 @@
     $P2 = "1E-384"
     $P3 = new 'DecNum'
     $P3 = "9E-384"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -22499,6 +21806,7 @@
     $P2 = "1E-398"
     $P3 = new 'DecNum'
     $P3 = "9.99999999999999E-384"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -22510,6 +21818,7 @@
     $P2 = "1E-398"
     $P3 = new 'DecNum'
     $P3 = "9.99999999999999E-384"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -22521,6 +21830,7 @@
     $P2 = "1E-399"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -22532,6 +21842,7 @@
     $P2 = "1E-400"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -22543,6 +21854,7 @@
     $P2 = "1E-401"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -22554,6 +21866,7 @@
     $P2 = "1E-402"
     $P3 = new 'DecNum'
     $P3 = "1.000000000000000E-383"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -26087,6 +25400,7 @@
     $P2 = "120E-2"
     $P3 = new 'DecNum'
     $P3 = "0.10"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -26098,6 +25412,7 @@
     $P2 = "12E-1"
     $P3 = new 'DecNum'
     $P3 = "0.10"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -26109,6 +25424,7 @@
     $P2 = "1E0"
     $P3 = new 'DecNum'
     $P3 = "0.30"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -26120,6 +25436,7 @@
     $P2 = "1E4"
     $P3 = new 'DecNum'
     $P3 = "-9.9E+3"
+    $P4 = $P1 - $P2
     is($P4, $P3)
 .end
 
@@ -27043,30 +26360,6 @@
     $P2 = "1E-35"
     $P3 = new 'DecNum'
     $P3 = "12345678.00000001"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx62100 add      11  sNaN123456789 ->  NaN56789  Invalid_operation
-.sub addx62100
-    $P1 = new 'DecNum'
-    $P1 = "11"
-    $P2 = new 'DecNum'
-    $P2 = "sNaN123456789"
-    $P3 = new 'DecNum'
-    $P3 = "NaN56789"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx62101 add     -11 -sNaN123456789 -> -NaN56789  Invalid_operation
-.sub addx62101
-    $P1 = new 'DecNum'
-    $P1 = "-11"
-    $P2 = new 'DecNum'
-    $P2 = "-sNaN123456789"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN56789"
     $P4 = $P1 + $P2
     is($P4, $P3)
 .end

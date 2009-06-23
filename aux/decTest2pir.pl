@@ -6,7 +6,7 @@ my $plan = 0;
 my @main;
 my @pass2;
 
-my $num = qr/(\+|\-)?((\.?\d+(\.\d)?(E(\+|\-)?\d+)?)|(Inf(inity?))|(s?NaN\d*))/i;
+my $num = qr/(\+|\-)?((\.?\d+(\.\d)?(E(\+|\-)?\d+)?)|(Inf(inity)?)|(s?NaN\d*))/i;
 
 foreach (<STDIN>) {
     if ( /precision:\s+(\d+)/i ) {
