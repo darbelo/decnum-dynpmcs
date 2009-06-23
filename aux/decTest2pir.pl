@@ -29,13 +29,13 @@ foreach (<STDIN>) {
         } else {
             die "Unknown rounding mode";
         }
-    } elsif ( /maxexponent:\s+([-+]?\d+).+/i ) {
+    } elsif ( /maxexponent:\s+([-+]?\d+)/i ) {
         push @main, "    \$P0.'set_emax'( $1 )\n";
-    } elsif ( /minexponent:\s+([-+]?\d+).+/i ) {
+    } elsif ( /minexponent:\s+([-+]?\d+)/i ) {
         push @main, "    \$P0.'set_emin'( $1 )\n";
-    } elsif ( /clamp:\s+(\d).+/i ) {
+    } elsif ( /clamp:\s+(\d)/i ) {
         push @main, "    \$P0.'set_clamp'( $1 )\n";
-    } elsif ( /version:.+/i ){
+    } elsif ( /version:/i ){
         push @main, "    #Test $_"
     } elsif ( /extended:/i ){
         # Empty
@@ -82,7 +82,7 @@ foreach my $line (@pass2) {
     } elsif ($operation eq 'divide') {
         print "    \$P$i = \$P1 / \$P2\n";
     } elsif ($operation eq 'divideint') {
-        print "    \$P$i = \$P1 \\ \$P2\n";
+        print "    \$P$i = \$P1 // \$P2\n";
     }
     print "    is(\$P" . $i-- . ", \$P$i)\n.end\n";
 }
