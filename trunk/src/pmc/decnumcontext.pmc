@@ -99,6 +99,16 @@ str_to_rounding_mode(PARROT_INTERP, STRING *round) {
         return rounding_enum;
 }
 
+static void
+set_context_deafults(decContext *ctx) {
+    ctx->emin  = -999999;
+    ctx->emax  = 999999;
+    decContextDefault(ctx, DEC_INIT_BASE);
+    decContextZeroStatus(ctx);
+    ctx->traps = 0;
+
+}
+
 static PMC *DecNumContext_PMC = NULL;
 
 pmclass DecNumContext 
@@ -133,11 +143,7 @@ pmclass DecNumContext
             PMC_data(SELF) = attr;
 
             attr->ctx = mem_allocate_typed(decContext);
-            decContextDefault(attr->ctx, DEC_INIT_BASE);
-            decContextZeroStatus(attr->ctx);
-            attr->ctx->traps = 0;
-            attr->ctx->emin  = -999999;
-            attr->ctx->emax  = 999999;
+            set_context_defaults(attr->ctx);
 
             PObj_active_destroy_SET(SELF);
         }
@@ -179,6 +185,14 @@ pmclass DecNumContext
         str = VTABLE_shift_string(INTERP, info->image_io);
         ctx->round = str_to_rounding_mode(INTERP, str);
 
+    }
+
+    METHOD restore_defaults() {
+        set_context_defaults(PARROT_DECNUMCONTEXT(SELF)->ctx);
+    }
+
+    METHOD clear_status() {
+        decContextZeroStatus(PARROT_DECNUMCONTEXT(SELF)->ctx);
     }
 
     METHOD set_digits(PMC *number) {
