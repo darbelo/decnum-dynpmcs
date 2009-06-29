@@ -4,7 +4,8 @@
 
 static void
 check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
-    if ( ctx->status & DEC_Errors)
+    if ( ctx->status & (DEC_IEEE_754_Division_by_zero |
+                        DEC_IEEE_754_Invalid_operation) )
         Parrot_ex_throw_from_c_args(interp, NULL,
                                     EXCEPTION_INVALID_OPERATION,
                                     decContextStatusToString(ctx));
