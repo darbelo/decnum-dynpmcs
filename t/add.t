@@ -4,7 +4,7 @@
     $P0 = loadlib 'decnum_group'
 
     $P0 = new 'DecNumContext'
-    plan( 2012 )
+    plan( 2008 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_UP' )
@@ -864,7 +864,6 @@
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_UP' )
     $P0.'set_emax'( 96 )
     $P0.'set_emin'( -95 )
-    'addx972'()
     'addx973'()
     'addx974'()
     'addx975'()
@@ -877,7 +876,6 @@
     'addx982'()
     'addx983'()
     'addx984'()
-    'addx985'()
     'addx986'()
     'addx987'()
     'addx988'()
@@ -1863,7 +1861,6 @@
     'addx6578'()
     'addx6579'()
     'addx6580'()
-    'addx6972'()
     'addx6973'()
     'addx6974'()
     'addx6975'()
@@ -1876,7 +1873,6 @@
     'addx6982'()
     'addx6983'()
     'addx6984'()
-    'addx6985'()
     'addx6986'()
     'addx6987'()
     'addx6988'()
@@ -10776,15 +10772,6 @@
     is($P4, $P3)
 .end
 
-#addx972 apply   9.999999E+96         -> 9.999999E+96
-.sub addx972
-    $P1 = new 'DecNum'
-    $P1 = "9.999999E+96"
-    $P2 = new 'DecNum'
-    $P2 = "9.999999E+96"
-    is($P3, $P2)
-.end
-
 #addx973 add     9.999999E+96  1      -> 9.999999E+96 Inexact Rounded
 .sub addx973
     $P1 = new 'DecNum'
@@ -10927,15 +10914,6 @@
     $P3 = "9.999999E+96"
     $P4 = $P1 + $P2
     is($P4, $P3)
-.end
-
-#addx985 apply  -9.999999E+96         -> -9.999999E+96
-.sub addx985
-    $P1 = new 'DecNum'
-    $P1 = "-9.999999E+96"
-    $P2 = new 'DecNum'
-    $P2 = "-9.999999E+96"
-    is($P3, $P2)
 .end
 
 #addx986 add    -9.999999E+96 -1      -> -9.999999E+96 Inexact Rounded
@@ -21870,15 +21848,6 @@
     is($P4, $P3)
 .end
 
-#addx6972 apply   9.999999999999999E+384         -> 9.999999999999999E+384
-.sub addx6972
-    $P1 = new 'DecNum'
-    $P1 = "9.999999999999999E+384"
-    $P2 = new 'DecNum'
-    $P2 = "9.999999999999999E+384"
-    is($P3, $P2)
-.end
-
 #addx6973 add     9.999999999999999E+384  1      -> 9.999999999999999E+384 Inexact Rounded
 .sub addx6973
     $P1 = new 'DecNum'
@@ -22021,15 +21990,6 @@
     $P3 = "9.999999999999999E+384"
     $P4 = $P1 + $P2
     is($P4, $P3)
-.end
-
-#addx6985 apply  -9.999999999999999E+384         -> -9.999999999999999E+384
-.sub addx6985
-    $P1 = new 'DecNum'
-    $P1 = "-9.999999999999999E+384"
-    $P2 = new 'DecNum'
-    $P2 = "-9.999999999999999E+384"
-    is($P3, $P2)
 .end
 
 #addx6986 add    -9.999999999999999E+384 -1      -> -9.999999999999999E+384 Inexact Rounded
