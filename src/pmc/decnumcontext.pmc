@@ -195,8 +195,7 @@ pmclass DecNumContext
         decContextZeroStatus(PARROT_DECNUMCONTEXT(SELF)->ctx);
     }
 
-    METHOD set_digits(PMC *number) {
-        INTVAL digits = VTABLE_get_integer(INTERP, number);
+    METHOD set_digits(INTVAL digits) {
         if ( digits > MAX_DIGITS || digits < MIN_DIGITS) { 
             Parrot_ex_throw_from_c_args(INTERP, NULL, 
                                         EXCEPTION_INVALID_OPERATION,
@@ -208,19 +207,13 @@ pmclass DecNumContext
 
     METHOD get_digits() {
         INTVAL  digits;
-        PMC    *dest;
-        STRING *str;
 
         digits = PARROT_DECNUMCONTEXT(SELF)->ctx->digits;
-        dest = pmc_new(INTERP, enum_class_Integer);
-        VTABLE_set_integer_native(INTERP, dest, digits);
 
-        RETURN(PMC *dest);
-
+        RETURN(INTVAL digits);
     }
 
-    METHOD set_emin(PMC *number) {
-        INTVAL emin = VTABLE_get_integer(INTERP, number);
+    METHOD set_emin(INTVAL emin) {
         if ( emin > MAX_EMIN || emin < MIN_EMIN) {
             Parrot_ex_throw_from_c_args(INTERP, NULL,
                                         EXCEPTION_INVALID_OPERATION,
@@ -232,14 +225,10 @@ pmclass DecNumContext
 
     METHOD get_emin() {
         INTVAL  emin;
-        PMC    *dest;
-        STRING *str;
 
         emin = PARROT_DECNUMCONTEXT(SELF)->ctx->emin;
-        dest = pmc_new(INTERP, enum_class_Integer);
-        VTABLE_set_integer_native(INTERP, dest, emin);
 
-        RETURN(PMC *dest);
+        RETURN(INTVAL emin);
 
     }
 
@@ -261,8 +250,7 @@ pmclass DecNumContext
         RETURN(PMC *dest);                                               
     }
 
-    METHOD set_emax(PMC *number) {
-        INTVAL emax = VTABLE_get_integer(INTERP, number);
+    METHOD set_emax(INTVAL emax) {
         if ( emax > MAX_EMAX || emax < MIN_EMAX) {
             Parrot_ex_throw_from_c_args(INTERP, NULL,
                                         EXCEPTION_INVALID_OPERATION,
@@ -273,16 +261,11 @@ pmclass DecNumContext
     }
 
     METHOD get_emax() {
-        INTVAL  emax;
-        PMC    *dest;
-        STRING *str;
+        INTVAL emax;
 
         emax = PARROT_DECNUMCONTEXT(SELF)->ctx->emax;
-        dest = pmc_new(INTERP, enum_class_Integer);
-        VTABLE_set_integer_native(INTERP, dest, emax);
 
-        RETURN(PMC *dest);
-
+        RETURN(INTVAL emax);
     }
 
     METHOD get_rounding_mode() {
