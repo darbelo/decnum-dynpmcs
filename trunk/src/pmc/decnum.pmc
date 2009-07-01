@@ -16,6 +16,11 @@ get_context( PMC *pmc) {
     return PARROT_DECBASE(pmc)->ctx;
 }
 
+static INTVAL
+get_ieee754_cmp(PMC *pmc) {
+    return PARROT_DECBASE(pmc)->ieee754_cmp;
+}
+
 pmclass DecNum 
     dynpmc 
     group decnumber 
@@ -987,9 +992,13 @@ pmclass DecNum
             Parrot_str_free_cstring(cstr);
             check_flags_and_throw(INTERP, ctxt);
         }
-
-        decNumberCompare(&temp, PARROT_DECNUM(SELF)->number, &temp, 
-                         ctxt);
+        if ( get_ieee754_cmp(PARROT_DECNUM(SELF)->context) != 0 ) {
+            decNumberCompareTotal(&temp, PARROT_DECNUM(SELF)->number,
+                                  &temp, ctxt);
+        } else {
+            decNumberCompare(&temp, PARROT_DECNUM(SELF)->number, &temp,
+                             ctxt);
+        }
 
         if (decNumberIsNaN(&temp))
             Parrot_ex_throw_from_c_args(interp, NULL, 
@@ -997,23 +1006,6 @@ pmclass DecNum
                                         "Tried to compare a NaN.");
 
         return decNumberToInt32(&temp, ctxt);
-    }
-
-    METHOD ieee754_cmp(PMC *value) {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        decNumber   temp;
-        INTVAL      result;
-        
-        if (value->vtable->base_type != SELF->vtable->base_type)
-            Parrot_ex_throw_from_c_args(interp, NULL, 
-                                        EXCEPTION_INVALID_OPERATION,
-                                        "Argument is not a DecNum.");
-
-        decNumberCompareTotal(&temp, PARROT_DECNUM(SELF)->number,
-                              PARROT_DECNUM(value)->number, ctxt);
-        result = decNumberToInt32(&temp, ctxt);
-        RETURN(INTVAL result);
-
     }
 
     VTABLE INTVAL is_equal(PMC *value) {
