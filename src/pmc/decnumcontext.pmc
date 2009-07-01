@@ -232,22 +232,20 @@ pmclass DecNumContext
 
     }
 
-    METHOD set_clamp(PMC *number) {
-        if ( VTABLE_get_bool(INTERP, number) ){
+    METHOD set_clamp(INTVAL clamp) {
+        if ( clamp != 0 ){
             PARROT_DECNUMCONTEXT(SELF)->ctx->clamp = 1;
+        } else {
+            PARROT_DECNUMCONTEXT(SELF)->ctx->clamp = 0;
         }
     }
 
     METHOD get_clamp() {
-        PMC *dest = pmc_new(INTERP, enum_class_Boolean);
+        INTVAL clamp;
 
-        if ( PARROT_DECNUMCONTEXT(SELF)->ctx->clamp ) {
-            VTABLE_set_integer_native(INTERP, dest, 1);
-        } else {
-            VTABLE_set_integer_native(INTERP, dest, 0);
-        }
+        clamp = PARROT_DECNUMCONTEXT(SELF)->ctx->clamp;
 
-        RETURN(PMC *dest);                                               
+        RETURN(INTVAL *clamp);
     }
 
     METHOD set_emax(INTVAL emax) {
