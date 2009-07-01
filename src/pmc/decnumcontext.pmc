@@ -142,6 +142,7 @@ pmclass DecNumContext
             attr = mem_allocate_zeroed_typed(Parrot_DecNumContext_attributes);
             PMC_data(SELF) = attr;
 
+            attr->ieee754_cmp = 0;
             attr->ctx = mem_allocate_typed(decContext);
             set_context_defaults(attr->ctx);
 
@@ -246,6 +247,22 @@ pmclass DecNumContext
         clamp = PARROT_DECNUMCONTEXT(SELF)->ctx->clamp;
 
         RETURN(INTVAL *clamp);
+    }
+
+    METHOD set_ieee754_cmp(INTVAL ieee754_cmp) {
+        if ( ieee754_cmp != 0 ){
+            PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp = 1;
+        } else {
+            PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp = 0;
+        }
+    }
+
+    METHOD get_ieee754_cmp() {
+        INTVAL ieee754_cmp;
+
+        ieee754_cmp = PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp;
+
+        RETURN(INTVAL *ieee754_cmp);
     }
 
     METHOD set_emax(INTVAL emax) {
