@@ -4,7 +4,7 @@
     $P0 = loadlib 'decnum_group'
 
     $P0 = new 'DecNumContext'
-    plan( 2008 )
+    plan( 2006 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
     $P0.'set_rounding_mode'( 'DEC_ROUND_HALF_UP' )
@@ -2247,9 +2247,6 @@
     'addx62087'()
     'addx62088'()
     'addx62089'()
-    $P0.'set_digits'( 5 )
-    'addx62102'()
-    'addx62103'()
 .end
 
 #addx001 add 1       1       ->  2
@@ -26320,30 +26317,6 @@
     $P2 = "1E-35"
     $P3 = new 'DecNum'
     $P3 = "12345678.00000001"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx62102 add      11   NaN123456789 ->  NaN56789
-.sub addx62102
-    $P1 = new 'DecNum'
-    $P1 = "11"
-    $P2 = new 'DecNum'
-    $P2 = "NaN123456789"
-    $P3 = new 'DecNum'
-    $P3 = "NaN56789"
-    $P4 = $P1 + $P2
-    is($P4, $P3)
-.end
-
-#addx62103 add     -11  -NaN123456789 -> -NaN56789
-.sub addx62103
-    $P1 = new 'DecNum'
-    $P1 = "-11"
-    $P2 = new 'DecNum'
-    $P2 = "-NaN123456789"
-    $P3 = new 'DecNum'
-    $P3 = "-NaN56789"
     $P4 = $P1 + $P2
     is($P4, $P3)
 .end
