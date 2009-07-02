@@ -4,6 +4,7 @@
     $P0 = loadlib 'decnum_group'
 
     $P0 = new 'DecNumContext'
+    $P0.'set_ieee754_cmp'(1)
     plan( 456 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
