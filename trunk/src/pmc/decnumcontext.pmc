@@ -143,6 +143,7 @@ pmclass DecNumContext
             PMC_data(SELF) = attr;
 
             attr->ieee754_cmp = 0;
+            attr->exceptions = DEC_Errors;
             attr->ctx = mem_allocate_typed(decContext);
             set_context_defaults(attr->ctx);
 
@@ -263,6 +264,18 @@ pmclass DecNumContext
         ieee754_cmp = PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp;
 
         RETURN(INTVAL *ieee754_cmp);
+    }
+
+    METHOD set_exceptions(INTVAL exceptions) {
+        PARROT_DECNUMCONTEXT(SELF)->exceptions = exceptions;
+    }
+
+    METHOD get_exceptions() {
+        INTVAL exceptions;
+
+        exceptions = PARROT_DECNUMCONTEXT(SELF)->exceptions;
+
+        RETURN(INTVAL *exceptions);
     }
 
     METHOD set_emax(INTVAL emax) {

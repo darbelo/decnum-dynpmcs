@@ -3,9 +3,8 @@
 #include "../decNumber/decNumber.h"
 
 static void
-check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
-    if ( ctx->status & (DEC_IEEE_754_Division_by_zero |
-                        DEC_IEEE_754_Invalid_operation) )
+check_flags_and_throw(PARROT_INTERP, decContext *ctx, INTVAL exceptions) {
+    if ( ctx->status & exceptions )
         Parrot_ex_throw_from_c_args(interp, NULL,
                                     EXCEPTION_INVALID_OPERATION,
                                     decContextStatusToString(ctx));
@@ -14,6 +13,11 @@ check_flags_and_throw(PARROT_INTERP, decContext *ctx) {
 static decContext *
 get_context( PMC *pmc) {
     return PARROT_DECBASE(pmc)->ctx;
+}
+
+static INTVAL
+get_exceptions(PMC *pmc) {
+    return PARROT_DECBASE(pmc)->exceptions;
 }
 
 static INTVAL
@@ -98,7 +102,7 @@ pmclass DecNum
         decNumberFromString(PARROT_DECNUM(SELF)->number, 
                           str, ctxt );
         Parrot_str_free_cstring(str);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }  
 
     VTABLE STRING *get_string() {
@@ -124,7 +128,7 @@ pmclass DecNum
         decNumberFromString(PARROT_DECNUM(SELF)->number,
                             cstr, ctxt );
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }  
 
     VTABLE INTVAL get_integer() {
@@ -147,7 +151,7 @@ pmclass DecNum
         decNumberFromString(PARROT_DECNUM(SELF)->number,
                             cstr, ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }  
 
     VTABLE FLOATVAL get_number() {
@@ -183,7 +187,7 @@ pmclass DecNum
                      PARROT_DECNUM(SELF)->number, 
                      decNumberFromString(&one , "1", ctxt),
                      ctxt);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
     }
 
@@ -195,7 +199,7 @@ pmclass DecNum
                           PARROT_DECNUM(SELF)->number, 
                           decNumberFromString(&one , "1", ctxt),
                           ctxt);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
     }
 
@@ -208,7 +212,7 @@ pmclass DecNum
                          PARROT_DECNUM(SELF)->number,
                          PARROT_DECNUM(value)->number,
                          ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -239,7 +243,7 @@ pmclass DecNum
                      decNumberFromString(&number , cstr, ctxt),
                      ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -256,7 +260,7 @@ pmclass DecNum
                      decNumberFromString(&number , cstr, ctxt),
                      ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -269,7 +273,7 @@ pmclass DecNum
                          PARROT_DECNUM(SELF)->number,
                          PARROT_DECNUM(value)->number,
                          ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
         }
 
         switch (value->vtable->base_type) {
@@ -296,7 +300,7 @@ pmclass DecNum
                      decNumberFromString(&number , cstr, ctxt),
                      ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE void i_add_float(FLOATVAL value) {
@@ -310,7 +314,7 @@ pmclass DecNum
                      decNumberFromString(&number , cstr, ctxt),
                      ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE PMC *subtract(PMC *value, PMC* dest) {
@@ -322,7 +326,7 @@ pmclass DecNum
                               PARROT_DECNUM(SELF)->number,
                               PARROT_DECNUM(value)->number,
                               ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -356,7 +360,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -373,7 +377,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -386,7 +390,7 @@ pmclass DecNum
                               PARROT_DECNUM(SELF)->number,
                               PARROT_DECNUM(value)->number,
                               ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
         }
         switch (value->vtable->base_type) {
             case enum_class_Integer:
@@ -412,7 +416,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE void i_subtract_float(FLOATVAL value) {
@@ -426,7 +430,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE PMC *multiply(PMC *value, PMC* dest) {
@@ -438,7 +442,7 @@ pmclass DecNum
                               PARROT_DECNUM(SELF)->number,
                               PARROT_DECNUM(value)->number,
                               ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -471,7 +475,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -488,7 +492,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -501,7 +505,7 @@ pmclass DecNum
                               PARROT_DECNUM(SELF)->number,
                               PARROT_DECNUM(value)->number, 
                               ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
         }
 
         switch (value->vtable->base_type) {
@@ -528,7 +532,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE void i_multiply_float(FLOATVAL value) {
@@ -542,7 +546,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE PMC *divide(PMC *value, PMC* dest) {
@@ -554,7 +558,7 @@ pmclass DecNum
                             PARROT_DECNUM(SELF)->number,
                             PARROT_DECNUM(value)->number,
                             ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -587,7 +591,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -604,7 +608,7 @@ pmclass DecNum
                           decNumberFromString(&number , cstr, ctxt),
                           ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -617,7 +621,7 @@ pmclass DecNum
                             PARROT_DECNUM(SELF)->number,
                             PARROT_DECNUM(value)->number, 
                             ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
         }
 
         switch (value->vtable->base_type) {
@@ -645,7 +649,7 @@ pmclass DecNum
                         decNumberFromString(&number , cstr, ctxt),
                         ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE void i_divide_float(FLOATVAL value) {
@@ -659,7 +663,7 @@ pmclass DecNum
                         decNumberFromString(&number , cstr, ctxt),
                         ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE PMC *floor_divide(PMC *value, PMC* dest) {
@@ -671,7 +675,7 @@ pmclass DecNum
                                    PARROT_DECNUM(SELF)->number,
                                    PARROT_DECNUM(value)->number,
                                    ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -705,7 +709,7 @@ pmclass DecNum
                                                    ctxt),
                                ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -723,7 +727,7 @@ pmclass DecNum
                                                    ctxt),
                                ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -736,7 +740,7 @@ pmclass DecNum
                                    PARROT_DECNUM(SELF)->number,
                                    PARROT_DECNUM(value)->number,
                                    ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return;
         }
 
@@ -766,7 +770,7 @@ pmclass DecNum
                                                    ctxt),
                                ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE void i_floor_divide_float(FLOATVAL value) {
@@ -781,7 +785,7 @@ pmclass DecNum
                                                    ctxt),
                                ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE PMC *modulus(PMC *value, PMC* dest) {
@@ -793,7 +797,7 @@ pmclass DecNum
                                    PARROT_DECNUM(SELF)->number,
                                    PARROT_DECNUM(value)->number,
                                    ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -826,7 +830,7 @@ pmclass DecNum
                            decNumberFromString(&number , cstr, ctxt),
                            ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -843,7 +847,7 @@ pmclass DecNum
                            decNumberFromString(&number , cstr, ctxt),
                            ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -856,7 +860,7 @@ pmclass DecNum
                                    PARROT_DECNUM(SELF)->number,
                                    PARROT_DECNUM(value)->number,
                                    ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return;
         }
 
@@ -886,7 +890,7 @@ pmclass DecNum
                            decNumberFromString(&number , cstr, ctxt),
                            ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE void i_modulus_float(FLOATVAL value) {
@@ -900,7 +904,7 @@ pmclass DecNum
                            decNumberFromString(&number , cstr, ctxt),
                            ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
 
     VTABLE PMC *pow(PMC *value, PMC* dest) {
@@ -912,7 +916,7 @@ pmclass DecNum
                            PARROT_DECNUM(SELF)->number,
                            PARROT_DECNUM(value)->number,
                            ctxt);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
 
@@ -944,7 +948,7 @@ pmclass DecNum
                        decNumberFromString(&number , cstr, ctxt),
                        ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -961,7 +965,7 @@ pmclass DecNum
                        decNumberFromString(&number , cstr, ctxt),
                        ctxt);
         Parrot_str_free_cstring(cstr);
-        check_flags_and_throw(INTERP, ctxt);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         return dest;
     }
@@ -990,7 +994,7 @@ pmclass DecNum
 
             decNumberFromString(&temp, cstr, ctxt);
             Parrot_str_free_cstring(cstr);
-            check_flags_and_throw(INTERP, ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
         }
         if ( get_ieee754_cmp(PARROT_DECNUM(SELF)->context) != 0 ) {
             decNumberCompareTotal(&temp, PARROT_DECNUM(SELF)->number,
