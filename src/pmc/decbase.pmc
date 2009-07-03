@@ -4,5 +4,5 @@ pmclass DecBase
 
     ATTR struct decContext *ctx;
     ATTR INTVAL ieee754_cmp;
-
+    ATTR INTVAL exceptions;
 }

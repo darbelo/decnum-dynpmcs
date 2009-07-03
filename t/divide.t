@@ -5,6 +5,7 @@
 
     $P0 = new 'DecNumContext'
     $P0.'set_ieee754_cmp'(1)
+    $P0.'set_exceptions'(0)
     plan( 583 )
     #Test version: 2.58
     $P0.'set_digits'( 9 )
