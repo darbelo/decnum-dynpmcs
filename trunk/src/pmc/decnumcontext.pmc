@@ -142,7 +142,7 @@ pmclass DecNumContext
             attr = mem_allocate_zeroed_typed(Parrot_DecNumContext_attributes);
             PMC_data(SELF) = attr;
 
-            attr->ieee754_cmp = 0;
+            PObj_get_FLAGS(SELF) &= ~PObj_private0_FLAG;
             attr->exceptions = DEC_Errors;
             attr->ctx = mem_allocate_typed(decContext);
             set_context_defaults(attr->ctx);
@@ -252,16 +252,17 @@ pmclass DecNumContext
 
     METHOD set_ieee754_cmp(INTVAL ieee754_cmp) {
         if ( ieee754_cmp != 0 ){
-            PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp = 1;
+            PObj_get_FLAGS(SELF) |= PObj_private0_FLAG;
         } else {
-            PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp = 0;
+            PObj_get_FLAGS(SELF) &= ~PObj_private0_FLAG;
         }
     }
 
     METHOD get_ieee754_cmp() {
-        INTVAL ieee754_cmp;
+        INTVAL ieee754_cmp = 0;
 
-        ieee754_cmp = PARROT_DECNUMCONTEXT(SELF)->ieee754_cmp;
+        if (PObj_get_FLAGS(SELF) & PObj_private0_FLAG) 
+            ieee754_cmp = 1;
 
         RETURN(INTVAL *ieee754_cmp);
     }

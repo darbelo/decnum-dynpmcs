@@ -22,7 +22,9 @@ get_exceptions(PMC *pmc) {
 
 static INTVAL
 get_ieee754_cmp(PMC *pmc) {
-    return PARROT_DECBASE(pmc)->ieee754_cmp;
+    if (PObj_get_FLAGS(pmc) & PObj_private0_FLAG)
+        return 1;
+    return 0;
 }
 
 pmclass DecNum 

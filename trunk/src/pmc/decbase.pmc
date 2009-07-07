@@ -3,6 +3,5 @@ pmclass DecBase
     group decnumber {
 
     ATTR struct decContext *ctx;
-    ATTR INTVAL ieee754_cmp;
     ATTR INTVAL exceptions;
 }
