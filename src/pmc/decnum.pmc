@@ -1,6 +1,7 @@
 #include <string.h>
 #include "parrot/parrot.h"
 #include "../decNumber/decNumber.h"
+#include "definitions.h"
 
 static void
 check_flags_and_throw(PARROT_INTERP, decContext *ctx, INTVAL exceptions) {
@@ -22,7 +23,7 @@ get_exceptions(PMC *pmc) {
 
 static INTVAL
 get_ieee754_cmp(PMC *pmc) {
-    if (PObj_get_FLAGS(pmc) & PObj_private0_FLAG)
+    if (PObj_get_FLAGS(pmc) & IEEE754_CMP_FLAG)
         return 1;
     return 0;
 }
