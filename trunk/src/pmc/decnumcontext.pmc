@@ -1,6 +1,7 @@
 #include <string.h>
 #include "parrot/parrot.h"
 #include "../decNumber/decNumber.h"
+#include "definitions.h"
 
 #define MAX_DIGITS DECNUMDIGITS
 #define MIN_DIGITS 1
@@ -142,7 +143,7 @@ pmclass DecNumContext
             attr = mem_allocate_zeroed_typed(Parrot_DecNumContext_attributes);
             PMC_data(SELF) = attr;
 
-            PObj_get_FLAGS(SELF) &= ~PObj_private0_FLAG;
+            PObj_get_FLAGS(SELF) &= ~IEEE754_CMP_FLAG;
             attr->exceptions = DEC_Errors;
             attr->ctx = mem_allocate_typed(decContext);
             set_context_defaults(attr->ctx);
@@ -252,16 +253,16 @@ pmclass DecNumContext
 
     METHOD set_ieee754_cmp(INTVAL ieee754_cmp) {
         if ( ieee754_cmp != 0 ){
-            PObj_get_FLAGS(SELF) |= PObj_private0_FLAG;
+            PObj_get_FLAGS(SELF) |= IEEE754_CMP_FLAG;
         } else {
-            PObj_get_FLAGS(SELF) &= ~PObj_private0_FLAG;
+            PObj_get_FLAGS(SELF) &= ~IEEE754_CMP_FLAG;
         }
     }
 
     METHOD get_ieee754_cmp() {
         INTVAL ieee754_cmp = 0;
 
-        if (PObj_get_FLAGS(SELF) & PObj_private0_FLAG) 
+        if (PObj_get_FLAGS(SELF) & IEEE754_CMP_FLAG) 
             ieee754_cmp = 1;
 
         RETURN(INTVAL *ieee754_cmp);
