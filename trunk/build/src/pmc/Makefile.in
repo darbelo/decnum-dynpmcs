@@ -47,7 +47,8 @@ CLEANUPS := \
   "*$(LOAD_EXT)" \
   "*$(O)" \
   "*.c" \
-  "*.h" \
+  "pmc*.h" \
+  "decnum_group.h" \
   "*.dump" \
 #IF(win32):  "*.exp" \
 #IF(win32):  "*.ilk" \
