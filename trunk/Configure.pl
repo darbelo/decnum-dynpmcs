@@ -63,9 +63,9 @@ sub read_parrot_config {
 sub create_makefiles {
     my %config = @_;
     my %makefiles = (
-        'build/Makefile.in'               => 'Makefile',
-        'build/src/decNumber/Makefile.in' => 'src/decNumber/Makefile',
-        'build/src/pmc/Makefile.in'       => 'src/pmc/Makefile',
+        'cfg/Makefile.in'               => 'Makefile',
+        'cfg/src/decNumber/Makefile.in' => 'src/decNumber/Makefile',
+        'cfg/src/pmc/Makefile.in'       => 'src/pmc/Makefile',
     );
     my $build_tool = $config{libdir} . $config{versiondir}
                    . '/tools/dev/gen_makefile.pl';
