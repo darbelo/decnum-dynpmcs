@@ -1,8 +1,8 @@
-#! parrot
+#! /usr/bin/env parrot
 .sub main :main
 .include 'test_more.pir'
 
-    $P0 = loadlib 'decnum_group'
+    $P0 = loadlib 'build/decnum_group'
     plan(8)
     'DEC_ROUND_CEILING'()
     'DEC_ROUND_DOWN'()
