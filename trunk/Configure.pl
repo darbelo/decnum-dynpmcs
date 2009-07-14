@@ -64,7 +64,6 @@ sub create_makefiles {
     my %config = @_;
     my %makefiles = (
         'cfg/Makefile.in'               => 'Makefile',
-        'cfg/src/decNumber/Makefile.in' => 'src/decNumber/Makefile',
         'cfg/src/pmc/Makefile.in'       => 'src/pmc/Makefile',
     );
     my $build_tool = $config{libdir} . $config{versiondir}
