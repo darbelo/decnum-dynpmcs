@@ -3,32 +3,22 @@ BUILD_DIR     = @build_dir@
 LOAD_EXT      = @load_ext@
 O             = @o@
 EXE           = @exe@
-MAKE          = @make_c@
 PERL          = @perl@
 RM_F          = @rm_f@
-HAS_ICU       = @has_icu@
 
 # Various paths
 PARROT_DYNEXT = $(BUILD_DIR)/runtime/parrot/dynext
 PERL6GRAMMAR  = $(BUILD_DIR)/runtime/parrot/library/PGE/Perl6Grammar.pbc
 NQP           = $(BUILD_DIR)/compilers/nqp/nqp.pbc
 PCT           = $(BUILD_DIR)/runtime/parrot/library/PCT.pbc
-PMC_DIR       = src/pmc
-OPSDIR        = src/ops
-OPSLIB        = dectest
-OPS_FILE      = src/ops/dectest.ops
 
 # Setup some commands
 PARROT        = $(BUILD_DIR)/parrot$(EXE)
-CAT           = $(PERL) -MExtUtils::Command -e cat
-BUILD_DYNPMC  = $(PERL) $(BUILD_DIR)/tools/build/dynpmc.pl
-BUILD_DYNOPS  = $(PERL) $(BUILD_DIR)/tools/build/dynoplibs.pl
 PBC_TO_EXE    = $(BUILD_DIR)/pbc_to_exe$(EXE)
 
 SOURCES = dectest.pir \
   src/gen_grammar.pir \
-  src/gen_actions.pir \
-  src/gen_builtins.pir
+  src/gen_actions.pir
 
 # PMCS        = dectest
 # PMC_SOURCES = $(PMC_DIR)/dectest.pmc
@@ -37,7 +27,6 @@ SOURCES = dectest.pir \
 CLEANUPS = \
   dectest.pbc \
   dectest.c \
-  *.manifest \
   *.pdb \
   dectest$(O) \
   dectest$(EXE) \
