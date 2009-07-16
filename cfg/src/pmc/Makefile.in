@@ -103,13 +103,6 @@ staging: decnum_group$(LOAD_EXT)
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "*$(LOAD_EXT)" $(STAGING_DIR)
 
-install: staging
-#IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
-	$(CP) "*$(LOAD_EXT)" $(INSTALL_DIR)
-
-uninstall:
-	$(RM_F) $(INSTALL_DIR)/decnum_group$(LOAD_EXT)
-
 clean:
 	$(RM_F) $(CLEANUPS)
 

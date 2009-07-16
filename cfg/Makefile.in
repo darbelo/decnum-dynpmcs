@@ -1,56 +1,57 @@
-## configuration settings
-BIN_DIR       := @bindir@
-LIB_DIR       := @libdir@@versiondir@
-DOCDIR        := @docdir@@versiondir@
-MANDIR        := @mandir@@versiondir@
+VERSION_DIR   := @versiondir@
+INCLUDE_DIR   := @includedir@$(VERSION_DIR)
+LIB_DIR       := @libdir@$(VERSION_DIR)
+SRC_DIR       := @srcdir@$(VERSION_DIR)
+TOOLS_DIR     := @libdir@$(VERSION_DIR)/tools/lib
+STAGING_DIR   := build
+INSTALL_DIR   := $(LIB_DIR)/dynext
+PMC_DIR       := src/pmc
+DECNUMBER_DIR := src/decNumber
 
 # Set up extensions
 LOAD_EXT      := @load_ext@
 O             := @o@
 
-# Various paths
-PMC_DIR       := src/pmc
-DECNUMBER_DIR := src/decNumber
-
-## Setup some commands
+# Setup some commands
 MAKE          := @make_c@
 PERL          := @perl@
-CAT           := @cat@
+RM_F          := @rm_f@
 CHMOD         := @chmod@
 CP            := @cp@
-MKPATH        := @mkpath@
-RM_F          := @rm_f@
-RM_RF         := @rm_rf@
-#IF(parrot_is_shared and not(cygwin or win32)):export LD_RUN_PATH := @blib_dir@:$(LD_RUN_PATH)
-#IF(darwin):
-#IF(darwin):# MACOSX_DEPLOYMENT_TARGET must be defined for OS X compilation/linking
-#IF(darwin):export MACOSX_DEPLOYMENT_TARGET := @osx_version@
+CC            := @cc@ -c
+LD            := @ld@
+LDFLAGS       := @ldflags@ @ld_debug@
+LD_LOAD_FLAGS := @ld_load_flags@
 #IF(@bigendian@):ENDIAN        := -DDECLITEND=0
 #ELSE:ENDIAN        := -DDECLITEND=1
-CC            := @cc@ -c
-CC_OUT        := @cc_o_out@
 CFLAGS        := @ccflags@ @cc_shared@ @cc_debug@ @ccwarn@ @cc_hasjit@\
                  @cg_flag@ @gc_flag@ $(ENDIAN) -DDECUSE64=0 -DDECDPUN=4\
                  -DDECNUMDIGITS=512 -DDECSUBSET=0
+CC_OUT        := @cc_o_out@
+LD_OUT        := @ld_out@
+#IF(parrot_is_shared):LIBPARROT     := @inst_libparrot_ldflags@
+#ELSE:LIBPARROT     :=
+
+PMC2C_INCLUDES  := --include $(SRC_DIR) --include $(SRC_DIR)/pmc
+PMC2C           := $(PERL) $(LIB_DIR)/tools/build/pmc2c.pl
+PMC2CD          := $(PMC2C) --dump $(PMC2C_INCLUDES)
+PMC2CC          := $(PMC2C) --c $(PMC2C_INCLUDES)
+
+INCLUDES        := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/pmc
+LINKARGS        := $(LDFLAGS) $(LD_LOAD_FLAGS) $(LIBPARROT)
 
 PMC_DEPS := \
     $(PMC_DIR)/decbase.pmc \
     $(PMC_DIR)/decnumcontext.pmc \
     $(PMC_DIR)/decnum.pmc
 
-DOCS := README
-
 BUILD_CLEANUPS := build/*
 
-TEST_CLEANUPS :=
-
 # the default target
-all: decnumber pmc
+all: pmc
 
-pmc: $(PMC_DEPS)
+pmc: $(PMC_DEPS) build/decContext$(O) build/decNumber$(O)
 	$(MAKE) $(PMC_DIR)
-
-decnumber: build/decContext$(O) build/decNumber$(O)
 
 build/decContext$(O): $(DECNUMBER_DIR)/decContext.c \
                       $(DECNUMBER_DIR)/decContext.h
@@ -66,7 +67,7 @@ help:
 	@echo ""
 	@echo "Following targets are available for the user:"
 	@echo ""
-	@echo "  build:             Build the dynpmcs."
+	@echo "  pmc:               Build the dynpmcs."
 	@echo "                     This is the default."
 	@echo "  install:           Install the installable targets and docs."
 	@echo ""
@@ -82,28 +83,26 @@ help:
 	@echo "  help:              Print this help message."
 	@echo ""
 
-test: all
+test: pmc
 	$(PERL) t/harness
 
-install: build-pmc
-	$(MAKE) $(PMC_DIR) install
+install: pmc
+#IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
+	$(CP) "$(STAGING_DIR)/decnum_group$(LOAD_EXT)" $(INSTALL_DIR)
 
 uninstall:
-	$(MAKE) $(PMC_DIR) uninstall
+	$(RM_F) $(INSTALL_DIR)/decnum_group$(LOAD_EXT)
+
 
 testclean:
 	$(RM_F) $(TEST_CLEANUPS)
 
-pmc_clean:
+clean:
 	$(MAKE) $(PMC_DIR) clean 
-
-clean: pmc_clean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS)
 
-pmc_realclean:
+realclean:
 	$(MAKE) $(PMC_DIR) realclean
-
-realclean: pmc_realclean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS) Makefile
 
 # Local variables:
