@@ -12,12 +12,13 @@ token ws {
 }
 
 rule statement {
-    | <test> 
-    | <context> 
+    | <test>	{*} #= test
+    | <context>	{*} #= context
 }
 
 rule test { :i
     <testname> <operation> <number> <number>? '->' <number> [ <status> ]*
+    {*}
 }
 
 token testname {
@@ -35,7 +36,7 @@ token number { :i
         | [ 's'? 'nan' \d* ]
         | '#'
     ] ['\'' | '"']?
-
+    {*}
 }
 
 token status { :i
@@ -44,15 +45,24 @@ token status { :i
 }
 
 rule context {
-    <context_field> [<number> | <rounding_mode>]
+    <context_field> [<integer> | <rounding_mode>]
+    {*}
 }
 
 token context_field { :i
-    [ 'clamp' | 'maxexponent' | 'minexponent' | 'precision' | 'version'
+    [ 'clamp' | 'maxexponent' | 'minexponent' | 'precision'
       | 'rounding' | 'extended'
     ] ':'
 }
 
+token integer {
+    ['+'|'-']?\d+
+    {*}
+}
+
 token rounding_mode { :i
-    'half_up' | 'half_down' | 'half_even' | 'down' | 'up' | 'floor' | 'ceiling'
+    [ 'half_up' | 'half_down' | 'half_even' | 'down' | 'up' | 'floor' 
+      | 'ceiling'
+    ]
+    {*}
 }
