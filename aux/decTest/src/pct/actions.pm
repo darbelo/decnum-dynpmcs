@@ -17,7 +17,13 @@ value of the comment is passed as the second argument to the method.
 class decTest::Grammar::Actions;
 
 method TOP($/) {
-    my $past := PAST::Block.new( :blocktype('declaration'), :node( $/ ), :hll('decTest') );
+    my $past := PAST::Block.new(:node($/), :name('tests'));
+    $past.push(PAST::Op.new(:inline('.include "test_more.pir"')));
+    $past.push(PAST::Op.new(:inline('load_bytecode "src/inc/procs.pbc"')));
+    $past.push(PAST::Op.new(:inline('$P0 = loadlib "decnum_group"',
+                                      '$P0 = new "DecNumContext"',
+                                      '$P0."set_ieee754_cmp"(1)',
+                                      '$P0."set_exceptions"(0)')));
     for $<statement> {
         $past.push( $_.ast );
     }
@@ -29,18 +35,17 @@ method statement($/, $key) {
 }
 
 method test($/) {
-    my $past := PAST::Block.new( :blocktype('declaration'), :node( $/ ),
-                                 :name($<testname>), :hll('decTest') );
+    my $past := PAST::Op.new( :name('is'), :pasttype('call'),
+                              :node( $/ ) );
+
     my $operation := PAST::Op.new( :name($<operation>), :node( $/ ),
                                    :pasttype('call') );
     for $<number> {
         $operation.push( $_.ast );
     }
-    my $cmp := PAST::Op.new( :name('is'), :pasttype('call'),
-                             :node( $/ ) );
-    $cmp.push( $operation.pop() );
-    $cmp.push( $operation );
-    $past.push( $cmp );
+
+    $past.push( $operation.pop() );
+    $past.push( $operation );
     make $past;
 }
 
@@ -48,15 +53,10 @@ method number($/) {
     make PAST::Val.new( :value( ~$/ ), :returns('DecNum'), :node($/) );
 }
 
-method context($/) {
+method context($/, $key) {
     my $past := PAST::Op.new(:node( $/ ), :pasttype('callmethod'), :name( $<context_field> ) );
-    $past.push(PAST::Val.new( :returns('DecNumContext'), :value( 'FIXME' ) ));
-    if ( $<integer> ) {
-        $past.push( $<integer>.ast );
-    }
-    if ( $<rounding_mode> ) {
-        $past.push( $<rounding_mode>.ast );
-    }
+    $past.push( PAST::Val.new( :returns( 'DecNumContext' ), :value( '$P0' ) ) );
+    $past.push( $/{$key}.ast );
     make $past;
 }
 
