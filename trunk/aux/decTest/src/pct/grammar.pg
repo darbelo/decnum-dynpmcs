@@ -6,9 +6,9 @@ rule TOP {
     {*}
 }
 
-token ws {
+token ws {:i
     <!ww>
-    [ '--' \N* \n? | \s+ ]*
+    [ '--' \N* \n? | \s+ | ['version:' \s+ \d+ '.' \d+] ]*
 }
 
 rule statement {
@@ -45,8 +45,8 @@ token status { :i
 }
 
 rule context {
-    <context_field> [<integer> | <rounding_mode>]
-    {*}
+    | <context_field> <rounding_mode>	{*} #= rounding_mode
+    | <context_field> <integer> 	{*} #= integer
 }
 
 token context_field { :i
