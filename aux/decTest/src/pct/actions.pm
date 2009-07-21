@@ -16,7 +16,14 @@ value of the comment is passed as the second argument to the method.
 
 class decTest::Grammar::Actions;
 
+our $planed := 0;
+
 method TOP($/) {
+    
+    my $plan := PAST::Op.new( :name('plan'), :pasttype('call'),
+                              :node( $/ ) );
+    $plan.push( PAST::Val.new( :value( $planed ), :returns('Integer'), :node($/) ) );
+
     my $past := PAST::Block.new(:node($/), :name('tests'));
     $past.push(PAST::Op.new(:inline('.include "test_more.pir"')));
     $past.push(PAST::Op.new(:inline('load_bytecode "src/inc/procs.pbc"')));
@@ -25,6 +32,7 @@ method TOP($/) {
                                     '    ctx = new "DecNumContext"',
                                     '    ctx."set_ieee754_cmp"(1)',
                                     '    ctx."set_exceptions"(0)')));
+    $past.push( $plan );
     for $<statement> {
         $past.push( $_.ast );
     }
@@ -48,6 +56,7 @@ method test($/) {
     $past.push( $operation.pop() );
     $past.push( $operation );
     make $past;
+    $planed++;
 }
 
 method decnumber($/) {
