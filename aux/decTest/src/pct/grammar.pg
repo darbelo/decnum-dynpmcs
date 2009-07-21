@@ -17,7 +17,7 @@ rule statement {
 }
 
 rule test { :i
-    <testname> <operation> <number> <number>? '->' <number> [ <status> ]*
+    <testname> <operation> <decnumber> [ <decnumber> ]* '->' <decnumber> [ <status> ]*
     {*}
 }
 
@@ -26,22 +26,28 @@ token testname {
 }
 
 token operation {
-    [ 'add' | 'multiply' | 'subtract' | 'divide'| 'divideint' | 'minus' | 'apply' | 'exp' ]
+    [ 'add' | 'multiply' | 'subtract' | 'divideint' | 'divide' | 'minus' | 'apply' | 'exp' ]
+}
+
+token decnumber { :i
+    ['\'' | '"']? <number> ['\'' | '"']?
+    {*}
 }
 
 token number { :i
-    ['\'' | '"']?  ['+'|'-']? [ 
+    ['+'|'-']? [ 
         [ [\d+ '.'? \d*] | ['.'? \d+] ] ['e' ['+'|'-']? \d+ ]? 
         | [ 'inf' 'inity'? ]
         | [ 's'? 'nan' \d* ]
         | '#'
-    ] ['\'' | '"']?
+    ]
     {*}
 }
 
 token status { :i
     | 'inexact' | 'rounded' | 'invalid_operation' | 'overflow'
     | 'underflow' | 'subnormal' | 'clamped' | 'invalid_context'
+    | 'division_undefined' | 'division_by_zero' | 'division_impossible'
 }
 
 rule context {
@@ -50,9 +56,12 @@ rule context {
 }
 
 token context_field { :i
-    [ 'clamp' | 'maxexponent' | 'minexponent' | 'precision'
-      | 'rounding' | 'extended'
-    ] ':'
+    | 'clamp:'		{*} #= set_clamp
+    | 'maxexponent:'	{*} #= set_emax
+    | 'minexponent:'	{*} #= set_emin
+    | 'precision:'	{*} #= set_digits
+    | 'rounding:'	{*} #= set_rounding_mode
+    | 'extended:'	{*} #= set_extended
 }
 
 token integer {
@@ -61,8 +70,11 @@ token integer {
 }
 
 token rounding_mode { :i
-    [ 'half_up' | 'half_down' | 'half_even' | 'down' | 'up' | 'floor' 
-      | 'ceiling'
-    ]
-    {*}
+    | 'half_up'		{*} #= 'DEC_ROUND_HALF_UP'
+    | 'half_down'	{*} #= 'DEC_ROUND_HALF_DOWN'
+    | 'half_even'	{*} #= 'DEC_ROUND_HALF_EVEN'
+    | 'down'		{*} #= 'DEC_ROUND_DOWN'
+    | 'up'		{*} #= 'DEC_ROUND_UP'
+    | 'floor' 		{*} #= 'DEC_ROUND_FLOOR'
+    | 'ceiling'		{*} #= 'DEC_ROUND_CEILING'
 }

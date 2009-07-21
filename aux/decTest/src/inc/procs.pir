@@ -29,3 +29,11 @@
     z = x / y
     .return ( z )
 .end
+
+.sub divideint
+    .param pmc x
+    .param pmc y
+    .local pmc z
+    z = x // y
+    .return ( z )
+.end
