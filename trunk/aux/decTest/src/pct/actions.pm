@@ -21,9 +21,10 @@ method TOP($/) {
     $past.push(PAST::Op.new(:inline('.include "test_more.pir"')));
     $past.push(PAST::Op.new(:inline('load_bytecode "src/inc/procs.pbc"')));
     $past.push(PAST::Op.new(:inline('$P0 = loadlib "decnum_group"',
-                                      '$P0 = new "DecNumContext"',
-                                      '$P0."set_ieee754_cmp"(1)',
-                                      '$P0."set_exceptions"(0)')));
+                                    '.local pmc ctx',
+                                    '    ctx = new "DecNumContext"',
+                                    '    ctx."set_ieee754_cmp"(1)',
+                                    '    ctx."set_exceptions"(0)')));
     for $<statement> {
         $past.push( $_.ast );
     }
@@ -40,7 +41,7 @@ method test($/) {
 
     my $operation := PAST::Op.new( :name($<operation>), :node( $/ ),
                                    :pasttype('call') );
-    for $<number> {
+    for $<decnumber> {
         $operation.push( $_.ast );
     }
 
@@ -49,23 +50,38 @@ method test($/) {
     make $past;
 }
 
+method decnumber($/) {
+    make $<number>.ast;
+}
+
 method number($/) {
-    make PAST::Val.new( :value( ~$/ ), :returns('DecNum'), :node($/) );
+    my $str := "'" ~ ~$/ ~ "'";
+    make PAST::Val.new( :value( $str ), :returns('DecNum'), :node($/) );
 }
 
 method context($/, $key) {
-    my $past := PAST::Op.new(:node( $/ ), :pasttype('callmethod'), :name( $<context_field> ) );
-    $past.push( PAST::Val.new( :returns( 'DecNumContext' ), :value( '$P0' ) ) );
-    $past.push( $/{$key}.ast );
+    my $past;
+    if ( $<context_field> == "extended:") {
+        $past := PAST::Stmts.new();
+    } else {
+        $past := PAST::Op.new( :node( $/ ), :pasttype('callmethod'),
+                                  :name( $<context_field>.ast ) );
+        $past.push( PAST::Var.new( :scope('register'), :name('ctx') ) );
+        $past.push( $/{$key}.ast );
+    }
     make $past;
+}
+
+method context_field($/, $str) {
+    make PAST::Val.new( :value( $str ), :returns('String'), :node($/) );
 }
 
 method integer($/) {
     make PAST::Val.new( :value( ~$/ ), :returns('Integer'), :node($/) );
 }
 
-method rounding_mode($/) {
-    make PAST::Val.new( :value( ~$/ ), :returns('Integer'), :node($/) );
+method rounding_mode($/, $str) {
+    make PAST::Val.new( :value( $str ), :returns('String'), :node($/) );
 }
 
 # Local Variables:
