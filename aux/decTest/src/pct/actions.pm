@@ -55,6 +55,7 @@ method test($/) {
 
     $past.push( $operation.pop() );
     $past.push( $operation );
+    $past.push(  PAST::Val.new( :value( $<testname> ), :returns('String') ) );
     make $past;
     $planed++;
 }
