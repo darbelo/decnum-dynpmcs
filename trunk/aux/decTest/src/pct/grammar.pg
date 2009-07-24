@@ -26,7 +26,8 @@ token testname {
 }
 
 token operation {
-    [ 'add' | 'multiply' | 'subtract' | 'divideint' | 'divide' | 'minus' | 'apply' | 'exp' ]
+    [ 'fma' | 'multiply' | 'subtract' | 'divideint' | 'divide' 
+      | 'minus' | 'apply' | 'exp' | 'add' ]
 }
 
 token decnumber { :i

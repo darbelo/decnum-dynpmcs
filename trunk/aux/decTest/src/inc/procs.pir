@@ -37,3 +37,12 @@
     z = x // y
     .return ( z )
 .end
+
+.sub fma
+    .param pmc x
+    .param pmc y
+    .param pmc z
+    .local pmc a
+    a = x.'multiply_add'( y, z)
+    .return ( a )
+.end
