@@ -1076,45 +1076,55 @@ pmclass DecNum
                      PARROT_DECNUM(times)->number,
                      PARROT_DECNUM(plus)->number, ctxt);
 
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+
         RETURN(PMC *dest);
     }
 
     METHOD ln() {
-        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberLn(PARROT_DECNUM(dest)->number,
-                    PARROT_DECNUM(SELF)->number,
-                    get_context(PARROT_DECNUM(SELF)->context));
+                    PARROT_DECNUM(SELF)->number, ctxt);
+
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD log10() {
-        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberLog10(PARROT_DECNUM(dest)->number,
-                       PARROT_DECNUM(SELF)->number,
-                       get_context(PARROT_DECNUM(SELF)->context));
+                       PARROT_DECNUM(SELF)->number, ctxt);
+
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD exp() {
-        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberExp(PARROT_DECNUM(dest)->number,
-                     PARROT_DECNUM(SELF)->number,
-                     get_context(PARROT_DECNUM(SELF)->context));
+                     PARROT_DECNUM(SELF)->number, ctxt);
+
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD sqrt() {
-        PMC *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberSquareRoot(PARROT_DECNUM(dest)->number,
-                            PARROT_DECNUM(SELF)->number,
-                            get_context(PARROT_DECNUM(SELF)->context));
+                            PARROT_DECNUM(SELF)->number, ctxt);
+
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
         RETURN(PMC *dest);
     }
