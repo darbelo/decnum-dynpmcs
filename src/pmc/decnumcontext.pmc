@@ -102,10 +102,10 @@ str_to_rounding_mode(PARROT_INTERP, STRING *round) {
 
 static void
 set_context_defaults(decContext *ctx) {
-    ctx->emin  = -999999;
-    ctx->emax  = 999999;
     decContextDefault(ctx, DEC_INIT_BASE);
     decContextZeroStatus(ctx);
+    ctx->emin  = -999999;
+    ctx->emax  = 999999;
     ctx->traps = 0;
 
 }
