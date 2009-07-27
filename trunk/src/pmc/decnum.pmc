@@ -1129,4 +1129,10 @@ pmclass DecNum
         RETURN(PMC *dest);
     }
 
+    METHOD get_exponent() {
+        INTVAL exp = PARROT_DECNUM(SELF)->number->exponent;
+
+        RETURN(INTVAL exp);
+    }
+
 }

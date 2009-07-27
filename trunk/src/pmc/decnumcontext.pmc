@@ -6,11 +6,11 @@
 #define MAX_DIGITS DECNUMDIGITS
 #define MIN_DIGITS 1
 
-#define MIN_EMIN -999999999 
-#define MAX_EMIN 0 
+#define MIN_EMIN DEC_MIN_EMIN
+#define MAX_EMIN DEC_MAX_EMIN
     
-#define MIN_EMAX 0 
-#define MAX_EMAX 999999999
+#define MIN_EMAX DEC_MIN_EMAX
+#define MAX_EMAX DEC_MAX_EMAX
 
 static STRING *
 rounding_mode_to_str(PARROT_INTERP, struct decContext *ctx) {
