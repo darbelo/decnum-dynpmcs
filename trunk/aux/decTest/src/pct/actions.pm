@@ -26,8 +26,8 @@ method TOP($/) {
 
     my $past := PAST::Block.new(:node($/), :name('tests'));
     $past.push(PAST::Op.new(:inline('.include "test_more.pir"')));
-    $past.push(PAST::Op.new(:inline('load_bytecode "src/inc/procs.pbc"')));
-    $past.push(PAST::Op.new(:inline('$P0 = loadlib "decnum_group"',
+    $past.push(PAST::Op.new(:inline('load_bytecode "aux/decTest/src/inc/procs.pbc"')));
+    $past.push(PAST::Op.new(:inline('$P0 = loadlib "build/decnum_group"',
                                     '.local pmc ctx',
                                     '    ctx = new "DecNumContext"',
                                     '    ctx."set_ieee754_cmp"(1)',
