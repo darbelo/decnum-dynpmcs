@@ -74,6 +74,7 @@ help:
 	@echo "Testing:"
 	@echo "  test:              Run the test suite."
 	@echo "  testclean:         Clean up test results."
+	@echo "  dectest:           Build the decTest helper tool."
 	@echo ""
 	@echo "Cleaning:"
 	@echo "  clean:             Basic cleaning up."
@@ -82,6 +83,12 @@ help:
 	@echo "Misc:"
 	@echo "  help:              Print this help message."
 	@echo ""
+
+dectest:
+	$(MAKE) aux/decTest
+
+dectest-clean:
+	$(MAKE) aux/decTest clean
 
 test: pmc
 	$(PERL) t/harness
