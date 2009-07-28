@@ -44,18 +44,21 @@ method statement($/, $key) {
 }
 
 method test($/) {
-    my $past := PAST::Op.new( :name('is'), :pasttype('call'),
-                              :node( $/ ) );
-
-    my $operation := PAST::Op.new( :name($<operation>), :node( $/ ),
+    my $past := PAST::Op.new( :pasttype('call'), :node( $/ ) );
+    my $test := PAST::Block.new( :node($/), :name($<testname>) );
+    my $is := PAST::Op.new( :name( 'is' ), :pasttype( 'call' ) );
+    my $operation := PAST::Op.new( :name($<operation>),
                                    :pasttype('call') );
     for $<decnumber> {
         $operation.push( $_.ast );
     }
 
-    $past.push( $operation.pop() );
-    $past.push( $operation );
-    $past.push(  PAST::Val.new( :value( $<testname> ), :returns('String') ) );
+    $is.push( $operation );
+    $is.push( $operation.pop() );
+    $is.push( PAST::Val.new( :value( $<testname> ),
+                             :returns('String') ) );
+    $test.push( $is );
+    $past.push( $test );
     make $past;
     $planed++;
 }
