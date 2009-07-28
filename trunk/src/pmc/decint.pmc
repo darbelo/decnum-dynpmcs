@@ -59,45 +59,40 @@ pmclass DecInt
     }
 
     VTABLE void set_string_native(STRING *value) {
-        char * const str = Parrot_str_to_cstring(INTERP, value);
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
 
-        decNumberFromString(PARROT_DECNUM(SELF)->number, 
-                          str, ctxt );
+        SUPER(value);
+
         decNumberToIntegralValue(PARROT_DECNUM(SELF)->number,
                                  PARROT_DECNUM(SELF)->number, ctxt);
-        Parrot_str_free_cstring(str);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
-    }  
+    }
 
     VTABLE void set_integer_native(INTVAL value) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        STRING     *pstr = Parrot_str_from_int(INTERP, value);
-        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
 
-        decNumberFromString(PARROT_DECNUM(SELF)->number,
-                            cstr, ctxt );
+        SUPER(value);
+
         decNumberToIntegralValue(PARROT_DECNUM(SELF)->number,
                                  PARROT_DECNUM(SELF)->number, ctxt);
-        Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
-    }  
+    }
 
     VTABLE void set_number_native(FLOATVAL value) {
         decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-        STRING     *pstr = Parrot_str_from_num(INTERP, value);
-        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
 
-        decNumberFromString(PARROT_DECNUM(SELF)->number,
-                            cstr, ctxt);
+        SUPER(value);
+
         decNumberToIntegralValue(PARROT_DECNUM(SELF)->number,
                                  PARROT_DECNUM(SELF)->number, ctxt);
-        Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
-    }  
+    }
 
     VTABLE PMC *divide(PMC *value, PMC* dest) {
         return VTABLE_floor_divide(INTERP, SELF, value, dest);
     }
 
+    void i_divide(PMC *value) {
+        VTABLE_i_floor_divide(INTERP, SELF, value);
+    }
 }
