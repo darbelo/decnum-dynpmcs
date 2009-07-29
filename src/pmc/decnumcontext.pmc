@@ -12,94 +12,6 @@
 #define MIN_EMAX DEC_MIN_EMAX
 #define MAX_EMAX DEC_MAX_EMAX
 
-static STRING *
-rounding_mode_to_str(PARROT_INTERP, struct decContext *ctx) {
-    STRING *rounding_str;
-
-    switch (decContextGetRounding(ctx)) {
-        case DEC_ROUND_CEILING:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_CEILING", 0);
-            break;
-        case DEC_ROUND_UP:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_UP", 0);
-            break;
-        case DEC_ROUND_HALF_UP:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_HALF_UP", 0);
-            break;
-        case DEC_ROUND_HALF_EVEN:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_HALF_EVEN", 0);
-            break;
-        case DEC_ROUND_HALF_DOWN:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_HALF_DOWN", 0);
-            break;
-        case DEC_ROUND_DOWN:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_DOWN", 0);
-            break;
-        case DEC_ROUND_FLOOR:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_FLOOR", 0);
-            break;
-        case DEC_ROUND_05UP:
-            rounding_str = Parrot_str_new(interp,
-                                          "DEC_ROUND_05UP", 0);
-            break;
-        default: /* Sould never happen*/
-            Parrot_ex_throw_from_c_args(interp, NULL,
-                                        EXCEPTION_INVALID_OPERATION,
-            "Invalid rounding mode found on the decContext structure!");
-    }
-    return rounding_str;
-}
-
-static enum rounding
-str_to_rounding_mode(PARROT_INTERP, STRING *round) {
-        char *rounding_str = Parrot_str_to_cstring(interp, round);
-        enum rounding rounding_enum;
-
-        if (!strcmp(rounding_str, "DEC_ROUND_CEILING")) {
-            /* Round towards +Infinity. */
-            rounding_enum = DEC_ROUND_CEILING;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_DOWN")) {
-            /* Round towards 0 (truncation). */
-            rounding_enum = DEC_ROUND_DOWN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_FLOOR")) {
-            /* Round towards -Infinity. */
-            rounding_enum = DEC_ROUND_FLOOR;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_DOWN")) {
-            /* Round to nearest; if equidistant, round down. */
-            rounding_enum = DEC_ROUND_HALF_DOWN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_EVEN")) {
-            /* Round to nearest; if equidistant, round so that the final
-               digit is even. */
-            rounding_enum = DEC_ROUND_HALF_EVEN;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_HALF_UP")) {
-            /* Round to nearest; if equidistant, round up. */
-            rounding_enum = DEC_ROUND_HALF_UP;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_UP")) {
-            /* Round away from 0. */
-            rounding_enum = DEC_ROUND_UP;
-        } else if (!strcmp(rounding_str, "DEC_ROUND_05UP")) {
-            /* The same as DEC_ROUND_UP, except that rounding up only 
-               occurs if the digit to be rounded up is 0 or 5 and after
-               Overflow the result is the same as for DEC_ROUND_DOWN. */
-            rounding_enum = DEC_ROUND_05UP;
-        } else {
-            Parrot_str_free_cstring(rounding_str);
-            Parrot_ex_throw_from_c_args(interp, NULL, EXCEPTION_INVALID_OPERATION,  
-            "Invalid rounding mode provided!");
-        }
-
-        Parrot_str_free_cstring(rounding_str);
-
-        return rounding_enum;
-}
-
 static void
 set_context_defaults(decContext *ctx) {
     decContextDefault(ctx, DEC_INIT_BASE);
@@ -159,7 +71,6 @@ pmclass DecNumContext
 
     VTABLE void freeze(visit_info *info) {
         decContext *ctx = PARROT_DECNUMCONTEXT(SELF)->ctx;
-        STRING     *str = rounding_mode_to_str(INTERP, ctx);
 
         SUPER(info);
 
@@ -167,13 +78,12 @@ pmclass DecNumContext
         VTABLE_push_integer(INTERP, info->image_io, ctx->emax);
         VTABLE_push_integer(INTERP, info->image_io, ctx->emin);
         VTABLE_push_integer(INTERP, info->image_io, ctx->clamp);
-        VTABLE_push_string(INTERP, info->image_io, str);
+        VTABLE_push_integer(INTERP, info->image_io, ctx->round);
 
     }
 
     VTABLE void thaw(visit_info *info) {
         INTVAL      context_type;
-        STRING     *str;
         decContext *ctx;
 
         context_type = pmc_type(interp, CONST_STRING(interp, "DecNumContext"));
@@ -185,8 +95,7 @@ pmclass DecNumContext
         ctx->emax = VTABLE_shift_integer(INTERP, info->image_io);
         ctx->emin = VTABLE_shift_integer(INTERP, info->image_io);
         ctx->clamp = VTABLE_shift_integer(INTERP, info->image_io);
-        str = VTABLE_shift_string(INTERP, info->image_io);
-        ctx->round = str_to_rounding_mode(INTERP, str);
+        ctx->round = VTABLE_shift_integer(INTERP, info->image_io);
 
     }
 
@@ -299,18 +208,31 @@ pmclass DecNumContext
     }
 
     METHOD get_rounding_mode() {
-        STRING *s;
-        s = rounding_mode_to_str(INTERP,
-                                 PARROT_DECNUMCONTEXT(SELF)->ctx);
+        INTVAL rnd;
 
-        RETURN(STRING *s);
+        rnd = decContextGetRounding( PARROT_DECNUMCONTEXT(SELF)->ctx );
+
+        RETURN(INTVAL rnd);
     }
 
-    METHOD set_rounding_mode(STRING *rounding) {
+    METHOD set_rounding_mode(INTVAL rnd) {
 
-        decContextSetRounding(PARROT_DECNUMCONTEXT(SELF)->ctx, 
-                              str_to_rounding_mode(INTERP, rounding));
-
+        switch (rnd) {
+            case DEC_ROUND_CEILING:
+            case DEC_ROUND_UP:
+            case DEC_ROUND_HALF_UP:
+            case DEC_ROUND_HALF_EVEN:
+            case DEC_ROUND_HALF_DOWN:
+            case DEC_ROUND_DOWN:
+            case DEC_ROUND_FLOOR:
+            case DEC_ROUND_05UP:
+                PARROT_DECNUMCONTEXT(SELF)->ctx->round = rnd;
+                break;
+            default:
+                Parrot_ex_throw_from_c_args(interp, NULL, 
+                                            EXCEPTION_INVALID_OPERATION,
+                                     "Invalid rounding mode provided!");
+        }
     }
 
 }

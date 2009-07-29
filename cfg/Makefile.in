@@ -97,10 +97,11 @@ test: pmc
 install: pmc
 #IF(cygwin or hpux):	CHMOD 0775 "*$(LOAD_EXT)"
 	$(CP) "$(STAGING_DIR)/decnum_group$(LOAD_EXT)" $(INSTALL_DIR)
+	$(CP) "inc/decnum.pasm" $(LIB_DIR)/include
 
 uninstall:
 	$(RM_F) $(INSTALL_DIR)/decnum_group$(LOAD_EXT)
-
+	$(RM_F) $(LIB_DIR)/include/decnum.pasm
 
 testclean:
 	$(RM_F) $(TEST_CLEANUPS)
