@@ -65,6 +65,7 @@ sub create_makefiles {
     my %makefiles = (
         'cfg/Makefile.in'               => 'Makefile',
         'cfg/src/pmc/Makefile.in'       => 'src/pmc/Makefile',
+        'aux/decTest/cfg/Makefile.in'   => 'aux/decTest/Makefile',
     );
     my $build_tool = $config{libdir} . $config{versiondir}
                    . '/tools/dev/gen_makefile.pl';
