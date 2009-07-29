@@ -2,6 +2,7 @@
 
 .sub main :main
 .include 'test_more.pir'
+.include 'inc/decnum.pasm'
 
     $P0 = loadlib 'build/decnum_group'
     plan(6)
@@ -20,7 +21,7 @@
     $P1.'set_digits'(5)
     $P2 = thaw $S0
     $I0 = $P1.'get_digits'()
-    is(12, $I0)
+    is(12, $I0, "digits")
 .end
 
 .sub emin
@@ -30,7 +31,7 @@
     $P1.'set_emin'(-35)
     $P2 = thaw $S0
     $I0 = $P1.'get_emin'()
-    is(-5, $I0)
+    is(-5, $I0, "emin")
 .end
 
 .sub emax
@@ -40,7 +41,7 @@
     $P1.'set_emax'(30)
     $P2 = thaw $S0
     $I0 = $P1.'get_emax'()
-    is(5, $I0)
+    is(5, $I0, "emax")
 .end
 
 .sub clamp
@@ -50,17 +51,17 @@
     $P1.'set_clamp'(0)
     $P2 = thaw $S0
     $I0 = $P1.'get_clamp'()
-    is(1, $I0)
+    is(1, $I0, "clamp")
 .end
 
 .sub rounding_mode
     $P1 = new 'DecNumContext'
-    $P1.'set_rounding_mode'("DEC_ROUND_UP")
+    $P1.'set_rounding_mode'(.DEC_ROUND_UP)
     $S0 = freeze $P1
-    $P1.'set_rounding_mode'("DEC_ROUND_DOWN")
+    $P1.'set_rounding_mode'(.DEC_ROUND_DOWN)
     $P2 = thaw $S0
-    $S1 = $P1.'get_rounding_mode'()
-    is("DEC_ROUND_UP", $S1)
+    $I0 = $P1.'get_rounding_mode'()
+    is(.DEC_ROUND_UP, $I0, "rounding_mode")
 .end
 
 .sub decnum
