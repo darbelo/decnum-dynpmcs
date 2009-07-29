@@ -45,10 +45,18 @@ token number { :i
     {*}
 }
 
-token status { :i
-    | 'inexact' | 'rounded' | 'invalid_operation' | 'overflow'
-    | 'underflow' | 'subnormal' | 'clamped' | 'invalid_context'
-    | 'division_undefined' | 'division_by_zero' | 'division_impossible'
+token status {
+    | 'Inexact' 
+    | 'Rounded' 
+    | 'Invalid_operation' 
+    | 'Overflow'
+    | 'Underflow' 
+    | 'Subnormal' 
+    | 'Clamped' 
+    | 'Invalid_context'
+    | 'Division_undefined' 
+    | 'Division_by_zero' 
+    | 'Division_impossible'
 }
 
 rule context {
@@ -56,13 +64,15 @@ rule context {
     | <context_field> <integer> 	{*} #= integer
 }
 
-token context_field { :i
-    | 'clamp:'		{*} #= set_clamp
+token context_field { 
+    | 'clamp:'	    	{*} #= set_clamp
     | 'maxexponent:'	{*} #= set_emax
+    | 'maxExponent:'	{*} #= set_emax
     | 'minexponent:'	{*} #= set_emin
-    | 'precision:'	{*} #= set_digits
-    | 'rounding:'	{*} #= set_rounding_mode
-    | 'extended:'	{*} #= set_extended
+    | 'minExponent:'	{*} #= set_emin
+    | 'precision:'	    {*} #= set_digits
+    | 'rounding:'	    {*} #= set_rounding_mode
+    | 'extended:'	    {*} #= set_extended
 }
 
 token integer {
@@ -79,3 +89,5 @@ token rounding_mode {
     | 'floor' 		{*} #= 'DEC_ROUND_FLOOR'
     | 'ceiling'		{*} #= 'DEC_ROUND_CEILING'
 }
+
+# vim: expandtab shiftwidth=4 ft=perl6:
