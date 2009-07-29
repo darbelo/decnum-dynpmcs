@@ -6,7 +6,7 @@ rule TOP {
     {*}
 }
 
-token ws {:i
+token ws {
     <!ww>
     [ '--' \N* \n? | \s+ | ['version:' \s+ \d+ '.' \d+] ]*
 }
@@ -16,7 +16,7 @@ rule statement {
     | <context>	{*} #= context
 }
 
-rule test { :i
+rule test {
     <testname> <operation> <decnumber> [ <decnumber> ]* '->' <decnumber> [ <status> ]*
     {*}
 }
@@ -30,7 +30,7 @@ token operation {
       | 'minus' | 'apply' | 'exp' | 'add' ]
 }
 
-token decnumber { :i
+token decnumber {
     ['\'' | '"']? <number> ['\'' | '"']?
     {*}
 }
@@ -70,7 +70,7 @@ token integer {
     {*}
 }
 
-token rounding_mode { :i
+token rounding_mode {
     | 'half_up'		{*} #= 'DEC_ROUND_HALF_UP'
     | 'half_down'	{*} #= 'DEC_ROUND_HALF_DOWN'
     | 'half_even'	{*} #= 'DEC_ROUND_HALF_EVEN'
