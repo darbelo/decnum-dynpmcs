@@ -26,6 +26,7 @@ method TOP($/) {
 
     my $past := PAST::Block.new(:node($/), :name('tests'));
     $past.push(PAST::Op.new(:inline('.include "test_more.pir"')));
+    $past.push(PAST::Op.new(:inline('.include "inc/decnum.pasm"')));
     $past.push(PAST::Op.new(:inline('load_bytecode "aux/decTest/src/inc/procs.pbc"')));
     $past.push(PAST::Op.new(:inline('$P0 = loadlib "build/decnum_group"',
                                     '.local pmc ctx',
@@ -73,15 +74,18 @@ method number($/) {
 }
 
 method context($/, $key) {
-    my $past;
-    if ( $<context_field> == "extended:") {
-        $past := PAST::Stmts.new();
-    } else {
-        $past := PAST::Op.new( :node( $/ ), :pasttype('callmethod'),
-                                  :name( $<context_field>.ast ) );
-        $past.push( PAST::Var.new( :scope('register'), :name('ctx') ) );
-        $past.push( $/{$key}.ast );
+
+    my $past := PAST::Stmts.new();
+
+    if ( ~$<context_field> ne "extended:") {
+        my $op := PAST::Op.new( :node( $/ ), :pasttype('callmethod'),
+                                :name( $<context_field>.ast ) );
+        $op.push( PAST::Var.new( :scope('register'), :name('ctx') ) );
+        $op.push( $/{$key}.ast );
+
+        $past.push( $op );
     }
+
     make $past;
 }
 
@@ -94,7 +98,7 @@ method integer($/) {
 }
 
 method rounding_mode($/, $str) {
-    make PAST::Val.new( :value( $str ), :returns('String'), :node($/) );
+    make PAST::Val.new( :value( $str ), :returns('Integer'), :node($/) );
 }
 
 # Local Variables:

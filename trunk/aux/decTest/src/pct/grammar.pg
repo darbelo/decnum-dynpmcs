@@ -81,13 +81,13 @@ token integer {
 }
 
 token rounding_mode {
-    | 'half_up'		{*} #= 'DEC_ROUND_HALF_UP'
-    | 'half_down'	{*} #= 'DEC_ROUND_HALF_DOWN'
-    | 'half_even'	{*} #= 'DEC_ROUND_HALF_EVEN'
-    | 'down'		{*} #= 'DEC_ROUND_DOWN'
-    | 'up'		{*} #= 'DEC_ROUND_UP'
-    | 'floor' 		{*} #= 'DEC_ROUND_FLOOR'
-    | 'ceiling'		{*} #= 'DEC_ROUND_CEILING'
+    | 'half_up'		{*} #= .DEC_ROUND_HALF_UP
+    | 'half_down'	{*} #= .DEC_ROUND_HALF_DOWN
+    | 'half_even'	{*} #= .DEC_ROUND_HALF_EVEN
+    | 'down'		{*} #= .DEC_ROUND_DOWN
+    | 'up'		{*} #= .DEC_ROUND_UP
+    | 'floor' 		{*} #= .DEC_ROUND_FLOOR
+    | 'ceiling'		{*} #= .DEC_ROUND_CEILING
 }
 
 # vim: expandtab shiftwidth=4 ft=perl6:
