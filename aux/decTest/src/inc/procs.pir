@@ -1,3 +1,8 @@
+.sub apply
+    .param pmc x
+    .return ( x )
+.end
+
 .sub add
     .param pmc x
     .param pmc y
