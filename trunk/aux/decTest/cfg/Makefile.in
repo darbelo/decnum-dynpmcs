@@ -39,7 +39,6 @@ all: dectest$(EXE)
 ##  targets for building a standalone executable
 dectest$(EXE): dectest.pbc
 	$(PBC_TO_EXE) dectest.pbc
-	@win32_libparrot_copy@
 
 # the compiler .pbc
 dectest.pbc: Makefile $(PARROT) $(SOURCES) $(BUILTINS_PIR)
