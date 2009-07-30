@@ -1023,7 +1023,7 @@ $P0 = loadlib "build/decnum_group"
     ctx = new "DecNumContext"
     ctx."set_ieee754_cmp"(1)
     ctx."set_exceptions"(0)
-    "plan"(506)
+    "plan"(504)
 .annotate "line", 23
     ctx."set_digits"(9)
 .annotate "line", 24
