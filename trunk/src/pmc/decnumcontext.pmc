@@ -73,7 +73,8 @@ pmclass DecNumContext
         decContext *ctx = PARROT_DECNUMCONTEXT(SELF)->ctx;
 
         SUPER(info);
-
+        VTABLE_push_integer(INTERP, info->image_io,
+                            PARROT_DECNUMCONTEXT(SELF)->exceptions);
         VTABLE_push_integer(INTERP, info->image_io, ctx->digits);
         VTABLE_push_integer(INTERP, info->image_io, ctx->emax);
         VTABLE_push_integer(INTERP, info->image_io, ctx->emin);
@@ -86,11 +87,14 @@ pmclass DecNumContext
         INTVAL      context_type;
         decContext *ctx;
 
-        context_type = pmc_type(interp, CONST_STRING(interp, "DecNumContext"));
+        context_type = pmc_type(interp, CONST_STRING(interp,
+                                                     "DecNumContext"));
         ctx = PARROT_DECNUMCONTEXT(pmc_new(interp, context_type))->ctx;
 
         SUPER(info);
 
+        PARROT_DECNUMCONTEXT(SELF)->exceptions = 
+                          VTABLE_shift_integer(INTERP, info->image_io);
         ctx->digits = VTABLE_shift_integer(INTERP, info->image_io);
         ctx->emax = VTABLE_shift_integer(INTERP, info->image_io);
         ctx->emin = VTABLE_shift_integer(INTERP, info->image_io);
