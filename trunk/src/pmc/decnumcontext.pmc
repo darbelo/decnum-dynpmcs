@@ -103,6 +103,14 @@ pmclass DecNumContext
 
     }
 
+    METHOD version() {
+        STRING* version;
+
+        version = Parrot_str_new(INTERP, decNumberVersion(), 0);
+
+        RETURN(STRING *version);
+    }
+
     METHOD restore_defaults() {
         set_context_defaults(PARROT_DECNUMCONTEXT(SELF)->ctx);
     }

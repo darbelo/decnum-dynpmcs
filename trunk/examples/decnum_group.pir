@@ -6,7 +6,7 @@
     $P1 = new 'DecNum'
     $P2 = new 'DecNumContext'
 
-    $S0 = $P0.'version'()
+    $S0 = $P2.'version'()
     say $S0
 
     $I0 = $P2.'get_digits'()

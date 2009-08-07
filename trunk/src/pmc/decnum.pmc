@@ -36,14 +36,6 @@ pmclass DecNum
     ATTR PMC              *context;
     ATTR struct decNumber *number;
 
-    METHOD version() {
-        STRING* version;
-
-        version = Parrot_str_new(INTERP, decNumberVersion(), 0);
-
-        RETURN(STRING *version);
-    }
-
     VTABLE PMC *instantiate(PMC *sig) {
         UNUSED(sig)
         return PMCNULL;
