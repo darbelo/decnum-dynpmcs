@@ -3,6 +3,12 @@
 #include "../decNumber/decNumber.h"
 #include "definitions.h"
 
+#define ROUND(pmc) do {                                                  \
+    decNumberToIntegralValue(PARROT_DECINT((pmc))->number,               \
+                             PARROT_DECINT((pmc))->number,               \
+                             get_context(PARROT_DECINT((pmc))->context));\
+} while (0)
+
 static void
 check_flags_and_throw(PARROT_INTERP, decContext *ctx, INTVAL exceptions) {
     if ( ctx->status & exceptions )
@@ -35,7 +41,7 @@ pmclass DecInt
 
     VTABLE void init() {
         INTVAL context_type;
-        Parrot_DecNum_attributes *attr = NULL;
+        Parrot_DecInt_attributes *attr = NULL;
 
         if (decContextTestEndian(1)) {
             Parrot_ex_throw_from_c_args(INTERP, NULL, 
@@ -43,7 +49,7 @@ pmclass DecInt
             "This dynpmc has been compiled with the wrong endianness.");
         }
 
-        attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
+        attr = mem_allocate_zeroed_typed(Parrot_DecInt_attributes);
         attr->ctx = NULL;
 
         attr->number = mem_allocate_typed(decNumber);
@@ -59,33 +65,18 @@ pmclass DecInt
     }
 
     VTABLE void set_string_native(STRING *value) {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-
         SUPER(value);
-
-        decNumberToIntegralValue(PARROT_DECNUM(SELF)->number,
-                                 PARROT_DECNUM(SELF)->number, ctxt);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        ROUND(SELF);
     }
 
     VTABLE void set_integer_native(INTVAL value) {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-
         SUPER(value);
-
-        decNumberToIntegralValue(PARROT_DECNUM(SELF)->number,
-                                 PARROT_DECNUM(SELF)->number, ctxt);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        ROUND(SELF);
     }
 
     VTABLE void set_number_native(FLOATVAL value) {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
-
         SUPER(value);
-
-        decNumberToIntegralValue(PARROT_DECNUM(SELF)->number,
-                                 PARROT_DECNUM(SELF)->number, ctxt);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        ROUND(SELF);
     }
 
     VTABLE PMC *divide(PMC *value, PMC* dest) {
@@ -111,4 +102,122 @@ pmclass DecInt
     void i_divide_float(FLOATVAL value) {
         VTABLE_i_floor_divide_float(INTERP, SELF, value);
     }
+
+    VTABLE PMC *add(PMC *value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *add_int(INTVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *add_float(FLOATVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE void i_add(PMC *value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE void i_add_int(INTVAL value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE void i_add_float(FLOATVAL value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE PMC *subtract(PMC *value, PMC* dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *subtract_int(INTVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *subtract_float(FLOATVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE void i_subtract(PMC *value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE void i_subtract_int(INTVAL value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE void i_subtract_float(FLOATVAL value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE PMC *multiply(PMC *value, PMC* dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *multiply_int(INTVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *multiply_float(FLOATVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE void i_multiply(PMC *value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE void i_multiply_int(INTVAL value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE void i_multiply_float(FLOATVAL value) {
+        SUPER(value);
+        ROUND(SELF);
+    }
+
+    VTABLE PMC *pow(PMC *value, PMC* dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *pow_int(INTVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
+    VTABLE PMC *pow_float(FLOATVAL value, PMC *dest) {
+        dest = SUPER(value, dest);
+        ROUND(dest);
+        return dest;
+    }
+
 }
