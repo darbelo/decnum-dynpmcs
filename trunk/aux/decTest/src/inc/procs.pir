@@ -51,3 +51,11 @@
     a = x.'multiply_add'( y, z)
     .return ( a )
 .end
+
+.sub power
+    .param pmc x
+    .param pmc y
+    .local pmc z
+    z = x ** y
+    .return ( z )
+.end
