@@ -27,7 +27,7 @@ token testname {
 
 token operation {
     [ 'fma' | 'multiply' | 'subtract' | 'divideint' | 'divide' 
-      | 'minus' | 'apply' | 'exp' | 'add' ]
+      | 'minus' | 'apply' | 'exp' | 'add' | 'power' ]
 }
 
 token decnumber {
@@ -71,6 +71,7 @@ token context_field {
     | 'minexponent:'	{*} #= set_emin
     | 'minExponent:'	{*} #= set_emin
     | 'precision:'	    {*} #= set_digits
+    | 'Precision:'	    {*} #= set_digits
     | 'rounding:'	    {*} #= set_rounding_mode
     | 'extended:'	    {*} #= set_extended
 }
