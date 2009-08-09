@@ -43,6 +43,14 @@
     .return ( z )
 .end
 
+.sub remainder
+    .param pmc x
+    .param pmc y
+    .local pmc z
+    z = x % y
+    .return ( z )
+.end
+
 .sub fma
     .param pmc x
     .param pmc y
