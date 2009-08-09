@@ -788,10 +788,10 @@ pmclass DecNum
         dest = pmc_new(INTERP, SELF->vtable->base_type);
 
         if (value->vtable->base_type ==  SELF->vtable->base_type){
-            decNumberDivideInteger(PARROT_DECNUM(dest)->number,
-                                   PARROT_DECNUM(SELF)->number,
-                                   PARROT_DECNUM(value)->number,
-                                   ctxt);
+            decNumberRemainder(PARROT_DECNUM(dest)->number,
+                               PARROT_DECNUM(SELF)->number,
+                               PARROT_DECNUM(value)->number,
+                               ctxt);
             check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
             return dest;
         }
@@ -820,10 +820,10 @@ pmclass DecNum
         decNumber   number;
 
         dest = pmc_new(INTERP, SELF->vtable->base_type);
-        decNumberRemainderNear(PARROT_DECNUM(dest)->number,
-                               PARROT_DECNUM(SELF)->number,
-                               decNumberFromString(&number , cstr, ctxt),
-                               ctxt);
+        decNumberRemainder(PARROT_DECNUM(dest)->number,
+                           PARROT_DECNUM(SELF)->number,
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
         Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
@@ -837,10 +837,10 @@ pmclass DecNum
         decNumber   number;
 
         dest = pmc_new(INTERP, SELF->vtable->base_type);
-        decNumberRemainderNear(PARROT_DECNUM(dest)->number,
-                               PARROT_DECNUM(SELF)->number,
-                               decNumberFromString(&number , cstr, ctxt),
-                               ctxt);
+        decNumberRemainder(PARROT_DECNUM(dest)->number,
+                           PARROT_DECNUM(SELF)->number,
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
         Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
 
@@ -880,10 +880,10 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        decNumberRemainderNear(PARROT_DECNUM(SELF)->number,
-                               PARROT_DECNUM(SELF)->number,
-                               decNumberFromString(&number , cstr, ctxt),
-                               ctxt);
+        decNumberRemainder(PARROT_DECNUM(SELF)->number,
+                           PARROT_DECNUM(SELF)->number,
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
         Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
@@ -894,10 +894,10 @@ pmclass DecNum
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   number;
 
-        decNumberRemainderNear(PARROT_DECNUM(SELF)->number,
-                               PARROT_DECNUM(SELF)->number,
-                               decNumberFromString(&number , cstr, ctxt),
-                               ctxt);
+        decNumberRemainder(PARROT_DECNUM(SELF)->number,
+                           PARROT_DECNUM(SELF)->number,
+                           decNumberFromString(&number , cstr, ctxt),
+                           ctxt);
         Parrot_str_free_cstring(cstr);
         check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
     }
