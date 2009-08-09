@@ -103,6 +103,103 @@ pmclass DecInt
         VTABLE_i_floor_divide_float(INTERP, SELF, value);
     }
 
+    VTABLE PMC *modulus(PMC *value, PMC* dest) {
+        INTVAL val;
+        decContext *ctxt = get_context(PARROT_DECNUM(SELF)->context);
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
+
+        if (value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberRemainderNear(PARROT_DECINT(dest)->number,
+                                   PARROT_DECINT(SELF)->number,
+                                   PARROT_DECINT(value)->number,
+                                   ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
+            return dest;
+        } else {
+            val = VTABLE_get_integer(INTERP, value);
+            return VTABLE_modulus_int(INTERP, SELF, val, dest);
+        }
+    }
+
+    VTABLE PMC *modulus_int(INTVAL value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   num;
+
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decNumberRemainderNear(PARROT_DECINT(dest)->number,
+                               PARROT_DECINT(SELF)->number,
+                               decNumberFromString(&num , cstr, ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
+
+        return dest;
+    }
+
+    VTABLE PMC *modulus_float(FLOATVAL value, PMC *dest) {
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   num;
+
+        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        decNumberRemainderNear(PARROT_DECINT(dest)->number,
+                               PARROT_DECINT(SELF)->number,
+                               decNumberFromString(&num , cstr, ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
+
+        return dest;
+    }
+
+    VTABLE void i_modulus(PMC *value) {
+        INTVAL val;
+        decContext *ctxt = get_context(PARROT_DECINT(SELF)->context);
+
+        if (value->vtable->base_type ==  SELF->vtable->base_type){
+            decNumberDivideInteger(PARROT_DECINT(SELF)->number,
+                                   PARROT_DECINT(SELF)->number,
+                                   PARROT_DECINT(value)->number,
+                                   ctxt);
+            check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
+            return;
+        } else {
+            val = VTABLE_get_integer(INTERP, value);
+            VTABLE_i_modulus_int(INTERP, SELF, val);
+        }
+    }
+
+    VTABLE void i_modulus_int(INTVAL value) {
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
+        STRING     *pstr = Parrot_str_from_int(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   num;
+
+        decNumberRemainderNear(PARROT_DECINT(SELF)->number,
+                               PARROT_DECINT(SELF)->number,
+                               decNumberFromString(&num , cstr, ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
+    }
+
+    VTABLE void i_modulus_float(FLOATVAL value) {
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
+        STRING     *pstr = Parrot_str_from_num(INTERP, value);
+        char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
+        decNumber   num;
+
+        decNumberRemainderNear(PARROT_DECINT(SELF)->number,
+                               PARROT_DECINT(SELF)->number,
+                               decNumberFromString(&num , cstr, ctxt),
+                               ctxt);
+        Parrot_str_free_cstring(cstr);
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
+    }
+
     VTABLE PMC *add(PMC *value, PMC *dest) {
         dest = SUPER(value, dest);
         ROUND(dest);
