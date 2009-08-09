@@ -221,7 +221,7 @@ pmclass DecInt
     }
 
     METHOD multiply_add(PMC *times, PMC *plus) {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
         PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
         if ( (times->vtable->base_type != SELF->vtable->base_type)
@@ -230,65 +230,65 @@ pmclass DecInt
                                         EXCEPTION_INVALID_OPERATION,
                                         "Argument is not a DecInt.");
 
-        decNumberFMA(PARROT_DECNUM(dest)->number,
-                     PARROT_DECNUM(SELF)->number,
-                     PARROT_DECNUM(times)->number,
-                     PARROT_DECNUM(plus)->number, ctxt);
+        decNumberFMA(PARROT_DECINT(dest)->number,
+                     PARROT_DECINT(SELF)->number,
+                     PARROT_DECINT(times)->number,
+                     PARROT_DECINT(plus)->number, ctxt);
 
         ROUND(dest);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD ln() {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
         PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
-        decNumberLn(PARROT_DECNUM(dest)->number,
-                    PARROT_DECNUM(SELF)->number, ctxt);
+        decNumberLn(PARROT_DECINT(dest)->number,
+                    PARROT_DECINT(SELF)->number, ctxt);
 
         ROUND(dest);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD log10() {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
         PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
-        decNumberLog10(PARROT_DECNUM(dest)->number,
-                       PARROT_DECNUM(SELF)->number, ctxt);
+        decNumberLog10(PARROT_DECINT(dest)->number,
+                       PARROT_DECINT(SELF)->number, ctxt);
 
         ROUND(dest);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD exp() {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
         PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
-        decNumberExp(PARROT_DECNUM(dest)->number,
-                     PARROT_DECNUM(SELF)->number, ctxt);
+        decNumberExp(PARROT_DECINT(dest)->number,
+                     PARROT_DECINT(SELF)->number, ctxt);
 
         ROUND(dest);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
 
         RETURN(PMC *dest);
     }
 
     METHOD sqrt() {
-        decContext *ctxt = get_context( PARROT_DECNUM(SELF)->context );
+        decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
         PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
         
-        decNumberSquareRoot(PARROT_DECNUM(dest)->number,
-                            PARROT_DECNUM(SELF)->number, ctxt);
+        decNumberSquareRoot(PARROT_DECINT(dest)->number,
+                            PARROT_DECINT(SELF)->number, ctxt);
 
         ROUND(dest);
-        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECNUM(SELF)->context));
+        check_flags_and_throw(INTERP, ctxt, get_exceptions(PARROT_DECINT(SELF)->context));
 
         RETURN(PMC *dest);
     }
