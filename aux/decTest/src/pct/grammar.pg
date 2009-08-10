@@ -28,7 +28,7 @@ token testname {
 token operation {
     [ 'fma' | 'multiply' | 'subtract' | 'divideint' | 'divide' 
       | 'remainder' | 'minus' | 'apply' | 'exp' | 'add' | 'ln'
-      | 'log10' | 'power' ]
+      | 'log10' | 'power' | 'abs' ]
 }
 
 token decnumber {

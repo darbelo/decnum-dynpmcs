@@ -3,6 +3,13 @@
     .return ( x )
 .end
 
+.sub abs
+    .param pmc x
+    .local pmc y
+    y = abs x
+    .return ( y )
+.end
+
 .sub add
     .param pmc x
     .param pmc y
