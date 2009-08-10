@@ -67,3 +67,17 @@
     z = x ** y
     .return ( z )
 .end
+
+.sub log10
+    .param pmc x
+    .local pmc z
+    z = x.'log10'()
+    .return ( z )
+.end
+
+.sub ln
+    .param pmc x
+    .local pmc z
+    z = x.'ln'()
+    .return ( z )
+.end
