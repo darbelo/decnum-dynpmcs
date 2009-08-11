@@ -67,6 +67,14 @@
     .return ( a )
 .end
 
+.sub exp
+    .param pmc x
+    .param pmc y
+    .local pmc z
+    z = x.'exp'( y )
+    .return ( z )
+.end
+
 .sub power
     .param pmc x
     .param pmc y
@@ -86,5 +94,12 @@
     .param pmc x
     .local pmc z
     z = x.'ln'()
+    .return ( z )
+.end
+
+.sub squareroot
+    .param pmc x
+    .local pmc z
+    z = x.'sqrt'()
     .return ( z )
 .end
