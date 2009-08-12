@@ -69,9 +69,8 @@
 
 .sub exp
     .param pmc x
-    .param pmc y
     .local pmc z
-    z = x.'exp'( y )
+    z = x.'exp'()
     .return ( z )
 .end
 
