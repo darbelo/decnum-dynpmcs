@@ -129,9 +129,9 @@ As with most numeric PMCs DecNum implements the standard arithmetic VTABLEs avai
  * {{{get_eng_string()}}}
    Returns a string representation of the PMC, but adjusting the exponent to be a multiple of three, and having up to three digits before any decimal point. i.e. 'Engineering notation'
 
- * multiply_add(PMC *times, PMC *plus)
- * ln()
- * log10()
- * exp()
- * sqrt()
- * get_exponent()
+ * {{{multiply_add(PMC *times, PMC *plus)}}}
+ * {{{ln()}}}
+ * log10()}}}
+ * {{{exp()}}}
+ * {{{sqrt()}}}
+ * {{{get_exponent()}}}
