@@ -11,7 +11,10 @@ As with most numeric PMCs DecNum implements the standard arithmetic VTABLEs avai
 
  * Rounding takes place after any operations, including assignment, in accordance with the settings stored in the DecNumContext PMC.
  * Once the result has been rounded the error flags are updated and any exceptions specified by the DecNumContext settings are raised.
- *.
+
+
+
+
 
 
 
@@ -131,7 +134,7 @@ As with most numeric PMCs DecNum implements the standard arithmetic VTABLEs avai
 
  * {{{multiply_add(PMC *times, PMC *plus)}}}
  * {{{ln()}}}
- * log10()}}}
+ * {{{log10()}}}
  * {{{exp()}}}
  * {{{sqrt()}}}
  * {{{get_exponent()}}}
