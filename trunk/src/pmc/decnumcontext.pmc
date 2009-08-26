@@ -29,11 +29,6 @@ pmclass DecNumContext
     group decnumber 
     extends DecBase {
 
-    VTABLE PMC *instantiate(PMC *sig) {
-        UNUSED(sig)
-        return PMCNULL;
-    }
-
     VTABLE void *get_pointer() {
         return DecNumContext_PMC;
     }
