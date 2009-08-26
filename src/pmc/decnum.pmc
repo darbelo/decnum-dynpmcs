@@ -36,11 +36,6 @@ pmclass DecNum
     ATTR PMC              *context;
     ATTR struct decNumber *number;
 
-    VTABLE PMC *instantiate(PMC *sig) {
-        UNUSED(sig)
-        return PMCNULL;
-    }
-
     VTABLE void init() {
         INTVAL context_type;
         Parrot_DecNum_attributes *attr = NULL;
@@ -63,17 +58,11 @@ pmclass DecNum
         PMC_data(SELF) = attr;
 
         PObj_active_destroy_SET(SELF); 
-        PObj_custom_mark_SET(SELF);
     }
 
     VTABLE void destroy() {
         mem_sys_free(PARROT_DECNUM(SELF)->number);
         mem_sys_free(PMC_data(SELF));
-    }
-
-    VTABLE void mark() {
-        Parrot_gc_mark_PObj_alive(interp, 
-                                  (PObj*)PARROT_DECNUM(SELF)->context);
     }
 
     VTABLE void freeze(visit_info *info) {
