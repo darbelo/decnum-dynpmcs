@@ -41,27 +41,10 @@ pmclass DecInt
 
     VTABLE void init() {
         INTVAL context_type;
-        Parrot_DecInt_attributes *attr = NULL;
-
-        if (decContextTestEndian(1)) {
-            Parrot_ex_throw_from_c_args(INTERP, NULL, 
-            EXCEPTION_INVALID_OPERATION,  
-            "This dynpmc has been compiled with the wrong endianness.");
-        }
-
-        attr = mem_allocate_zeroed_typed(Parrot_DecInt_attributes);
-        attr->ctx = NULL;
-
-        attr->number = mem_allocate_typed(decNumber);
-        decNumberZero(attr->number);
-
-        context_type = pmc_type(interp, CONST_STRING(interp, "DecIntContext"));
-        attr->context = pmc_new(interp, context_type);
-
-        PMC_data(SELF) = attr;
-
-        PObj_active_destroy_SET(SELF); 
-        PObj_custom_mark_SET(SELF);
+        SUPER();
+        context_type = pmc_type(interp, CONST_STRING(interp, 
+                                                     "DecIntContext"));
+        PARROT_DECINT(SELF)->context = pmc_new(interp, context_type);
     }
 
     VTABLE void set_string_native(STRING *value) {
