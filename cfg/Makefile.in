@@ -74,8 +74,6 @@ help:
 	@echo "Testing:"
 	@echo "  test:              Run the test suite."
 	@echo "  testclean:         Clean up test results."
-	@echo "  dectest:           Build the decTest helper tool."
-	@echo "  dectest-clean:     Clean up decTest files."
 	@echo ""
 	@echo "Cleaning:"
 	@echo "  clean:             Basic cleaning up."
@@ -84,12 +82,6 @@ help:
 	@echo "Misc:"
 	@echo "  help:              Print this help message."
 	@echo ""
-
-dectest: pmc
-	$(MAKE) aux/decTest
-
-dectest-clean:
-	$(MAKE) aux/decTest clean
 
 test: pmc
 	$(PERL) t/harness
@@ -106,11 +98,11 @@ uninstall:
 testclean:
 	$(RM_F) $(TEST_CLEANUPS)
 
-clean: dectest-clean
+clean:
 	$(MAKE) $(PMC_DIR) clean 
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS)
 
-realclean: dectest-clean
+realclean:
 	$(MAKE) $(PMC_DIR) realclean
 	$(RM_F) $(TEST_CLEANUPS) $(BUILD_CLEANUPS) Makefile aux/decTest/Makefile
 
