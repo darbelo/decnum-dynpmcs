@@ -79,7 +79,7 @@ pmclass DecNumContext
     }
 
     VTABLE void thaw(visit_info *info) {
-        INTVAL      context_type;
+        INTVAL      context_type, round;
         decContext *ctx;
 
         context_type = pmc_type(interp, CONST_STRING(interp,
@@ -94,7 +94,8 @@ pmclass DecNumContext
         ctx->emax = VTABLE_shift_integer(INTERP, info->image_io);
         ctx->emin = VTABLE_shift_integer(INTERP, info->image_io);
         ctx->clamp = VTABLE_shift_integer(INTERP, info->image_io);
-        ctx->round = VTABLE_shift_integer(INTERP, info->image_io);
+        round = VTABLE_shift_integer(INTERP, info->image_io);
+        ctx->round = (enum rounding) round;
 
     }
 
@@ -233,7 +234,7 @@ pmclass DecNumContext
             case DEC_ROUND_DOWN:
             case DEC_ROUND_FLOOR:
             case DEC_ROUND_05UP:
-                PARROT_DECNUMCONTEXT(SELF)->ctx->round = rnd;
+                PARROT_DECNUMCONTEXT(SELF)->ctx->round = (enum rounding) rnd;
                 break;
             default:
                 Parrot_ex_throw_from_c_args(interp, NULL, 
