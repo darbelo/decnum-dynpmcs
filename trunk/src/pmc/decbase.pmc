@@ -1,5 +1,4 @@
 pmclass DecBase 
-    auto_attrs
     abstract dynpmc 
     group decnumber {
 
