@@ -37,8 +37,25 @@ pmclass DecIntContext
     }
 
     VTABLE void init() {
-        Parrot_DecNumContext_attributes *attr = PMC_data(SELF);
-        set_context_defaults(attr->ctx);
+        Parrot_DecNumContext_attributes *attr = NULL;
+
+        if (decContextTestEndian(1)) {
+            Parrot_ex_throw_from_c_args(INTERP, NULL, 
+            EXCEPTION_INVALID_OPERATION,  
+            "This dynpmc has been compiled with the wrong endianness.");
+        }
+
+        if ( PMC_data(SELF) == NULL ) {
+            attr = mem_allocate_zeroed_typed(Parrot_DecNumContext_attributes);
+            PMC_data(SELF) = attr;
+
+            PObj_get_FLAGS(SELF) &= ~IEEE754_CMP_FLAG;
+            attr->exceptions = DEC_Errors;
+            attr->ctx = mem_allocate_typed(decContext);
+            set_context_defaults(attr->ctx);
+
+            PObj_active_destroy_SET(SELF);
+        }
     }
 
     METHOD restore_defaults() {
