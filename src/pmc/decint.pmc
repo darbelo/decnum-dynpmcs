@@ -35,7 +35,7 @@ get_ieee754_cmp(PMC *pmc) {
 }
 
 pmclass DecInt
-    dynpmc
+    dynpmc auto_attrs
     group decnumber
     extends DecNum {
 
