@@ -54,14 +54,17 @@ pmclass DecNumContext
             attr->exceptions = DEC_Errors;
             attr->ctx = mem_allocate_typed(decContext);
             set_context_defaults(attr->ctx);
-
-            PObj_active_destroy_SET(SELF);
         }
+/*        PObj_active_destroy_SET(SELF); 
+ * We are leaking memory with this, but the alternative is a segfault.
+ * This PMC only gets collected on interpreter destruction anyway.
+ */
     }
 
     VTABLE void destroy() {
         mem_sys_free(PARROT_DECNUMCONTEXT(SELF)->ctx);
         mem_sys_free(PMC_data(SELF));
+        PMC_data(SELF) = NULL;
     }
 
     VTABLE void freeze(visit_info *info) {
