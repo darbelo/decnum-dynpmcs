@@ -29,7 +29,7 @@ get_ieee754_cmp(PMC *pmc) {
 }
 
 pmclass DecNum 
-    dynpmc 
+    dynpmc auto_attrs 
     group decnumber 
     extends DecBase {
 
@@ -38,31 +38,18 @@ pmclass DecNum
 
     VTABLE void init() {
         INTVAL context_type;
-        Parrot_DecNum_attributes *attr = NULL;
 
-        if (decContextTestEndian(1)) {
-            Parrot_ex_throw_from_c_args(INTERP, NULL, 
-            EXCEPTION_INVALID_OPERATION,  
-            "This dynpmc has been compiled with the wrong endianness.");
-        }
-
-        attr = mem_allocate_zeroed_typed(Parrot_DecNum_attributes);
-        attr->ctx = NULL;
-
-        attr->number = mem_allocate_typed(decNumber);
-        decNumberZero(attr->number);
+        PARROT_DECNUM(SELF)->number = mem_allocate_typed(decNumber);
+        decNumberZero(PARROT_DECNUM(SELF)->number);
 
         context_type = pmc_type(interp, CONST_STRING(interp, "DecNumContext"));
-        attr->context = pmc_new(interp, context_type);
-
-        PMC_data(SELF) = attr;
+        PARROT_DECNUM(SELF)->context = pmc_new(interp, context_type);
 
         PObj_active_destroy_SET(SELF); 
     }
 
     VTABLE void destroy() {
         mem_sys_free(PARROT_DECNUM(SELF)->number);
-        mem_sys_free(PMC_data(SELF));
     }
 
     VTABLE void freeze(visit_info *info) {
