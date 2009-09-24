@@ -45,22 +45,23 @@ PMC_DEPS := \
     $(PMC_DIR)/decnumcontext.pmc \
     $(PMC_DIR)/decnum.pmc
 
-BUILD_CLEANUPS := build/*
+BUILD_CLEANUPS := $(STAGING_DIR)/*
 
 # the default target
 all: pmc
 
-pmc: $(PMC_DEPS) build/decContext$(O) build/decNumber$(O)
+pmc: $(PMC_DEPS) $(STAGING_DIR)/decContext$(O) \
+     $(STAGING_DIR)/decNumber$(O)
 	$(MAKE) $(PMC_DIR)
 
-build/decContext$(O): $(DECNUMBER_DIR)/decContext.c \
+$(STAGING_DIR)/decContext$(O): $(DECNUMBER_DIR)/decContext.c \
                       $(DECNUMBER_DIR)/decContext.h
-	$(CC) $(CFLAGS) $(CC_OUT)build/decContext$(O) $(DECNUMBER_DIR)/decContext.c
+	$(CC) $(CFLAGS) $(CC_OUT)$(STAGING_DIR)/decContext$(O) $(DECNUMBER_DIR)/decContext.c
 
-build/decNumber$(O): $(DECNUMBER_DIR)/decNumber.c \
+$(STAGING_DIR)/decNumber$(O): $(DECNUMBER_DIR)/decNumber.c \
                      $(DECNUMBER_DIR)/decNumber.h \
                      $(DECNUMBER_DIR)/decContext.h
-	$(CC) $(CFLAGS) $(CC_OUT)build/decNumber$(O) $(DECNUMBER_DIR)/decNumber.c
+	$(CC) $(CFLAGS) $(CC_OUT)$(STAGING_DIR)/decNumber$(O) $(DECNUMBER_DIR)/decNumber.c
 
 # This is a listing of all targets, that are meant to be called by users
 help:
