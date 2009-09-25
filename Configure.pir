@@ -1,4 +1,5 @@
 #! /usr/bin/env parrot
+# Copyright (c) 2009 Daniel Arbelo Arrocha
 
 .sub 'main' :main
     .param pmc argv
