@@ -26,10 +26,6 @@
     $I0 = spawnw runcmd
     say runcmd
 
-    runcmd = cmd . "cfg/src/pmc/Makefile.in src/pmc/Makefile"
-    $I0 = spawnw runcmd
-    say runcmd
-
     .local pmc opts
     opts = getopts.'get_options'(argv)
 
