@@ -4,7 +4,7 @@
 .include 'test_more.pir'
 .include 'inc/decnum.pasm'
 
-    $P0 = loadlib 'build/decnum_group'
+    $P0 = loadlib 'decnum_group'
     plan(6)
     'digits'()
     'emax'()

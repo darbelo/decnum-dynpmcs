@@ -1,8 +1,0 @@
-use strict;
-use warnings;
-
-use Test::Harness ();
-undef $Test::Harness::Switches;
-
-my @files = map { glob($_) } qw{t/*.t};
-Test::Harness::runtests(@files);

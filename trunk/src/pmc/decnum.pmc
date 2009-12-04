@@ -25,8 +25,8 @@
 
 #include <string.h>
 #include "parrot/parrot.h"
-#include "../src/decNumber/decNumber.h"
-#include "../src/pmc/definitions.h"
+#include "../decNumber/decNumber.h"
+#include "definitions.h"
 
 static void
 check_flags_and_throw(PARROT_INTERP, decContext *ctx, INTVAL exceptions) {

@@ -173,7 +173,7 @@
 .include "test_more.pir"
 .include "inc/decnum.pasm"
 load_bytecode "aux/decTest/src/inc/procs.pbc"
-$P0 = loadlib "build/decnum_group"
+$P0 = loadlib "decnum_group"
 .local pmc ctx
     ctx = new "DecNumContext"
     ctx."set_ieee754_cmp"(1)
