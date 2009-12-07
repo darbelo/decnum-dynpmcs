@@ -4371,7 +4371,7 @@
     capture_lex $P12
 .annotate "line", 1
 .include "test_more.pir"
-.include "inc/decnum.pasm"
+.include "decnum.pasm"
 load_bytecode "aux/decTest/src/inc/procs.pbc"
 $P0 = loadlib "decnum_group"
 .local pmc ctx
