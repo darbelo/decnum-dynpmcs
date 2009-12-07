@@ -3862,7 +3862,7 @@
 .annotate "line", 1
 .include "test_more.pir"
 .include "decnum.pasm"
-load_bytecode "aux/decTest/src/inc/procs.pbc"
+load_bytecode "tools/decTest/src/inc/procs.pbc"
 $P0 = loadlib "decnum_group"
 .local pmc ctx
     ctx = new "DecNumContext"
