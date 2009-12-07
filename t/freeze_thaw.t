@@ -2,7 +2,7 @@
 
 .sub main :main
 .include 'test_more.pir'
-.include 'inc/decnum.pasm'
+.include 'decnum.pasm'
 
     $P0 = loadlib 'decnum_group'
     plan(6)
