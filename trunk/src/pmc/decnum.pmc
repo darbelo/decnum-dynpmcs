@@ -77,17 +77,17 @@ pmclass DecNum
         mem_sys_free(PARROT_DECNUM(SELF)->number);
     }
 
-    VTABLE void freeze(visit_info *info) {
+    VTABLE void freeze(PMC *info) {
         STRING *s;
         SUPER(info);
         s = VTABLE_get_string(INTERP, SELF);
-        VTABLE_push_string(INTERP, info->image_io, s);
+        VTABLE_push_string(INTERP, info, s);
     }
 
-    VTABLE void thaw(visit_info *info) {
+    VTABLE void thaw(PMC *info) {
         STRING *s;
         SUPER(info);
-        s = VTABLE_shift_string(INTERP, info->image_io);
+        s = VTABLE_shift_string(INTERP, info);
         VTABLE_set_string_native(INTERP, SELF, s);
     }
 
