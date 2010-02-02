@@ -92,21 +92,21 @@ pmclass DecNumContext
         PMC_data(SELF) = NULL;
     }
 
-    VTABLE void freeze(visit_info *info) {
+    VTABLE void freeze(PMC *info) {
         decContext *ctx = PARROT_DECNUMCONTEXT(SELF)->ctx;
 
         SUPER(info);
-        VTABLE_push_integer(INTERP, info->image_io,
+        VTABLE_push_integer(INTERP, info,
                             PARROT_DECNUMCONTEXT(SELF)->exceptions);
-        VTABLE_push_integer(INTERP, info->image_io, ctx->digits);
-        VTABLE_push_integer(INTERP, info->image_io, ctx->emax);
-        VTABLE_push_integer(INTERP, info->image_io, ctx->emin);
-        VTABLE_push_integer(INTERP, info->image_io, ctx->clamp);
-        VTABLE_push_integer(INTERP, info->image_io, ctx->round);
+        VTABLE_push_integer(INTERP, info, ctx->digits);
+        VTABLE_push_integer(INTERP, info, ctx->emax);
+        VTABLE_push_integer(INTERP, info, ctx->emin);
+        VTABLE_push_integer(INTERP, info, ctx->clamp);
+        VTABLE_push_integer(INTERP, info, ctx->round);
 
     }
 
-    VTABLE void thaw(visit_info *info) {
+    VTABLE void thaw(PMC *info) {
         INTVAL      context_type, round;
         decContext *ctx;
 
@@ -117,12 +117,12 @@ pmclass DecNumContext
         SUPER(info);
 
         PARROT_DECNUMCONTEXT(SELF)->exceptions = 
-                          VTABLE_shift_integer(INTERP, info->image_io);
-        ctx->digits = VTABLE_shift_integer(INTERP, info->image_io);
-        ctx->emax = VTABLE_shift_integer(INTERP, info->image_io);
-        ctx->emin = VTABLE_shift_integer(INTERP, info->image_io);
-        ctx->clamp = VTABLE_shift_integer(INTERP, info->image_io);
-        round = VTABLE_shift_integer(INTERP, info->image_io);
+                          VTABLE_shift_integer(INTERP, info);
+        ctx->digits = VTABLE_shift_integer(INTERP, info);
+        ctx->emax = VTABLE_shift_integer(INTERP, info);
+        ctx->emin = VTABLE_shift_integer(INTERP, info);
+        ctx->clamp = VTABLE_shift_integer(INTERP, info);
+        round = VTABLE_shift_integer(INTERP, info);
         ctx->round = (enum rounding) round;
 
     }
