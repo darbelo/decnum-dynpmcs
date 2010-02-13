@@ -78,7 +78,7 @@
     .param pmc x
     .param pmc y
     .local pmc z
-    z = x ** y
+    z = x.'pow'( y )
     .return ( z )
 .end
 
