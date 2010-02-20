@@ -110,9 +110,9 @@ pmclass DecNumContext
         INTVAL      context_type, round;
         decContext *ctx;
 
-        context_type = pmc_type(interp, CONST_STRING(interp,
+        context_type = Parrot_pmc_get_type_str(interp, CONST_STRING(interp,
                                                      "DecNumContext"));
-        ctx = PARROT_DECNUMCONTEXT(pmc_new(interp, context_type))->ctx;
+        ctx = PARROT_DECNUMCONTEXT(Parrot_pmc_new(interp, context_type))->ctx;
 
         SUPER(info);
 
