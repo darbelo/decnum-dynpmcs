@@ -67,9 +67,9 @@ pmclass DecInt
     VTABLE void init() {
         INTVAL context_type;
         SUPER();
-        context_type = pmc_type(interp, CONST_STRING(interp, 
+        context_type = Parrot_pmc_get_type_str(interp, CONST_STRING(interp, 
                                                      "DecIntContext"));
-        PARROT_DECINT(SELF)->context = pmc_new(interp, context_type);
+        PARROT_DECINT(SELF)->context = Parrot_pmc_new(interp, context_type);
     }
 
     VTABLE void set_string_native(STRING *value) {
@@ -114,7 +114,7 @@ pmclass DecInt
     VTABLE PMC *modulus(PMC *value, PMC* dest) {
         INTVAL val;
         decContext *ctxt = get_context(PARROT_DECNUM(SELF)->context);
-        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
 
         if (value->vtable->base_type ==  SELF->vtable->base_type){
             decNumberRemainderNear(PARROT_DECINT(dest)->number,
@@ -135,7 +135,7 @@ pmclass DecInt
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   num;
 
-        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         decNumberRemainderNear(PARROT_DECINT(dest)->number,
                                PARROT_DECINT(SELF)->number,
                                decNumberFromString(&num , cstr, ctxt),
@@ -152,7 +152,7 @@ pmclass DecInt
         char       *cstr = Parrot_str_to_cstring(INTERP, pstr);
         decNumber   num;
 
-        dest = pmc_new(INTERP, SELF->vtable->base_type);
+        dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         decNumberRemainderNear(PARROT_DECINT(dest)->number,
                                PARROT_DECINT(SELF)->number,
                                decNumberFromString(&num , cstr, ctxt),
@@ -327,7 +327,7 @@ pmclass DecInt
 
     METHOD multiply_add(PMC *times, PMC *plus) {
         decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
-        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        PMC        *dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         
         if ( (times->vtable->base_type != SELF->vtable->base_type)
             || (plus->vtable->base_type != SELF->vtable->base_type) )
@@ -348,7 +348,7 @@ pmclass DecInt
 
     METHOD ln() {
         decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
-        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        PMC        *dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberLn(PARROT_DECINT(dest)->number,
                     PARROT_DECINT(SELF)->number, ctxt);
@@ -361,7 +361,7 @@ pmclass DecInt
 
     METHOD log10() {
         decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
-        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        PMC        *dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberLog10(PARROT_DECINT(dest)->number,
                        PARROT_DECINT(SELF)->number, ctxt);
@@ -374,7 +374,7 @@ pmclass DecInt
 
     METHOD exp() {
         decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
-        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        PMC        *dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberExp(PARROT_DECINT(dest)->number,
                      PARROT_DECINT(SELF)->number, ctxt);
@@ -387,7 +387,7 @@ pmclass DecInt
 
     METHOD sqrt() {
         decContext *ctxt = get_context( PARROT_DECINT(SELF)->context );
-        PMC        *dest = pmc_new(INTERP, SELF->vtable->base_type);
+        PMC        *dest = Parrot_pmc_new(INTERP, SELF->vtable->base_type);
         
         decNumberSquareRoot(PARROT_DECINT(dest)->number,
                             PARROT_DECINT(SELF)->number, ctxt);
