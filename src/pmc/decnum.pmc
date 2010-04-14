@@ -70,7 +70,7 @@ pmclass DecNum
         context_type = Parrot_pmc_get_type_str(interp, CONST_STRING(interp, "DecNumContext"));
         PARROT_DECNUM(SELF)->context = Parrot_pmc_new(interp, context_type);
 
-        PObj_active_destroy_SET(SELF); 
+        PObj_custom_destroy_SET(SELF); 
     }
 
     VTABLE void destroy() {
