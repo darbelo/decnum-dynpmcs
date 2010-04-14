@@ -79,7 +79,7 @@ pmclass DecIntContext
             attr->ctx = mem_allocate_typed(decContext);
             set_context_defaults(attr->ctx);
         }
-/*        PObj_active_destroy_SET(SELF); 
+/*        PObj_custom_destroy_SET(SELF); 
  * We are leaking memory with this, but the alternative is a segfault.
  * This PMC only gets collected on interpreter destruction anyway.
  */
