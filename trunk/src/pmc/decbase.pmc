@@ -25,6 +25,7 @@
 
 pmclass DecBase 
     abstract dynpmc 
+    manual_attrs
     group decnumber {
 
     ATTR struct decContext *ctx;
