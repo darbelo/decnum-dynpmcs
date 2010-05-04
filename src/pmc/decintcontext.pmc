@@ -50,6 +50,7 @@ static PMC *DecIntContext_PMC = NULL;
 
 pmclass DecIntContext
     singleton dynpmc
+    manual_attrs
     group decnumber
     extends DecNumContext {
 

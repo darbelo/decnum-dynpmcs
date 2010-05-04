@@ -50,7 +50,8 @@ set_context_defaults(decContext *ctx) {
 static PMC *DecNumContext_PMC = NULL;
 
 pmclass DecNumContext 
-    singleton dynpmc 
+    singleton dynpmc
+    manual_attrs
     group decnumber 
     extends DecBase {
 
