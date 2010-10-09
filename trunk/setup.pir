@@ -22,12 +22,6 @@ No Configure step, no Makefile generated.
     $S0 = shift args
     load_bytecode 'distutils.pbc'
 
-    .const 'Sub' prebuild = 'prebuild'
-    register_step_before('build', prebuild)
-
-    .const 'Sub' clean = 'clean'
-    register_step_after('clean', clean)
-
     $P0 = new 'Hash'
     $P0['name'] = 'decnum-dynpmcs'
     $P0['abstract'] = 'Set of decimal arithmetic PMCs for the Parrot VM'
@@ -50,17 +44,17 @@ src/pmc/decnumcontext.pmc
 src/pmc/decnum.pmc
 src/pmc/decintcontext.pmc
 src/pmc/decint.pmc
+src/pmc/definitions.h
+src/decNumber/decContext.c
+src/decNumber/decContext.h
+src/decNumber/decNumber.c
+src/decNumber/decNumber.h
 SOURCES
     $S0 = pop $P2
     $P1['decnum_group'] = $P2
     $P0['dynpmc'] = $P1
     $S0 = get_cflags()
     $P0['dynpmc_cflags'] = $S0
-    $S0 = get_obj()
-    $S1 = 'src/decNumber/decContext' . $S0
-    $S1 .= ' src/decNumber/decNumber'
-    $S1 .= $S0
-    $P0['dynpmc_ldflags'] = $S1
 
     # test
     $S0 = get_parrot()
@@ -70,42 +64,10 @@ SOURCES
     $P0['inst_inc'] = 'decnum.pasm'
 
     # dist
-    $P1 = glob('examples/*.pir src/pmc/definitions.h t/data/*')
+    $P1 = glob('examples/*.pir t/data/*')
     $P0['manifest_includes'] = $P1
 
     .tailcall setup(args :flat, $P0 :flat :named)
-.end
-
-.sub 'prebuild' :anon
-    .param pmc kv :slurpy :named
-    .local string cflags
-    cflags = get_cflags()
-    .local string obj
-    obj = get_obj()
-    
-    $S1 = 'src/decNumber/decContext' . obj
-    $P1 = split ' ', 'src/decNumber/decContext.c src/decNumber/decContext.h'
-    $I0 = newer($S1, $P1)
-    if $I0 goto L1
-    __compile_cc($S1, 'src/decNumber/decContext.c', cflags)
-  L1:
-
-    $S2 = 'src/decNumber/decNumber' . obj
-    $P2 = split ' ', 'src/decNumber/decNumber.c src/decNumber/decNumber.h'
-    $I0 = newer($S2, $P2)
-    if $I0 goto L2
-    __compile_cc($S2, 'src/decNumber/decNumber.c', cflags)
-  L2:
-.end
-
-.sub 'clean' :anon
-    .param pmc kv :slurpy :named
-    .local string obj
-    obj = get_obj()
-    $S1 = 'src/decNumber/decContext' . obj
-    unlink($S1, 1 :named('verbose'))
-    $S2 = 'src/decNumber/decNumber' . obj
-    unlink($S2, 1 :named('verbose'))
 .end
 
 .sub 'get_cflags' :anon
